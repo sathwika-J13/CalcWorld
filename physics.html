@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Physics - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 20px;
+
+    margin: 30px 0 50px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0;
+
+    border:
+    1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 15px;
+    padding: 12px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+
+    line-height: 1.7;
+}
+
+.home {
+    display: block;
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>⚛️ Physics Calculators</h1>
+
+<p>
+Calculate important physics quantities quickly.
+</p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- SPEED -->
+
+<div class="card">
+
+<h2>🏎️ Speed</h2>
+
+<input
+id="distance"
+type="number"
+placeholder="Distance"
+>
+
+<input
+id="time"
+type="number"
+placeholder="Time"
+>
+
+<button onclick="speed()">
+Calculate
+</button>
+
+<div
+class="result"
+id="speedResult"
+></div>
+
+</div>
+
+
+<!-- FORCE -->
+
+<div class="card">
+
+<h2>💪 Force</h2>
+
+<p>
+F = m × a
+</p>
+
+<input
+id="mass"
+type="number"
+placeholder="Mass (kg)"
+>
+
+<input
+id="acceleration"
+type="number"
+placeholder="Acceleration (m/s²)"
+>
+
+<button onclick="force()">
+Calculate
+</button>
+
+<div
+class="result"
+id="forceResult"
+></div>
+
+</div>
+
+
+<!-- WORK -->
+
+<div class="card">
+
+<h2>🔨 Work</h2>
+
+<p>
+W = F × d
+</p>
+
+<input
+id="workForce"
+type="number"
+placeholder="Force (N)"
+>
+
+<input
+id="workDistance"
+type="number"
+placeholder="Distance (m)"
+>
+
+<button onclick="work()">
+Calculate
+</button>
+
+<div
+class="result"
+id="workResult"
+></div>
+
+</div>
+
+
+<!-- POWER -->
+
+<div class="card">
+
+<h2>⚡ Power</h2>
+
+<p>
+P = W / t
+</p>
+
+<input
+id="powerWork"
+type="number"
+placeholder="Work (J)"
+>
+
+<input
+id="powerTime"
+type="number"
+placeholder="Time (s)"
+>
+
+<button onclick="power()">
+Calculate
+</button>
+
+<div
+class="result"
+id="powerResult"
+></div>
+
+</div>
+
+
+<!-- KINETIC ENERGY -->
+
+<div class="card">
+
+<h2>🏃 Kinetic Energy</h2>
+
+<p>
+KE = ½mv²
+</p>
+
+<input
+id="keMass"
+type="number"
+placeholder="Mass (kg)"
+>
+
+<input
+id="keVelocity"
+type="number"
+placeholder="Velocity (m/s)"
+>
+
+<button onclick="kineticEnergy()">
+Calculate
+</button>
+
+<div
+class="result"
+id="keResult"
+></div>
+
+</div>
+
+
+<!-- POTENTIAL ENERGY -->
+
+<div class="card">
+
+<h2>⬆️ Potential Energy</h2>
+
+<p>
+PE = mgh
+</p>
+
+<input
+id="peMass"
+type="number"
+placeholder="Mass (kg)"
+>
+
+<input
+id="peHeight"
+type="number"
+placeholder="Height (m)"
+>
+
+<button onclick="potentialEnergy()">
+Calculate
+</button>
+
+<div
+class="result"
+id="peResult"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+function speed() {
+
+let distance =
+Number(
+document.getElementById(
+"distance"
+).value
+);
+
+let time =
+Number(
+document.getElementById(
+"time"
+).value
+);
+
+if (time === 0) {
+
+document.getElementById(
+"speedResult"
+).innerText =
+"Time cannot be 0.";
+
+return;
+
+}
+
+let result =
+distance / time;
+
+document.getElementById(
+"speedResult"
+).innerText =
+"Speed = " +
+result +
+" units/time";
+
+}
+
+
+function force() {
+
+let mass =
+Number(
+document.getElementById(
+"mass"
+).value
+);
+
+let acceleration =
+Number(
+document.getElementById(
+"acceleration"
+).value
+);
+
+let result =
+mass * acceleration;
+
+document.getElementById(
+"forceResult"
+).innerText =
+"Force = " +
+result +
+" N";
+
+}
+
+
+function work() {
+
+let force =
+Number(
+document.getElementById(
+"workForce"
+).value
+);
+
+let distance =
+Number(
+document.getElementById(
+"workDistance"
+).value
+);
+
+let result =
+force * distance;
+
+document.getElementById(
+"workResult"
+).innerText =
+"Work = " +
+result +
+" J";
+
+}
+
+
+function power() {
+
+let work =
+Number(
+document.getElementById(
+"powerWork"
+).value
+);
+
+let time =
+Number(
+document.getElementById(
+"powerTime"
+).value
+);
+
+if (time === 0) {
+
+document.getElementById(
+"powerResult"
+).innerText =
+"Time cannot be 0.";
+
+return;
+
+}
+
+let result =
+work / time;
+
+document.getElementById(
+"powerResult"
+).innerText =
+"Power = " +
+result +
+" W";
+
+}
+
+
+function kineticEnergy() {
+
+let mass =
+Number(
+document.getElementById(
+"keMass"
+).value
+);
+
+let velocity =
+Number(
+document.getElementById(
+"keVelocity"
+).value
+);
+
+let result =
+0.5 *
+mass *
+Math.pow(velocity, 2);
+
+document.getElementById(
+"keResult"
+).innerText =
+"Kinetic Energy = " +
+result +
+" J";
+
+}
+
+
+function potentialEnergy() {
+
+let mass =
+Number(
+document.getElementById(
+"peMass"
+).value
+);
+
+let height =
+Number(
+document.getElementById(
+"peHeight"
+).value
+);
+
+let g = 9.80665;
+
+let result =
+mass *
+g *
+height;
+
+document.getElementById(
+"peResult"
+).innerText =
+"Potential Energy = " +
+result.toFixed(2) +
+" J";
+
+}
+
+</script>
+
+</body>
+
+</html>

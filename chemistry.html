@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Chemistry Calculator - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto 60px;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.formula {
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.result {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+}
+
+.home {
+    display: block;
+
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>
+🧪 Chemistry Calculator
+</h1>
+
+<p>
+Calculate molar mass, moles, concentration,
+gas laws, pH and more.
+</p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- ================= MOLES ================= -->
+
+<div class="card">
+
+<h2>⚗️ Moles Calculator</h2>
+
+<p class="formula">
+n = mass / molar mass
+</p>
+
+<input
+id="molesMass"
+type="number"
+placeholder="Mass (g)"
+>
+
+<input
+id="molesMolarMass"
+type="number"
+placeholder="Molar Mass (g/mol)"
+>
+
+<button onclick="calculateMoles()">
+Calculate Moles
+</button>
+
+<div
+class="result"
+id="molesResult"
+></div>
+
+</div>
+
+
+<!-- ================= MOLARITY ================= -->
+
+<div class="card">
+
+<h2>🧪 Molarity</h2>
+
+<p class="formula">
+M = moles / volume
+</p>
+
+<input
+id="molarityMoles"
+type="number"
+placeholder="Moles (mol)"
+>
+
+<input
+id="molarityVolume"
+type="number"
+placeholder="Volume (L)"
+>
+
+<button onclick="calculateMolarity()">
+Calculate
+</button>
+
+<div
+class="result"
+id="molarityResult"
+></div>
+
+</div>
+
+
+<!-- ================= MOLALITY ================= -->
+
+<div class="card">
+
+<h2>🧫 Molality</h2>
+
+<p class="formula">
+m = moles / kg of solvent
+</p>
+
+<input
+id="molalityMoles"
+type="number"
+placeholder="Moles of solute"
+>
+
+<input
+id="molalityMass"
+type="number"
+placeholder="Solvent mass (kg)"
+>
+
+<button onclick="calculateMolality()">
+Calculate
+</button>
+
+<div
+class="result"
+id="molalityResult"
+></div>
+
+</div>
+
+
+<!-- ================= DILUTION ================= -->
+
+<div class="card">
+
+<h2>💧 Dilution</h2>
+
+<p class="formula">
+C₁V₁ = C₂V₂
+</p>
+
+<input
+id="dilutionC1"
+type="number"
+placeholder="Initial concentration C₁"
+>
+
+<input
+id="dilutionV1"
+type="number"
+placeholder="Initial volume V₁"
+>
+
+<input
+id="dilutionC2"
+type="number"
+placeholder="Final concentration C₂"
+>
+
+<button onclick="calculateDilution()">
+Calculate V₂
+</button>
+
+<div
+class="result"
+id="dilutionResult"
+></div>
+
+</div>
+
+
+<!-- ================= PH ================= -->
+
+<div class="card">
+
+<h2>🧬 pH Calculator</h2>
+
+<p class="formula">
+pH = −log₁₀[H⁺]
+</p>
+
+<input
+id="hydrogen"
+type="number"
+placeholder="[H⁺] concentration"
+>
+
+<button onclick="calculatePH()">
+Calculate pH
+</button>
+
+<div
+class="result"
+id="phResult"
+></div>
+
+</div>
+
+
+<!-- ================= POH ================= -->
+
+<div class="card">
+
+<h2>🔬 pOH Calculator</h2>
+
+<p class="formula">
+pOH = −log₁₀[OH⁻]
+</p>
+
+<input
+id="hydroxide"
+type="number"
+placeholder="[OH⁻] concentration"
+>
+
+<button onclick="calculatePOH()">
+Calculate pOH
+</button>
+
+<div
+class="result"
+id="pohResult"
+></div>
+
+</div>
+
+
+<!-- ================= IDEAL GAS ================= -->
+
+<div class="card">
+
+<h2>🎈 Ideal Gas Law</h2>
+
+<p class="formula">
+PV = nRT
+</p>
+
+<input
+id="gasPressure"
+type="number"
+placeholder="Pressure P (atm)"
+>
+
+<input
+id="gasVolume"
+type="number"
+placeholder="Volume V (L)"
+>
+
+<input
+id="gasMoles"
+type="number"
+placeholder="Moles n"
+>
+
+<input
+id="gasTemperature"
+type="number"
+placeholder="Temperature (K)"
+>
+
+<button onclick="idealGas()">
+Calculate Missing R Check
+</button>
+
+<div
+class="result"
+id="gasResult"
+></div>
+
+</div>
+
+
+<!-- ================= BOYLE ================= -->
+
+<div class="card">
+
+<h2>🎈 Boyle's Law</h2>
+
+<p class="formula">
+P₁V₁ = P₂V₂
+</p>
+
+<input
+id="boyleP1"
+type="number"
+placeholder="P₁"
+>
+
+<input
+id="boyleV1"
+type="number"
+placeholder="V₁"
+>
+
+<input
+id="boyleP2"
+type="number"
+placeholder="P₂"
+>
+
+<button onclick="boyleLaw()">
+Calculate V₂
+</button>
+
+<div
+class="result"
+id="boyleResult"
+></div>
+
+</div>
+
+
+<!-- ================= CHARLES ================= -->
+
+<div class="card">
+
+<h2>🌡️ Charles's Law</h2>
+
+<p class="formula">
+V₁/T₁ = V₂/T₂
+</p>
+
+<input
+id="charlesV1"
+type="number"
+placeholder="V₁"
+>
+
+<input
+id="charlesT1"
+type="number"
+placeholder="T₁ (K)"
+>
+
+<input
+id="charlesT2"
+type="number"
+placeholder="T₂ (K)"
+>
+
+<button onclick="charlesLaw()">
+Calculate V₂
+</button>
+
+<div
+class="result"
+id="charlesResult"
+></div>
+
+</div>
+
+
+<!-- ================= GAS DENSITY ================= -->
+
+<div class="card">
+
+<h2>💨 Gas Density</h2>
+
+<p class="formula">
+Density = mass / volume
+</p>
+
+<input
+id="gasMass"
+type="number"
+placeholder="Mass (g)"
+>
+
+<input
+id="gasVol"
+type="number"
+placeholder="Volume (L)"
+>
+
+<button onclick="gasDensity()">
+Calculate
+</button>
+
+<div
+class="result"
+id="densityResult"
+></div>
+
+</div>
+
+
+<!-- ================= PERCENT COMPOSITION ================= -->
+
+<div class="card">
+
+<h2>📊 Percentage Composition</h2>
+
+<p class="formula">
+% = element mass / compound mass × 100
+</p>
+
+<input
+id="elementMass"
+type="number"
+placeholder="Element mass"
+>
+
+<input
+id="compoundMass"
+type="number"
+placeholder="Compound mass"
+>
+
+<button onclick="composition()">
+Calculate
+</button>
+
+<div
+class="result"
+id="compositionResult"
+></div>
+
+</div>
+
+
+<!-- ================= CONCENTRATION ================= -->
+
+<div class="card">
+
+<h2>🧪 Mass Concentration</h2>
+
+<p class="formula">
+Concentration = mass / volume
+</p>
+
+<input
+id="concentrationMass"
+type="number"
+placeholder="Solute mass (g)"
+>
+
+<input
+id="concentrationVolume"
+type="number"
+placeholder="Solution volume (L)"
+>
+
+<button onclick="massConcentration()">
+Calculate
+</button>
+
+<div
+class="result"
+id="concentrationResult"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+/* ================= MOLES ================= */
+
+function calculateMoles() {
+
+let mass =
+Number(
+document.getElementById(
+"molesMass"
+).value
+);
+
+let molarMass =
+Number(
+document.getElementById(
+"molesMolarMass"
+).value
+);
+
+if (molarMass <= 0) {
+
+document.getElementById(
+"molesResult"
+).innerText =
+"Molar mass must be greater than 0.";
+
+return;
+
+}
+
+let result =
+mass / molarMass;
+
+document.getElementById(
+"molesResult"
+).innerText =
+"Moles = " +
+result.toFixed(6) +
+" mol";
+
+}
+
+
+/* ================= MOLARITY ================= */
+
+function calculateMolarity() {
+
+let moles =
+Number(
+document.getElementById(
+"molarityMoles"
+).value
+);
+
+let volume =
+Number(
+document.getElementById(
+"molarityVolume"
+).value
+);
+
+if (volume <= 0) {
+
+document.getElementById(
+"molarityResult"
+).innerText =
+"Volume must be greater than 0.";
+
+return;
+
+}
+
+let result =
+moles / volume;
+
+document.getElementById(
+"molarityResult"
+).innerText =
+"Molarity = " +
+result.toFixed(6) +
+" mol/L";
+
+}
+
+
+/* ================= MOLALITY ================= */
+
+function calculateMolality() {
+
+let moles =
+Number(
+document.getElementById(
+"molalityMoles"
+).value
+);
+
+let mass =
+Number(
+document.getElementById(
+"molalityMass"
+).value
+);
+
+if (mass <= 0) {
+
+document.getElementById(
+"molalityResult"
+).innerText =
+"Solvent mass must be greater than 0.";
+
+return;
+
+}
+
+let result =
+moles / mass;
+
+document.getElementById(
+"molalityResult"
+).innerText =
+"Molality = " +
+result.toFixed(6) +
+" mol/kg";
+
+}
+
+
+/* ================= DILUTION ================= */
+
+function calculateDilution() {
+
+let C1 =
+Number(
+document.getElementById(
+"dilutionC1"
+).value
+);
+
+let V1 =
+Number(
+document.getElementById(
+"dilutionV1"
+).value
+);
+
+let C2 =
+Number(
+document.getElementById(
+"dilutionC2"
+).value
+);
+
+if (C2 <= 0) {
+
+document.getElementById(
+"dilutionResult"
+).innerText =
+"Final concentration must be greater than 0.";
+
+return;
+
+}
+
+let V2 =
+(C1 * V1) / C2;
+
+document.getElementById(
+"dilutionResult"
+).innerText =
+"Final Volume V₂ = " +
+V2.toFixed(6);
+
+}
+
+
+/* ================= PH ================= */
+
+function calculatePH() {
+
+let H =
+Number(
+document.getElementById(
+"hydrogen"
+).value
+);
+
+if (H <= 0) {
+
+document.getElementById(
+"phResult"
+).innerText =
+"Hydrogen ion concentration must be greater than 0.";
+
+return;
+
+}
+
+let pH =
+-Math.log10(H);
+
+document.getElementById(
+"phResult"
+).innerText =
+"pH = " +
+pH.toFixed(4);
+
+}
+
+
+/* ================= POH ================= */
+
+function calculatePOH() {
+
+let OH =
+Number(
+document.getElementById(
+"hydroxide"
+).value
+);
+
+if (OH <= 0) {
+
+document.getElementById(
+"pohResult"
+).innerText =
+"Hydroxide concentration must be greater than 0.";
+
+return;
+
+}
+
+let pOH =
+-Math.log10(OH);
+
+document.getElementById(
+"pohResult"
+).innerText =
+"pOH = " +
+pOH.toFixed(4);
+
+}
+
+
+/* ================= IDEAL GAS ================= */
+
+function idealGas() {
+
+let P =
+Number(
+document.getElementById(
+"gasPressure"
+).value
+);
+
+let V =
+Number(
+document.getElementById(
+"gasVolume"
+).value
+);
+
+let n =
+Number(
+document.getElementById(
+"gasMoles"
+).value
+);
+
+let T =
+Number(
+document.getElementById(
+"gasTemperature"
+).value
+);
+
+if (
+P <= 0 ||
+V <= 0 ||
+n <= 0 ||
+T <= 0
+) {
+
+document.getElementById(
+"gasResult"
+).innerText =
+"All values must be greater than 0.";
+
+return;
+
+}
+
+let R =
+(P * V) /
+(n * T);
+
+document.getElementById(
+"gasResult"
+).innerHTML =
+
+"Calculated R = " +
+R.toFixed(6) +
+" L·atm/(mol·K)" +
+
+"<br>Expected R ≈ 0.082057 L·atm/(mol·K)";
+
+}
+
+
+/* ================= BOYLE ================= */
+
+function boyleLaw() {
+
+let P1 =
+Number(
+document.getElementById(
+"boyleP1"
+).value
+);
+
+let V1 =
+Number(
+document.getElementById(
+"boyleV1"
+).value
+);
+
+let P2 =
+Number(
+document.getElementById(
+"boyleP2"
+).value
+);
+
+if (P2 <= 0) {
+
+document.getElementById(
+"boyleResult"
+).innerText =
+"P₂ must be greater than 0.";
+
+return;
+
+}
+
+let V2 =
+(P1 * V1) / P2;
+
+document.getElementById(
+"boyleResult"
+).innerText =
+"V₂ = " +
+V2.toFixed(6);
+
+}
+
+
+/* ================= CHARLES ================= */
+
+function charlesLaw() {
+
+let V1 =
+Number(
+document.getElementById(
+"charlesV1"
+).value
+);
+
+let T1 =
+Number(
+document.getElementById(
+"charlesT1"
+).value
+);
+
+let T2 =
+Number(
+document.getElementById(
+"charlesT2"
+).value
+);
+
+if (
+T1 <= 0 ||
+T2 <= 0
+) {
+
+document.getElementById(
+"charlesResult"
+).innerText =
+"Temperatures must be in Kelvin and greater than 0.";
+
+return;
+
+}
+
+let V2 =
+(V1 * T2) / T1;
+
+document.getElementById(
+"charlesResult"
+).innerText =
+"V₂ = " +
+V2.toFixed(6);
+
+}
+
+
+/* ================= GAS DENSITY ================= */
+
+function gasDensity() {
+
+let mass =
+Number(
+document.getElementById(
+"gasMass"
+).value
+);
+
+let volume =
+Number(
+document.getElementById(
+"gasVol"
+).value
+);
+
+if (volume <= 0) {
+
+document.getElementById(
+"densityResult"
+).innerText =
+"Volume must be greater than 0.";
+
+return;
+
+}
+
+let density =
+mass / volume;
+
+document.getElementById(
+"densityResult"
+).innerText =
+"Density = " +
+density.toFixed(6) +
+" g/L";
+
+}
+
+
+/* ================= COMPOSITION ================= */
+
+function composition() {
+
+let element =
+Number(
+document.getElementById(
+"elementMass"
+).value
+);
+
+let compound =
+Number(
+document.getElementById(
+"compoundMass"
+).value
+);
+
+if (
+compound <= 0 ||
+element < 0
+) {
+
+document.getElementById(
+"compositionResult"
+).innerText =
+"Enter valid masses.";
+
+return;
+
+}
+
+let percentage =
+(element / compound) * 100;
+
+document.getElementById(
+"compositionResult"
+).innerText =
+"Percentage Composition = " +
+percentage.toFixed(4) +
+"%";
+
+}
+
+
+/* ================= MASS CONCENTRATION ================= */
+
+function massConcentration() {
+
+let mass =
+Number(
+document.getElementById(
+"concentrationMass"
+).value
+);
+
+let volume =
+Number(
+document.getElementById(
+"concentrationVolume"
+).value
+);
+
+if (volume <= 0) {
+
+document.getElementById(
+"concentrationResult"
+).innerText =
+"Volume must be greater than 0.";
+
+return;
+
+}
+
+let concentration =
+mass / volume;
+
+document.getElementById(
+"concentrationResult"
+).innerText =
+"Concentration = " +
+concentration.toFixed(6) +
+" g/L";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

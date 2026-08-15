@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Programmer Calculator - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto 60px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    margin-bottom: 25px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.08);
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+
+    margin: 8px 0 15px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    margin: 5px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    margin-bottom: 15px;
+}
+
+.result {
+    background: #f3f4f6;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    margin-top: 15px;
+
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+}
+
+.home {
+    display: block;
+
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+@media(max-width:600px) {
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>💻 Programmer Calculator</h1>
+
+<p>
+Binary, Decimal, Octal, Hexadecimal and Bitwise Operations
+</p>
+
+</section>
+
+
+<div class="container">
+
+
+<!-- ================= BASE CONVERTER ================= -->
+
+<div class="card">
+
+<h2>🔢 Number Base Converter</h2>
+
+<label>
+Enter Number
+</label>
+
+<input
+id="numberInput"
+type="text"
+placeholder="Example: 1010"
+>
+
+
+<label>
+Input Base
+</label>
+
+<select id="inputBase">
+
+<option value="2">
+Binary (Base 2)
+</option>
+
+<option value="8">
+Octal (Base 8)
+</option>
+
+<option value="10"
+selected>
+Decimal (Base 10)
+</option>
+
+<option value="16">
+Hexadecimal (Base 16)
+</option>
+
+</select>
+
+
+<button onclick="convertBase()">
+Convert
+</button>
+
+
+<div
+class="result"
+id="baseResult"
+>
+Result will appear here
+</div>
+
+</div>
+
+
+
+<!-- ================= BITWISE ================= -->
+
+<div class="card">
+
+<h2>⚙️ Bitwise Operations</h2>
+
+<input
+id="firstNumber"
+type="number"
+placeholder="First number"
+>
+
+<input
+id="secondNumber"
+type="number"
+placeholder="Second number"
+>
+
+
+<div class="buttons">
+
+<button onclick="bitwise('AND')">
+AND
+</button>
+
+<button onclick="bitwise('OR')">
+OR
+</button>
+
+<button onclick="bitwise('XOR')">
+XOR
+</button>
+
+<button onclick="bitwise('LSHIFT')">
+Left Shift
+</button>
+
+<button onclick="bitwise('RSHIFT')">
+Right Shift
+</button>
+
+</div>
+
+
+<div
+class="result"
+id="bitwiseResult"
+>
+Result will appear here
+</div>
+
+</div>
+
+
+
+<!-- ================= NOT ================= -->
+
+<div class="card">
+
+<h2>🔄 Bitwise NOT</h2>
+
+<input
+id="notNumber"
+type="number"
+placeholder="Enter integer"
+>
+
+<button onclick="bitwiseNot()">
+Calculate NOT
+</button>
+
+
+<div
+class="result"
+id="notResult"
+>
+Result will appear here
+</div>
+
+</div>
+
+
+
+<!-- ================= COMMON BASES ================= -->
+
+<div class="card">
+
+<h2>🌐 Convert to All Bases</h2>
+
+<input
+id="allBaseInput"
+type="number"
+placeholder="Enter decimal integer"
+>
+
+<button onclick="convertAll()">
+Convert
+</button>
+
+
+<div
+class="result"
+id="allBaseResult"
+>
+Result will appear here
+</div>
+
+</div>
+
+
+
+<!-- ================= HEX / BINARY ================= -->
+
+<div class="grid">
+
+
+<div class="card">
+
+<h2>🔵 Binary</h2>
+
+<p>
+Base 2
+</p>
+
+<div
+class="result"
+id="binaryInfo"
+>
+Enter a decimal number above.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🟠 Octal</h2>
+
+<p>
+Base 8
+</p>
+
+<div
+class="result"
+id="octalInfo"
+>
+Enter a decimal number above.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🟢 Decimal</h2>
+
+<p>
+Base 10
+</p>
+
+<div
+class="result"
+id="decimalInfo"
+>
+Enter a decimal number above.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🟣 Hexadecimal</h2>
+
+<p>
+Base 16
+</p>
+
+<div
+class="result"
+id="hexInfo"
+>
+Enter a decimal number above.
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+/* =========================================
+   BASE CONVERTER
+========================================= */
+
+function convertBase() {
+
+    let input =
+        document
+        .getElementById("numberInput")
+        .value
+        .trim();
+
+    let base =
+        Number(
+            document
+            .getElementById("inputBase")
+            .value
+        );
+
+
+    if (input === "") {
+
+        document
+        .getElementById("baseResult")
+        .innerText =
+            "Please enter a number.";
+
+        return;
+
+    }
+
+
+    let decimal =
+        parseInt(input, base);
+
+
+    if (isNaN(decimal)) {
+
+        document
+        .getElementById("baseResult")
+        .innerText =
+            "Invalid number for the selected base.";
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("baseResult")
+    .innerHTML =
+
+        "<strong>Decimal:</strong> " +
+        decimal +
+
+        "<br><strong>Binary:</strong> " +
+        decimal.toString(2) +
+
+        "<br><strong>Octal:</strong> " +
+        decimal.toString(8) +
+
+        "<br><strong>Hexadecimal:</strong> " +
+        decimal.toString(16).toUpperCase();
+
+}
+
+
+
+/* =========================================
+   BITWISE OPERATIONS
+========================================= */
+
+function bitwise(operation) {
+
+    let a =
+        Number(
+            document
+            .getElementById("firstNumber")
+            .value
+        );
+
+    let b =
+        Number(
+            document
+            .getElementById("secondNumber")
+            .value
+        );
+
+
+    if (
+        !Number.isInteger(a) ||
+        !Number.isInteger(b)
+    ) {
+
+        document
+        .getElementById("bitwiseResult")
+        .innerText =
+            "Please enter integers.";
+
+        return;
+
+    }
+
+
+    let result;
+
+
+    if (operation === "AND") {
+
+        result = a & b;
+
+    }
+
+    else if (operation === "OR") {
+
+        result = a | b;
+
+    }
+
+    else if (operation === "XOR") {
+
+        result = a ^ b;
+
+    }
+
+    else if (operation === "LSHIFT") {
+
+        result = a << b;
+
+    }
+
+    else if (operation === "RSHIFT") {
+
+        result = a >> b;
+
+    }
+
+
+    document
+    .getElementById("bitwiseResult")
+    .innerHTML =
+
+        "<strong>Decimal:</strong> " +
+        result +
+
+        "<br><strong>Binary:</strong> " +
+        result.toString(2) +
+
+        "<br><strong>Hexadecimal:</strong> " +
+        result.toString(16).toUpperCase();
+
+}
+
+
+
+/* =========================================
+   NOT
+========================================= */
+
+function bitwiseNot() {
+
+    let number =
+        Number(
+            document
+            .getElementById("notNumber")
+            .value
+        );
+
+
+    if (!Number.isInteger(number)) {
+
+        document
+        .getElementById("notResult")
+        .innerText =
+            "Please enter an integer.";
+
+        return;
+
+    }
+
+
+    let result =
+        ~number;
+
+
+    document
+    .getElementById("notResult")
+    .innerHTML =
+
+        "<strong>Decimal:</strong> " +
+        result +
+
+        "<br><strong>Binary:</strong> " +
+        result.toString(2) +
+
+        "<br><strong>Hexadecimal:</strong> " +
+        result.toString(16).toUpperCase();
+
+}
+
+
+
+/* =========================================
+   ALL BASES
+========================================= */
+
+function convertAll() {
+
+    let decimal =
+        Number(
+            document
+            .getElementById("allBaseInput")
+            .value
+        );
+
+
+    if (
+        !Number.isInteger(decimal)
+    ) {
+
+        document
+        .getElementById("allBaseResult")
+        .innerText =
+            "Please enter an integer.";
+
+        return;
+
+    }
+
+
+    let binary =
+        decimal.toString(2);
+
+    let octal =
+        decimal.toString(8);
+
+    let hexadecimal =
+        decimal
+        .toString(16)
+        .toUpperCase();
+
+
+    document
+    .getElementById("allBaseResult")
+    .innerHTML =
+
+        "<strong>Decimal:</strong> " +
+        decimal +
+
+        "<br><strong>Binary:</strong> " +
+        binary +
+
+        "<br><strong>Octal:</strong> " +
+        octal +
+
+        "<br><strong>Hexadecimal:</strong> " +
+        hexadecimal;
+
+
+    document
+    .getElementById("binaryInfo")
+    .innerText =
+        binary;
+
+
+    document
+    .getElementById("octalInfo")
+    .innerText =
+        octal;
+
+
+    document
+    .getElementById("decimalInfo")
+    .innerText =
+        decimal;
+
+
+    document
+    .getElementById("hexInfo")
+    .innerText =
+        hexadecimal;
+
+}
+
+</script>
+
+
+</body>
+
+</html>

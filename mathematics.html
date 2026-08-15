@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics - CalcWorld</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #6b7280;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 30px 0 50px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 7px 0;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            min-height: 20px;
+        }
+
+        .home {
+            display: block;
+            text-align: center;
+            margin: 30px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🌎 CalcWorld</div>
+    <a href="/">Home</a>
+</header>
+
+<section class="hero">
+    <h1>📐 Mathematics</h1>
+    <p>Useful mathematical calculators in one place.</p>
+</section>
+
+<div class="container">
+
+<div class="grid">
+
+    <!-- Percentage -->
+    <div class="card">
+        <h2>Percentage</h2>
+
+        <input id="percentValue" type="number" placeholder="Enter number">
+        <input id="percentRate" type="number" placeholder="Enter percentage">
+
+        <button onclick="percentage()">Calculate</button>
+
+        <div class="result" id="percentResult"></div>
+    </div>
+
+
+    <!-- Average -->
+    <div class="card">
+        <h2>Average</h2>
+
+        <input id="averageNumbers"
+               type="text"
+               placeholder="Example: 10,20,30,40">
+
+        <button onclick="average()">Calculate</button>
+
+        <div class="result" id="averageResult"></div>
+    </div>
+
+
+    <!-- Ratio -->
+    <div class="card">
+        <h2>Ratio</h2>
+
+        <input id="ratioA" type="number" placeholder="First number">
+        <input id="ratioB" type="number" placeholder="Second number">
+
+        <button onclick="ratio()">Simplify</button>
+
+        <div class="result" id="ratioResult"></div>
+    </div>
+
+
+    <!-- HCF -->
+    <div class="card">
+        <h2>HCF / GCD</h2>
+
+        <input id="hcfA" type="number" placeholder="First number">
+        <input id="hcfB" type="number" placeholder="Second number">
+
+        <button onclick="hcf()">Calculate</button>
+
+        <div class="result" id="hcfResult"></div>
+    </div>
+
+
+    <!-- LCM -->
+    <div class="card">
+        <h2>LCM</h2>
+
+        <input id="lcmA" type="number" placeholder="First number">
+        <input id="lcmB" type="number" placeholder="Second number">
+
+        <button onclick="lcm()">Calculate</button>
+
+        <div class="result" id="lcmResult"></div>
+    </div>
+
+
+    <!-- Quadratic -->
+    <div class="card">
+        <h2>Quadratic Equation</h2>
+
+        <p>ax² + bx + c = 0</p>
+
+        <input id="quadA" type="number" placeholder="a">
+        <input id="quadB" type="number" placeholder="b">
+        <input id="quadC" type="number" placeholder="c">
+
+        <button onclick="quadratic()">Solve</button>
+
+        <div class="result" id="quadResult"></div>
+    </div>
+
+</div>
+
+</div>
+
+<a class="home" href="/">← Back to CalcWorld</a>
+
+<footer>
+    © 2026 CalcWorld | Every Calculation. One World.
+</footer>
+
+
+<script>
+
+function percentage() {
+
+    let number =
+        Number(document.getElementById("percentValue").value);
+
+    let percent =
+        Number(document.getElementById("percentRate").value);
+
+    let result = number * percent / 100;
+
+    document.getElementById("percentResult").innerText =
+        "Answer: " + result;
+}
+
+
+function average() {
+
+    let input =
+        document.getElementById("averageNumbers").value;
+
+    let numbers =
+        input.split(",").map(Number);
+
+    if (numbers.some(isNaN) || numbers.length === 0) {
+        document.getElementById("averageResult").innerText =
+            "Please enter valid numbers.";
+        return;
+    }
+
+    let sum =
+        numbers.reduce((a, b) => a + b, 0);
+
+    let result =
+        sum / numbers.length;
+
+    document.getElementById("averageResult").innerText =
+        "Average: " + result;
+}
+
+
+function gcd(a, b) {
+
+    a = Math.abs(a);
+    b = Math.abs(b);
+
+    while (b !== 0) {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+
+function ratio() {
+
+    let a =
+        Number(document.getElementById("ratioA").value);
+
+    let b =
+        Number(document.getElementById("ratioB").value);
+
+    if (a === 0 || b === 0) {
+        document.getElementById("ratioResult").innerText =
+            "Enter non-zero numbers.";
+        return;
+    }
+
+    let divisor = gcd(a, b);
+
+    document.getElementById("ratioResult").innerText =
+        "Simplified Ratio: " +
+        (a / divisor) + ":" + (b / divisor);
+}
+
+
+function hcf() {
+
+    let a =
+        Number(document.getElementById("hcfA").value);
+
+    let b =
+        Number(document.getElementById("hcfB").value);
+
+    document.getElementById("hcfResult").innerText =
+        "HCF: " + gcd(a, b);
+}
+
+
+function lcm() {
+
+    let a =
+        Number(document.getElementById("lcmA").value);
+
+    let b =
+        Number(document.getElementById("lcmB").value);
+
+    if (a === 0 || b === 0) {
+        document.getElementById("lcmResult").innerText =
+            "LCM: 0";
+        return;
+    }
+
+    let result =
+        Math.abs(a * b) / gcd(a, b);
+
+    document.getElementById("lcmResult").innerText =
+        "LCM: " + result;
+}
+
+
+function quadratic() {
+
+    let a =
+        Number(document.getElementById("quadA").value);
+
+    let b =
+        Number(document.getElementById("quadB").value);
+
+    let c =
+        Number(document.getElementById("quadC").value);
+
+    if (a === 0) {
+        document.getElementById("quadResult").innerText =
+            "a cannot be 0.";
+        return;
+    }
+
+    let discriminant =
+        b * b - 4 * a * c;
+
+    if (discriminant > 0) {
+
+        let x1 =
+            (-b + Math.sqrt(discriminant)) / (2 * a);
+
+        let x2 =
+            (-b - Math.sqrt(discriminant)) / (2 * a);
+
+        document.getElementById("quadResult").innerText =
+            "x₁ = " + x1 + " | x₂ = " + x2;
+
+    } else if (discriminant === 0) {
+
+        let x =
+            -b / (2 * a);
+
+        document.getElementById("quadResult").innerText =
+            "x = " + x;
+
+    } else {
+
+        document.getElementById("quadResult").innerText =
+            "No real roots.";
+
+    }
+}
+
+</script>
+
+</body>
+</html>

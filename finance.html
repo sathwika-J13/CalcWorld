@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finance Calculators - CalcWorld</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #6b7280;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 20px;
+
+            margin: 30px 0 50px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            margin: 7px 0;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 8px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 15px;
+
+            padding: 12px;
+
+            background: #f3f4f6;
+
+            border-radius: 8px;
+
+            line-height: 1.6;
+        }
+
+        .home {
+            display: block;
+
+            text-align: center;
+
+            margin: 30px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+        }
+
+        footer {
+            background: #111827;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        🌎 CalcWorld
+    </div>
+
+    <a href="/">
+        Home
+    </a>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>💰 Finance Calculators</h1>
+
+    <p>
+        Calculate loans, investments, GST, interest and more.
+    </p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- EMI -->
+
+<div class="card">
+
+    <h2>💳 EMI Calculator</h2>
+
+    <input
+        id="emiPrincipal"
+        type="number"
+        placeholder="Loan Amount"
+    >
+
+    <input
+        id="emiRate"
+        type="number"
+        placeholder="Annual Interest Rate (%)"
+    >
+
+    <input
+        id="emiYears"
+        type="number"
+        placeholder="Loan Period (Years)"
+    >
+
+    <button onclick="calculateEMI()">
+        Calculate EMI
+    </button>
+
+    <div
+        class="result"
+        id="emiResult"
+    ></div>
+
+</div>
+
+
+<!-- SIMPLE INTEREST -->
+
+<div class="card">
+
+    <h2>💰 Simple Interest</h2>
+
+    <input
+        id="siPrincipal"
+        type="number"
+        placeholder="Principal"
+    >
+
+    <input
+        id="siRate"
+        type="number"
+        placeholder="Rate (%)"
+    >
+
+    <input
+        id="siTime"
+        type="number"
+        placeholder="Time (Years)"
+    >
+
+    <button onclick="simpleInterest()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="siResult"
+    ></div>
+
+</div>
+
+
+<!-- COMPOUND INTEREST -->
+
+<div class="card">
+
+    <h2>📈 Compound Interest</h2>
+
+    <input
+        id="ciPrincipal"
+        type="number"
+        placeholder="Principal"
+    >
+
+    <input
+        id="ciRate"
+        type="number"
+        placeholder="Rate (%)"
+    >
+
+    <input
+        id="ciTime"
+        type="number"
+        placeholder="Time (Years)"
+    >
+
+    <input
+        id="ciFrequency"
+        type="number"
+        placeholder="Compounds per Year"
+        value="1"
+    >
+
+    <button onclick="compoundInterest()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="ciResult"
+    ></div>
+
+</div>
+
+
+<!-- GST -->
+
+<div class="card">
+
+    <h2>🧾 GST Calculator</h2>
+
+    <input
+        id="gstAmount"
+        type="number"
+        placeholder="Amount"
+    >
+
+    <input
+        id="gstRate"
+        type="number"
+        placeholder="GST Rate (%)"
+    >
+
+    <button onclick="gst()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="gstResult"
+    ></div>
+
+</div>
+
+
+<!-- DISCOUNT -->
+
+<div class="card">
+
+    <h2>🏷️ Discount Calculator</h2>
+
+    <input
+        id="discountPrice"
+        type="number"
+        placeholder="Original Price"
+    >
+
+    <input
+        id="discountRate"
+        type="number"
+        placeholder="Discount (%)"
+    >
+
+    <button onclick="discount()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="discountResult"
+    ></div>
+
+</div>
+
+
+<!-- PROFIT LOSS -->
+
+<div class="card">
+
+    <h2>📊 Profit & Loss</h2>
+
+    <input
+        id="costPrice"
+        type="number"
+        placeholder="Cost Price"
+    >
+
+    <input
+        id="sellingPrice"
+        type="number"
+        placeholder="Selling Price"
+    >
+
+    <button onclick="profitLoss()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="profitResult"
+    ></div>
+
+</div>
+
+
+<!-- SIP -->
+
+<div class="card">
+
+    <h2>💵 SIP Calculator</h2>
+
+    <input
+        id="sipMonthly"
+        type="number"
+        placeholder="Monthly Investment"
+    >
+
+    <input
+        id="sipRate"
+        type="number"
+        placeholder="Expected Annual Return (%)"
+    >
+
+    <input
+        id="sipYears"
+        type="number"
+        placeholder="Investment Period (Years)"
+    >
+
+    <button onclick="sip()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="sipResult"
+    ></div>
+
+</div>
+
+
+<!-- CAGR -->
+
+<div class="card">
+
+    <h2>📈 CAGR Calculator</h2>
+
+    <input
+        id="cagrStart"
+        type="number"
+        placeholder="Initial Investment"
+    >
+
+    <input
+        id="cagrEnd"
+        type="number"
+        placeholder="Final Value"
+    >
+
+    <input
+        id="cagrYears"
+        type="number"
+        placeholder="Years"
+    >
+
+    <button onclick="cagr()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="cagrResult"
+    ></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+    class="home"
+    href="/"
+>
+    ← Back to CalcWorld
+</a>
+
+
+<footer>
+
+    © 2026 CalcWorld |
+    Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+/* EMI */
+
+function calculateEMI() {
+
+    let P =
+        Number(
+            document.getElementById("emiPrincipal").value
+        );
+
+    let annualRate =
+        Number(
+            document.getElementById("emiRate").value
+        );
+
+    let years =
+        Number(
+            document.getElementById("emiYears").value
+        );
+
+    let r =
+        annualRate / 12 / 100;
+
+    let n =
+        years * 12;
+
+    if (P <= 0 || r < 0 || n <= 0) {
+
+        document.getElementById("emiResult").innerText =
+            "Please enter valid values.";
+
+        return;
+    }
+
+    let emi;
+
+    if (r === 0) {
+
+        emi = P / n;
+
+    } else {
+
+        emi =
+            P * r * Math.pow(1 + r, n) /
+            (Math.pow(1 + r, n) - 1);
+
+    }
+
+    let totalPayment =
+        emi * n;
+
+    let totalInterest =
+        totalPayment - P;
+
+    document.getElementById("emiResult").innerHTML =
+        "Monthly EMI: ₹" + emi.toFixed(2) +
+        "<br>Total Payment: ₹" + totalPayment.toFixed(2) +
+        "<br>Total Interest: ₹" + totalInterest.toFixed(2);
+
+}
+
+
+/* SIMPLE INTEREST */
+
+function simpleInterest() {
+
+    let P =
+        Number(
+            document.getElementById("siPrincipal").value
+        );
+
+    let R =
+        Number(
+            document.getElementById("siRate").value
+        );
+
+    let T =
+        Number(
+            document.getElementById("siTime").value
+        );
+
+    let interest =
+        (P * R * T) / 100;
+
+    let total =
+        P + interest;
+
+    document.getElementById("siResult").innerHTML =
+        "Interest: ₹" + interest.toFixed(2) +
+        "<br>Total Amount: ₹" + total.toFixed(2);
+
+}
+
+
+/* COMPOUND INTEREST */
+
+function compoundInterest() {
+
+    let P =
+        Number(
+            document.getElementById("ciPrincipal").value
+        );
+
+    let R =
+        Number(
+            document.getElementById("ciRate").value
+        );
+
+    let T =
+        Number(
+            document.getElementById("ciTime").value
+        );
+
+    let N =
+        Number(
+            document.getElementById("ciFrequency").value
+        );
+
+    let amount =
+        P * Math.pow(
+            1 + (R / 100) / N,
+            N * T
+        );
+
+    let interest =
+        amount - P;
+
+    document.getElementById("ciResult").innerHTML =
+        "Compound Interest: ₹" +
+        interest.toFixed(2) +
+        "<br>Total Amount: ₹" +
+        amount.toFixed(2);
+
+}
+
+
+/* GST */
+
+function gst() {
+
+    let amount =
+        Number(
+            document.getElementById("gstAmount").value
+        );
+
+    let rate =
+        Number(
+            document.getElementById("gstRate").value
+        );
+
+    let tax =
+        amount * rate / 100;
+
+    let total =
+        amount + tax;
+
+    document.getElementById("gstResult").innerHTML =
+        "GST: ₹" + tax.toFixed(2) +
+        "<br>Total Amount: ₹" + total.toFixed(2);
+
+}
+
+
+/* DISCOUNT */
+
+function discount() {
+
+    let price =
+        Number(
+            document.getElementById("discountPrice").value
+        );
+
+    let rate =
+        Number(
+            document.getElementById("discountRate").value
+        );
+
+    let saved =
+        price * rate / 100;
+
+    let finalPrice =
+        price - saved;
+
+    document.getElementById("discountResult").innerHTML =
+        "Discount: ₹" + saved.toFixed(2) +
+        "<br>Final Price: ₹" + finalPrice.toFixed(2);
+
+}
+
+
+/* PROFIT LOSS */
+
+function profitLoss() {
+
+    let cost =
+        Number(
+            document.getElementById("costPrice").value
+        );
+
+    let selling =
+        Number(
+            document.getElementById("sellingPrice").value
+        );
+
+    let difference =
+        selling - cost;
+
+    let percentage =
+        Math.abs(difference) / cost * 100;
+
+    if (difference > 0) {
+
+        document.getElementById("profitResult").innerHTML =
+            "Profit: ₹" + difference.toFixed(2) +
+            "<br>Profit Percentage: " +
+            percentage.toFixed(2) + "%";
+
+    } else if (difference < 0) {
+
+        document.getElementById("profitResult").innerHTML =
+            "Loss: ₹" + Math.abs(difference).toFixed(2) +
+            "<br>Loss Percentage: " +
+            percentage.toFixed(2) + "%";
+
+    } else {
+
+        document.getElementById("profitResult").innerText =
+            "No Profit, No Loss.";
+
+    }
+
+}
+
+
+/* SIP */
+
+function sip() {
+
+    let monthly =
+        Number(
+            document.getElementById("sipMonthly").value
+        );
+
+    let annualRate =
+        Number(
+            document.getElementById("sipRate").value
+        );
+
+    let years =
+        Number(
+            document.getElementById("sipYears").value
+        );
+
+    let months =
+        years * 12;
+
+    let monthlyRate =
+        annualRate / 12 / 100;
+
+    let futureValue;
+
+    if (monthlyRate === 0) {
+
+        futureValue =
+            monthly * months;
+
+    } else {
+
+        futureValue =
+            monthly *
+            (
+                (Math.pow(1 + monthlyRate, months) - 1)
+                / monthlyRate
+            ) *
+            (1 + monthlyRate);
+
+    }
+
+    let invested =
+        monthly * months;
+
+    let profit =
+        futureValue - invested;
+
+    document.getElementById("sipResult").innerHTML =
+        "Invested: ₹" + invested.toFixed(2) +
+        "<br>Estimated Value: ₹" +
+        futureValue.toFixed(2) +
+        "<br>Estimated Returns: ₹" +
+        profit.toFixed(2);
+
+}
+
+
+/* CAGR */
+
+function cagr() {
+
+    let start =
+        Number(
+            document.getElementById("cagrStart").value
+        );
+
+    let end =
+        Number(
+            document.getElementById("cagrEnd").value
+        );
+
+    let years =
+        Number(
+            document.getElementById("cagrYears").value
+        );
+
+    if (start <= 0 || end <= 0 || years <= 0) {
+
+        document.getElementById("cagrResult").innerText =
+            "Please enter valid values.";
+
+        return;
+    }
+
+    let result =
+        (
+            Math.pow(end / start, 1 / years) - 1
+        ) * 100;
+
+    document.getElementById("cagrResult").innerText =
+        "CAGR: " + result.toFixed(2) + "%";
+
+}
+
+
+</script>
+
+</body>
+</html>

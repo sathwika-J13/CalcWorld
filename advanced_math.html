@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Advanced Mathematics - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto 60px;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+.card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 7px 0;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+}
+
+.home {
+    display: block;
+
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>
+🧠 Advanced Mathematics
+</h1>
+
+<p>
+Advanced mathematical, probability and number calculations.
+</p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- FACTORIAL -->
+
+<div class="card">
+
+<h2>❗ Factorial</h2>
+
+<p>
+n! = n × (n-1) × ... × 1
+</p>
+
+<input
+id="factorialInput"
+type="number"
+placeholder="Enter n"
+>
+
+<button onclick="factorial()">
+Calculate
+</button>
+
+<div
+class="result"
+id="factorialResult"
+></div>
+
+</div>
+
+
+<!-- GCD -->
+
+<div class="card">
+
+<h2>🔢 GCD</h2>
+
+<p>
+Greatest Common Divisor
+</p>
+
+<input
+id="gcdA"
+type="number"
+placeholder="First number"
+>
+
+<input
+id="gcdB"
+type="number"
+placeholder="Second number"
+>
+
+<button onclick="calculateGCD()">
+Calculate GCD
+</button>
+
+<div
+class="result"
+id="gcdResult"
+></div>
+
+</div>
+
+
+<!-- LCM -->
+
+<div class="card">
+
+<h2>🔢 LCM</h2>
+
+<p>
+Least Common Multiple
+</p>
+
+<input
+id="lcmA"
+type="number"
+placeholder="First number"
+>
+
+<input
+id="lcmB"
+type="number"
+placeholder="Second number"
+>
+
+<button onclick="calculateLCM()">
+Calculate LCM
+</button>
+
+<div
+class="result"
+id="lcmResult"
+></div>
+
+</div>
+
+
+<!-- PRIME -->
+
+<div class="card">
+
+<h2>🔍 Prime Checker</h2>
+
+<input
+id="primeInput"
+type="number"
+placeholder="Enter integer"
+>
+
+<button onclick="checkPrime()">
+Check Number
+</button>
+
+<div
+class="result"
+id="primeResult"
+></div>
+
+</div>
+
+
+<!-- PERMUTATION -->
+
+<div class="card">
+
+<h2>🔀 Permutation</h2>
+
+<p>
+nPr = n! / (n-r)!
+</p>
+
+<input
+id="permN"
+type="number"
+placeholder="n"
+>
+
+<input
+id="permR"
+type="number"
+placeholder="r"
+>
+
+<button onclick="permutation()">
+Calculate nPr
+</button>
+
+<div
+class="result"
+id="permResult"
+></div>
+
+</div>
+
+
+<!-- COMBINATION -->
+
+<div class="card">
+
+<h2>🎯 Combination</h2>
+
+<p>
+nCr = n! / (r!(n-r)!)
+</p>
+
+<input
+id="combN"
+type="number"
+placeholder="n"
+>
+
+<input
+id="combR"
+type="number"
+placeholder="r"
+>
+
+<button onclick="combination()">
+Calculate nCr
+</button>
+
+<div
+class="result"
+id="combResult"
+></div>
+
+</div>
+
+
+<!-- PROBABILITY -->
+
+<div class="card">
+
+<h2>🎲 Probability</h2>
+
+<p>
+P(E) = Favorable / Total
+</p>
+
+<input
+id="favorable"
+type="number"
+placeholder="Favorable outcomes"
+>
+
+<input
+id="total"
+type="number"
+placeholder="Total outcomes"
+>
+
+<button onclick="probability()">
+Calculate
+</button>
+
+<div
+class="result"
+id="probabilityResult"
+></div>
+
+</div>
+
+
+<!-- QUADRATIC -->
+
+<div class="card">
+
+<h2>📈 Quadratic Equation</h2>
+
+<p>
+ax² + bx + c = 0
+</p>
+
+<input
+id="quadA"
+type="number"
+placeholder="a"
+>
+
+<input
+id="quadB"
+type="number"
+placeholder="b"
+>
+
+<input
+id="quadC"
+type="number"
+placeholder="c"
+>
+
+<button onclick="quadratic()">
+Solve
+</button>
+
+<div
+class="result"
+id="quadResult"
+></div>
+
+</div>
+
+
+<!-- LOG -->
+
+<div class="card">
+
+<h2>📊 Logarithm</h2>
+
+<input
+id="logValue"
+type="number"
+placeholder="Number"
+>
+
+<input
+id="logBase"
+type="number"
+placeholder="Base"
+>
+
+<button onclick="logarithm()">
+Calculate
+</button>
+
+<div
+class="result"
+id="logResult"
+></div>
+
+</div>
+
+
+<!-- EXPONENT -->
+
+<div class="card">
+
+<h2>⚡ Exponent</h2>
+
+<p>
+aᵇ
+</p>
+
+<input
+id="expBase"
+type="number"
+placeholder="Base"
+>
+
+<input
+id="expPower"
+type="number"
+placeholder="Power"
+>
+
+<button onclick="exponent()">
+Calculate
+</button>
+
+<div
+class="result"
+id="expResult"
+></div>
+
+</div>
+
+
+<!-- ARITHMETIC SEQUENCE -->
+
+<div class="card">
+
+<h2>➕ Arithmetic Sequence</h2>
+
+<p>
+aₙ = a + (n-1)d
+</p>
+
+<input
+id="arithA"
+type="number"
+placeholder="First term (a)"
+>
+
+<input
+id="arithD"
+type="number"
+placeholder="Common difference (d)"
+>
+
+<input
+id="arithN"
+type="number"
+placeholder="Term number (n)"
+>
+
+<button onclick="arithmeticSequence()">
+Calculate
+</button>
+
+<div
+class="result"
+id="arithResult"
+></div>
+
+</div>
+
+
+<!-- GEOMETRIC SEQUENCE -->
+
+<div class="card">
+
+<h2>✖️ Geometric Sequence</h2>
+
+<p>
+aₙ = a × rⁿ⁻¹
+</p>
+
+<input
+id="geoA"
+type="number"
+placeholder="First term (a)"
+>
+
+<input
+id="geoR"
+type="number"
+placeholder="Common ratio (r)"
+>
+
+<input
+id="geoN"
+type="number"
+placeholder="Term number (n)"
+>
+
+<button onclick="geometricSequence()">
+Calculate
+</button>
+
+<div
+class="result"
+id="geoResult"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+function factorialNumber(n) {
+
+let result = 1;
+
+for (
+let i = 2;
+i <= n;
+i++
+) {
+
+result *= i;
+
+}
+
+return result;
+
+}
+
+
+/* FACTORIAL */
+
+function factorial() {
+
+let n =
+Number(
+document.getElementById(
+"factorialInput"
+).value
+);
+
+if (
+!Number.isInteger(n) ||
+n < 0
+) {
+
+document.getElementById(
+"factorialResult"
+).innerText =
+"Enter a non-negative integer.";
+
+return;
+
+}
+
+if (n > 170) {
+
+document.getElementById(
+"factorialResult"
+).innerText =
+"Number is too large for this calculator.";
+
+return;
+
+}
+
+let result =
+factorialNumber(n);
+
+document.getElementById(
+"factorialResult"
+).innerText =
+n + "! = " + result;
+
+}
+
+
+/* GCD */
+
+function gcd(a,b) {
+
+a = Math.abs(a);
+b = Math.abs(b);
+
+while (b !== 0) {
+
+let temp = b;
+
+b = a % b;
+
+a = temp;
+
+}
+
+return a;
+
+}
+
+
+function calculateGCD() {
+
+let a =
+Number(
+document.getElementById(
+"gcdA"
+).value
+);
+
+let b =
+Number(
+document.getElementById(
+"gcdB"
+).value
+);
+
+document.getElementById(
+"gcdResult"
+).innerText =
+"GCD = " + gcd(a,b);
+
+}
+
+
+/* LCM */
+
+function calculateLCM() {
+
+let a =
+Number(
+document.getElementById(
+"lcmA"
+).value
+);
+
+let b =
+Number(
+document.getElementById(
+"lcmB"
+).value
+);
+
+if (a === 0 || b === 0) {
+
+document.getElementById(
+"lcmResult"
+).innerText =
+"LCM = 0";
+
+return;
+
+}
+
+let result =
+Math.abs(
+a * b
+) / gcd(a,b);
+
+document.getElementById(
+"lcmResult"
+).innerText =
+"LCM = " + result;
+
+}
+
+
+/* PRIME */
+
+function checkPrime() {
+
+let n =
+Number(
+document.getElementById(
+"primeInput"
+).value
+);
+
+if (
+!Number.isInteger(n) ||
+n < 2
+) {
+
+document.getElementById(
+"primeResult"
+).innerText =
+"Not a prime number.";
+
+return;
+
+}
+
+let prime = true;
+
+for (
+let i = 2;
+i <= Math.sqrt(n);
+i++
+) {
+
+if (n % i === 0) {
+
+prime = false;
+
+break;
+
+}
+
+}
+
+document.getElementById(
+"primeResult"
+).innerText =
+
+prime
+?
+n + " is PRIME."
+:
+n + " is NOT PRIME.";
+
+}
+
+
+/* PERMUTATION */
+
+function permutation() {
+
+let n =
+Number(
+document.getElementById(
+"permN"
+).value
+);
+
+let r =
+Number(
+document.getElementById(
+"permR"
+).value
+);
+
+if (
+n < 0 ||
+r < 0 ||
+r > n ||
+!Number.isInteger(n) ||
+!Number.isInteger(r)
+) {
+
+document.getElementById(
+"permResult"
+).innerText =
+"Invalid values.";
+
+return;
+
+}
+
+let result = 1;
+
+for (
+let i = 0;
+i < r;
+i++
+) {
+
+result *= n - i;
+
+}
+
+document.getElementById(
+"permResult"
+).innerText =
+"nPr = " + result;
+
+}
+
+
+/* COMBINATION */
+
+function combination() {
+
+let n =
+Number(
+document.getElementById(
+"combN"
+).value
+);
+
+let r =
+Number(
+document.getElementById(
+"combR"
+).value
+);
+
+if (
+n < 0 ||
+r < 0 ||
+r > n ||
+!Number.isInteger(n) ||
+!Number.isInteger(r)
+) {
+
+document.getElementById(
+"combResult"
+).innerText =
+"Invalid values.";
+
+return;
+
+}
+
+let result =
+factorialNumber(n) /
+(
+factorialNumber(r) *
+factorialNumber(n-r)
+);
+
+document.getElementById(
+"combResult"
+).innerText =
+"nCr = " + result;
+
+}
+
+
+/* PROBABILITY */
+
+function probability() {
+
+let favorable =
+Number(
+document.getElementById(
+"favorable"
+).value
+);
+
+let total =
+Number(
+document.getElementById(
+"total"
+).value
+);
+
+if (
+total <= 0 ||
+favorable < 0 ||
+favorable > total
+) {
+
+document.getElementById(
+"probabilityResult"
+).innerText =
+"Invalid values.";
+
+return;
+
+}
+
+let p =
+favorable / total;
+
+document.getElementById(
+"probabilityResult"
+).innerHTML =
+
+"Probability = " +
+p +
+
+"<br>Percentage = " +
+(p * 100) +
+"%";
+
+}
+
+
+/* QUADRATIC */
+
+function quadratic() {
+
+let a =
+Number(
+document.getElementById(
+"quadA"
+).value
+);
+
+let b =
+Number(
+document.getElementById(
+"quadB"
+).value
+);
+
+let c =
+Number(
+document.getElementById(
+"quadC"
+).value
+);
+
+
+if (a === 0) {
+
+document.getElementById(
+"quadResult"
+).innerText =
+"'a' cannot be zero.";
+
+return;
+
+}
+
+
+let discriminant =
+b*b - 4*a*c;
+
+
+if (discriminant > 0) {
+
+let x1 =
+(-b + Math.sqrt(discriminant))
+/
+(2*a);
+
+let x2 =
+(-b - Math.sqrt(discriminant))
+/
+(2*a);
+
+document.getElementById(
+"quadResult"
+).innerHTML =
+
+"x₁ = " +
+x1 +
+
+"<br>x₂ = " +
+x2;
+
+}
+
+else if (
+discriminant === 0
+) {
+
+let x =
+-b / (2*a);
+
+document.getElementById(
+"quadResult"
+).innerText =
+"x = " + x;
+
+}
+
+else {
+
+let real =
+-b / (2*a);
+
+let imaginary =
+Math.sqrt(-discriminant)
+/
+(2*a);
+
+document.getElementById(
+"quadResult"
+).innerHTML =
+
+"x₁ = " +
+real +
+" + " +
+imaginary +
+"i" +
+
+"<br>x₂ = " +
+real +
+" - " +
+imaginary +
+"i";
+
+}
+
+}
+
+
+/* LOG */
+
+function logarithm() {
+
+let value =
+Number(
+document.getElementById(
+"logValue"
+).value
+);
+
+let base =
+Number(
+document.getElementById(
+"logBase"
+).value
+);
+
+if (
+value <= 0 ||
+base <= 0 ||
+base === 1
+) {
+
+document.getElementById(
+"logResult"
+).innerText =
+"Invalid logarithm.";
+
+return;
+
+}
+
+let result =
+Math.log(value)
+/
+Math.log(base);
+
+document.getElementById(
+"logResult"
+).innerText =
+"log₍" +
+base +
+"₎(" +
+value +
+") = " +
+result;
+
+}
+
+
+/* EXPONENT */
+
+function exponent() {
+
+let base =
+Number(
+document.getElementById(
+"expBase"
+).value
+);
+
+let power =
+Number(
+document.getElementById(
+"expPower"
+).value
+);
+
+let result =
+Math.pow(base,power);
+
+document.getElementById(
+"expResult"
+).innerText =
+base +
+"^" +
+power +
+" = " +
+result;
+
+}
+
+
+/* ARITHMETIC */
+
+function arithmeticSequence() {
+
+let a =
+Number(
+document.getElementById(
+"arithA"
+).value
+);
+
+let d =
+Number(
+document.getElementById(
+"arithD"
+).value
+);
+
+let n =
+Number(
+document.getElementById(
+"arithN"
+).value
+);
+
+let result =
+a + (n - 1) * d;
+
+document.getElementById(
+"arithResult"
+).innerText =
+"n-th term = " +
+result;
+
+}
+
+
+/* GEOMETRIC */
+
+function geometricSequence() {
+
+let a =
+Number(
+document.getElementById(
+"geoA"
+).value
+);
+
+let r =
+Number(
+document.getElementById(
+"geoR"
+).value
+);
+
+let n =
+Number(
+document.getElementById(
+"geoN"
+).value
+);
+
+let result =
+a * Math.pow(
+r,
+n - 1
+);
+
+document.getElementById(
+"geoResult"
+).innerText =
+"n-th term = " +
+result;
+
+}
+
+</script>
+
+
+</body>
+
+</html>

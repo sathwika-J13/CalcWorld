@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Statistics - CalcWorld</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #6b7280;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 20px;
+
+            margin: 30px 0 50px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 7px 0;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 12px;
+
+            background: #f3f4f6;
+
+            border-radius: 8px;
+
+            line-height: 1.7;
+        }
+
+        .home {
+            display: block;
+            text-align: center;
+
+            margin: 30px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        🌎 CalcWorld
+    </div>
+
+    <a href="/">
+        Home
+    </a>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>📊 Statistics Calculators</h1>
+
+    <p>
+        Analyze numbers, probability and statistical data.
+    </p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- MEAN -->
+
+<div class="card">
+
+    <h2>📊 Mean</h2>
+
+    <input
+        id="meanNumbers"
+        type="text"
+        placeholder="Example: 10,20,30,40"
+    >
+
+    <button onclick="calculateMean()">
+        Calculate Mean
+    </button>
+
+    <div
+        class="result"
+        id="meanResult"
+    ></div>
+
+</div>
+
+
+<!-- MEDIAN -->
+
+<div class="card">
+
+    <h2>📊 Median</h2>
+
+    <input
+        id="medianNumbers"
+        type="text"
+        placeholder="Example: 10,20,30,40,50"
+    >
+
+    <button onclick="calculateMedian()">
+        Calculate Median
+    </button>
+
+    <div
+        class="result"
+        id="medianResult"
+    ></div>
+
+</div>
+
+
+<!-- MODE -->
+
+<div class="card">
+
+    <h2>📊 Mode</h2>
+
+    <input
+        id="modeNumbers"
+        type="text"
+        placeholder="Example: 1,2,2,3,4"
+    >
+
+    <button onclick="calculateMode()">
+        Calculate Mode
+    </button>
+
+    <div
+        class="result"
+        id="modeResult"
+    ></div>
+
+</div>
+
+
+<!-- VARIANCE -->
+
+<div class="card">
+
+    <h2>📈 Variance</h2>
+
+    <input
+        id="varianceNumbers"
+        type="text"
+        placeholder="Example: 2,4,6,8,10"
+    >
+
+    <button onclick="calculateVariance()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="varianceResult"
+    ></div>
+
+</div>
+
+
+<!-- STANDARD DEVIATION -->
+
+<div class="card">
+
+    <h2>📉 Standard Deviation</h2>
+
+    <input
+        id="stdNumbers"
+        type="text"
+        placeholder="Example: 2,4,6,8,10"
+    >
+
+    <button onclick="calculateStandardDeviation()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="stdResult"
+    ></div>
+
+</div>
+
+
+<!-- PERMUTATION -->
+
+<div class="card">
+
+    <h2>🎲 Permutation</h2>
+
+    <p>
+        Calculate nPr
+    </p>
+
+    <input
+        id="permN"
+        type="number"
+        placeholder="n"
+    >
+
+    <input
+        id="permR"
+        type="number"
+        placeholder="r"
+    >
+
+    <button onclick="calculatePermutation()">
+        Calculate nPr
+    </button>
+
+    <div
+        class="result"
+        id="permResult"
+    ></div>
+
+</div>
+
+
+<!-- COMBINATION -->
+
+<div class="card">
+
+    <h2>🎯 Combination</h2>
+
+    <p>
+        Calculate nCr
+    </p>
+
+    <input
+        id="combN"
+        type="number"
+        placeholder="n"
+    >
+
+    <input
+        id="combR"
+        type="number"
+        placeholder="r"
+    >
+
+    <button onclick="calculateCombination()">
+        Calculate nCr
+    </button>
+
+    <div
+        class="result"
+        id="combResult"
+    ></div>
+
+</div>
+
+
+<!-- Z SCORE -->
+
+<div class="card">
+
+    <h2>📐 Z-Score</h2>
+
+    <input
+        id="zX"
+        type="number"
+        placeholder="X"
+    >
+
+    <input
+        id="zMean"
+        type="number"
+        placeholder="Mean"
+    >
+
+    <input
+        id="zStd"
+        type="number"
+        placeholder="Standard Deviation"
+    >
+
+    <button onclick="calculateZScore()">
+        Calculate
+    </button>
+
+    <div
+        class="result"
+        id="zResult"
+    ></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+    class="home"
+    href="/"
+>
+    ← Back to CalcWorld
+</a>
+
+
+<footer>
+
+    © 2026 CalcWorld |
+    Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+/* Convert text to numbers */
+
+function getNumbers(id) {
+
+    let input =
+        document.getElementById(id).value;
+
+    let numbers =
+        input
+        .split(",")
+        .map(Number)
+        .filter(n => !isNaN(n));
+
+    return numbers;
+}
+
+
+/* MEAN */
+
+function calculateMean() {
+
+    let numbers =
+        getNumbers("meanNumbers");
+
+    if (numbers.length === 0) {
+
+        document.getElementById("meanResult").innerText =
+            "Enter valid numbers.";
+
+        return;
+    }
+
+    let sum =
+        numbers.reduce(
+            (total, number) =>
+            total + number,
+            0
+        );
+
+    let mean =
+        sum / numbers.length;
+
+    document.getElementById("meanResult").innerText =
+        "Mean = " + mean;
+
+}
+
+
+/* MEDIAN */
+
+function calculateMedian() {
+
+    let numbers =
+        getNumbers("medianNumbers");
+
+    if (numbers.length === 0) {
+
+        document.getElementById("medianResult").innerText =
+            "Enter valid numbers.";
+
+        return;
+    }
+
+    numbers.sort(
+        (a, b) => a - b
+    );
+
+    let middle =
+        Math.floor(numbers.length / 2);
+
+    let median;
+
+    if (numbers.length % 2 === 0) {
+
+        median =
+            (
+                numbers[middle - 1] +
+                numbers[middle]
+            ) / 2;
+
+    } else {
+
+        median =
+            numbers[middle];
+
+    }
+
+    document.getElementById("medianResult").innerText =
+        "Median = " + median;
+
+}
+
+
+/* MODE */
+
+function calculateMode() {
+
+    let numbers =
+        getNumbers("modeNumbers");
+
+    if (numbers.length === 0) {
+
+        document.getElementById("modeResult").innerText =
+            "Enter valid numbers.";
+
+        return;
+    }
+
+    let frequency = {};
+
+    numbers.forEach(
+        number => {
+
+            frequency[number] =
+                (frequency[number] || 0) + 1;
+
+        }
+    );
+
+    let max =
+        Math.max(
+            ...Object.values(frequency)
+        );
+
+    if (max === 1) {
+
+        document.getElementById("modeResult").innerText =
+            "No mode.";
+
+        return;
+    }
+
+    let modes =
+        Object.keys(frequency)
+        .filter(
+            number =>
+            frequency[number] === max
+        );
+
+    document.getElementById("modeResult").innerText =
+        "Mode = " + modes.join(", ");
+
+}
+
+
+/* VARIANCE */
+
+function calculateVariance() {
+
+    let numbers =
+        getNumbers("varianceNumbers");
+
+    if (numbers.length === 0) {
+
+        document.getElementById("varianceResult").innerText =
+            "Enter valid numbers.";
+
+        return;
+    }
+
+    let mean =
+        numbers.reduce(
+            (a, b) => a + b,
+            0
+        ) / numbers.length;
+
+    let variance =
+        numbers.reduce(
+            (total, number) =>
+            total +
+            Math.pow(number - mean, 2),
+            0
+        ) / numbers.length;
+
+    document.getElementById("varianceResult").innerText =
+        "Population Variance = " +
+        variance;
+
+}
+
+
+/* STANDARD DEVIATION */
+
+function calculateStandardDeviation() {
+
+    let numbers =
+        getNumbers("stdNumbers");
+
+    if (numbers.length === 0) {
+
+        document.getElementById("stdResult").innerText =
+            "Enter valid numbers.";
+
+        return;
+    }
+
+    let mean =
+        numbers.reduce(
+            (a, b) => a + b,
+            0
+        ) / numbers.length;
+
+    let variance =
+        numbers.reduce(
+            (total, number) =>
+            total +
+            Math.pow(number - mean, 2),
+            0
+        ) / numbers.length;
+
+    let standardDeviation =
+        Math.sqrt(variance);
+
+    document.getElementById("stdResult").innerText =
+        "Population Standard Deviation = " +
+        standardDeviation;
+
+}
+
+
+/* FACTORIAL */
+
+function factorial(n) {
+
+    if (n < 0 || !Number.isInteger(n)) {
+        return NaN;
+    }
+
+    let result = 1;
+
+    for (
+        let i = 2;
+        i <= n;
+        i++
+    ) {
+        result *= i;
+    }
+
+    return result;
+}
+
+
+/* PERMUTATION */
+
+function calculatePermutation() {
+
+    let n =
+        Number(
+            document.getElementById("permN").value
+        );
+
+    let r =
+        Number(
+            document.getElementById("permR").value
+        );
+
+    if (
+        n < 0 ||
+        r < 0 ||
+        r > n ||
+        !Number.isInteger(n) ||
+        !Number.isInteger(r)
+    ) {
+
+        document.getElementById("permResult").innerText =
+            "Enter valid n and r.";
+
+        return;
+    }
+
+    let result =
+        factorial(n) /
+        factorial(n - r);
+
+    document.getElementById("permResult").innerText =
+        "nPr = " + result;
+
+}
+
+
+/* COMBINATION */
+
+function calculateCombination() {
+
+    let n =
+        Number(
+            document.getElementById("combN").value
+        );
+
+    let r =
+        Number(
+            document.getElementById("combR").value
+        );
+
+    if (
+        n < 0 ||
+        r < 0 ||
+        r > n ||
+        !Number.isInteger(n) ||
+        !Number.isInteger(r)
+    ) {
+
+        document.getElementById("combResult").innerText =
+            "Enter valid n and r.";
+
+        return;
+    }
+
+    let result =
+        factorial(n) /
+        (
+            factorial(r) *
+            factorial(n - r)
+        );
+
+    document.getElementById("combResult").innerText =
+        "nCr = " + result;
+
+}
+
+
+/* Z SCORE */
+
+function calculateZScore() {
+
+    let x =
+        Number(
+            document.getElementById("zX").value
+        );
+
+    let mean =
+        Number(
+            document.getElementById("zMean").value
+        );
+
+    let standardDeviation =
+        Number(
+            document.getElementById("zStd").value
+        );
+
+    if (standardDeviation === 0) {
+
+        document.getElementById("zResult").innerText =
+            "Standard deviation cannot be 0.";
+
+        return;
+    }
+
+    let z =
+        (x - mean) /
+        standardDeviation;
+
+    document.getElementById("zResult").innerText =
+        "Z-Score = " + z;
+
+}
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Engineering Calculator - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto 60px;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+.card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 7px 0;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.result {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+
+    line-height: 1.8;
+}
+
+.home {
+    display: block;
+
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+
+<section class="hero">
+
+<h1>
+🏗️ Engineering Calculator
+</h1>
+
+<p>
+Electrical, mechanical, civil and engineering calculations.
+</p>
+
+</section>
+
+
+
+<div class="container">
+
+<div class="grid">
+
+
+
+<!-- ================= OHM'S LAW ================= -->
+
+<div class="card">
+
+<h2>⚡ Ohm's Law</h2>
+
+<p>
+V = I × R
+</p>
+
+<input
+id="current"
+type="number"
+placeholder="Current (A)"
+>
+
+<input
+id="resistance"
+type="number"
+placeholder="Resistance (Ω)"
+>
+
+<button onclick="ohmsLaw()">
+Calculate Voltage
+</button>
+
+<div
+class="result"
+id="ohmResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= ELECTRICAL POWER ================= -->
+
+<div class="card">
+
+<h2>🔌 Electrical Power</h2>
+
+<p>
+P = V × I
+</p>
+
+<input
+id="voltage"
+type="number"
+placeholder="Voltage (V)"
+>
+
+<input
+id="powerCurrent"
+type="number"
+placeholder="Current (A)"
+>
+
+<button onclick="electricalPower()">
+Calculate Power
+</button>
+
+<div
+class="result"
+id="powerResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= ELECTRICAL ENERGY ================= -->
+
+<div class="card">
+
+<h2>🔋 Electrical Energy</h2>
+
+<p>
+E = P × t
+</p>
+
+<input
+id="electricalPower"
+type="number"
+placeholder="Power (W)"
+>
+
+<input
+id="electricalTime"
+type="number"
+placeholder="Time (hours)"
+>
+
+<button onclick="electricalEnergy()">
+Calculate
+</button>
+
+<div
+class="result"
+id="energyResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= TORQUE ================= -->
+
+<div class="card">
+
+<h2>🌀 Torque</h2>
+
+<p>
+T = F × r
+</p>
+
+<input
+id="torqueForce"
+type="number"
+placeholder="Force (N)"
+>
+
+<input
+id="torqueRadius"
+type="number"
+placeholder="Radius / Distance (m)"
+>
+
+<button onclick="torque()">
+Calculate Torque
+</button>
+
+<div
+class="result"
+id="torqueResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= STRESS ================= -->
+
+<div class="card">
+
+<h2>🏗️ Stress</h2>
+
+<p>
+Stress = Force / Area
+</p>
+
+<input
+id="stressForce"
+type="number"
+placeholder="Force (N)"
+>
+
+<input
+id="stressArea"
+type="number"
+placeholder="Area (m²)"
+>
+
+<button onclick="stress()">
+Calculate Stress
+</button>
+
+<div
+class="result"
+id="stressResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= STRAIN ================= -->
+
+<div class="card">
+
+<h2>📏 Strain</h2>
+
+<p>
+Strain = ΔL / L
+</p>
+
+<input
+id="changeLength"
+type="number"
+placeholder="Change in Length"
+>
+
+<input
+id="originalLength"
+type="number"
+placeholder="Original Length"
+>
+
+<button onclick="strain()">
+Calculate Strain
+</button>
+
+<div
+class="result"
+id="strainResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= PRESSURE ================= -->
+
+<div class="card">
+
+<h2>💧 Pressure</h2>
+
+<p>
+P = F / A
+</p>
+
+<input
+id="pressureForce"
+type="number"
+placeholder="Force (N)"
+>
+
+<input
+id="pressureArea"
+type="number"
+placeholder="Area (m²)"
+>
+
+<button onclick="pressure()">
+Calculate Pressure
+</button>
+
+<div
+class="result"
+id="pressureResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= HEAT ENERGY ================= -->
+
+<div class="card">
+
+<h2>🔥 Heat Energy</h2>
+
+<p>
+Q = m × c × ΔT
+</p>
+
+<input
+id="heatMass"
+type="number"
+placeholder="Mass (kg)"
+>
+
+<input
+id="specificHeat"
+type="number"
+placeholder="Specific Heat (J/kg·K)"
+>
+
+<input
+id="temperatureChange"
+type="number"
+placeholder="Temperature Change (K)"
+>
+
+<button onclick="heatEnergy()">
+Calculate Heat
+</button>
+
+<div
+class="result"
+id="heatResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= DENSITY ================= -->
+
+<div class="card">
+
+<h2>🧱 Density</h2>
+
+<p>
+ρ = m / V
+</p>
+
+<input
+id="densityMass"
+type="number"
+placeholder="Mass (kg)"
+>
+
+<input
+id="densityVolume"
+type="number"
+placeholder="Volume (m³)"
+>
+
+<button onclick="density()">
+Calculate Density
+</button>
+
+<div
+class="result"
+id="densityResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= RESISTOR SERIES ================= -->
+
+<div class="card">
+
+<h2>🔗 Series Resistors</h2>
+
+<p>
+R = R₁ + R₂ + R₃ ...
+</p>
+
+<input
+id="seriesResistors"
+type="text"
+placeholder="Example: 10,20,30"
+>
+
+<button onclick="seriesResistors()">
+Calculate
+</button>
+
+<div
+class="result"
+id="seriesResult"
+></div>
+
+</div>
+
+
+
+<!-- ================= RESISTOR PARALLEL ================= -->
+
+<div class="card">
+
+<h2>🔌 Parallel Resistors</h2>
+
+<p>
+1/R = 1/R₁ + 1/R₂ + ...
+</p>
+
+<input
+id="parallelResistors"
+type="text"
+placeholder="Example: 10,20,30"
+>
+
+<button onclick="parallelResistors()">
+Calculate
+</button>
+
+<div
+class="result"
+id="parallelResult"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+
+<script>
+
+
+/* ================= OHM'S LAW ================= */
+
+function ohmsLaw() {
+
+let I =
+Number(
+document.getElementById(
+"current"
+).value
+);
+
+let R =
+Number(
+document.getElementById(
+"resistance"
+).value
+);
+
+let V = I * R;
+
+document.getElementById(
+"ohmResult"
+).innerText =
+"Voltage = " +
+V +
+" V";
+
+}
+
+
+
+/* ================= POWER ================= */
+
+function electricalPower() {
+
+let V =
+Number(
+document.getElementById(
+"voltage"
+).value
+);
+
+let I =
+Number(
+document.getElementById(
+"powerCurrent"
+).value
+);
+
+let P = V * I;
+
+document.getElementById(
+"powerResult"
+).innerText =
+"Power = " +
+P +
+" W";
+
+}
+
+
+
+/* ================= ENERGY ================= */
+
+function electricalEnergy() {
+
+let P =
+Number(
+document.getElementById(
+"electricalPower"
+).value
+);
+
+let time =
+Number(
+document.getElementById(
+"electricalTime"
+).value
+);
+
+let energy =
+P * time;
+
+document.getElementById(
+"energyResult"
+).innerText =
+
+"Energy = " +
+energy +
+" Wh";
+
+}
+
+
+
+/* ================= TORQUE ================= */
+
+function torque() {
+
+let F =
+Number(
+document.getElementById(
+"torqueForce"
+).value
+);
+
+let r =
+Number(
+document.getElementById(
+"torqueRadius"
+).value
+);
+
+let T = F * r;
+
+document.getElementById(
+"torqueResult"
+).innerText =
+
+"Torque = " +
+T +
+" N·m";
+
+}
+
+
+
+/* ================= STRESS ================= */
+
+function stress() {
+
+let F =
+Number(
+document.getElementById(
+"stressForce"
+).value
+);
+
+let A =
+Number(
+document.getElementById(
+"stressArea"
+).value
+);
+
+if (A === 0) {
+
+document.getElementById(
+"stressResult"
+).innerText =
+"Area cannot be 0.";
+
+return;
+
+}
+
+let result =
+F / A;
+
+document.getElementById(
+"stressResult"
+).innerText =
+
+"Stress = " +
+result +
+" Pa";
+
+}
+
+
+
+/* ================= STRAIN ================= */
+
+function strain() {
+
+let change =
+Number(
+document.getElementById(
+"changeLength"
+).value
+);
+
+let original =
+Number(
+document.getElementById(
+"originalLength"
+).value
+);
+
+if (original === 0) {
+
+document.getElementById(
+"strainResult"
+).innerText =
+"Original length cannot be 0.";
+
+return;
+
+}
+
+let result =
+change / original;
+
+document.getElementById(
+"strainResult"
+).innerText =
+
+"Strain = " +
+result;
+
+}
+
+
+
+/* ================= PRESSURE ================= */
+
+function pressure() {
+
+let F =
+Number(
+document.getElementById(
+"pressureForce"
+).value
+);
+
+let A =
+Number(
+document.getElementById(
+"pressureArea"
+).value
+);
+
+if (A === 0) {
+
+document.getElementById(
+"pressureResult"
+).innerText =
+"Area cannot be 0.";
+
+return;
+
+}
+
+let P =
+F / A;
+
+document.getElementById(
+"pressureResult"
+).innerText =
+
+"Pressure = " +
+P +
+" Pa";
+
+}
+
+
+
+/* ================= HEAT ================= */
+
+function heatEnergy() {
+
+let m =
+Number(
+document.getElementById(
+"heatMass"
+).value
+);
+
+let c =
+Number(
+document.getElementById(
+"specificHeat"
+).value
+);
+
+let deltaT =
+Number(
+document.getElementById(
+"temperatureChange"
+).value
+);
+
+let Q =
+m * c * deltaT;
+
+document.getElementById(
+"heatResult"
+).innerText =
+
+"Heat Energy = " +
+Q +
+" J";
+
+}
+
+
+
+/* ================= DENSITY ================= */
+
+function density() {
+
+let m =
+Number(
+document.getElementById(
+"densityMass"
+).value
+);
+
+let V =
+Number(
+document.getElementById(
+"densityVolume"
+).value
+);
+
+if (V === 0) {
+
+document.getElementById(
+"densityResult"
+).innerText =
+"Volume cannot be 0.";
+
+return;
+
+}
+
+let result =
+m / V;
+
+document.getElementById(
+"densityResult"
+).innerText =
+
+"Density = " +
+result +
+" kg/m³";
+
+}
+
+
+
+/* ================= SERIES ================= */
+
+function seriesResistors() {
+
+let input =
+document.getElementById(
+"seriesResistors"
+).value;
+
+let values =
+input
+.split(",")
+.map(Number)
+.filter(
+n => !isNaN(n)
+);
+
+if (values.length === 0) {
+
+document.getElementById(
+"seriesResult"
+).innerText =
+"Enter valid resistor values.";
+
+return;
+
+}
+
+let total =
+values.reduce(
+(a,b) => a + b,
+0
+);
+
+document.getElementById(
+"seriesResult"
+).innerText =
+
+"Equivalent Resistance = " +
+total +
+" Ω";
+
+}
+
+
+
+/* ================= PARALLEL ================= */
+
+function parallelResistors() {
+
+let input =
+document.getElementById(
+"parallelResistors"
+).value;
+
+let values =
+input
+.split(",")
+.map(Number)
+.filter(
+n => !isNaN(n) && n > 0
+);
+
+if (values.length === 0) {
+
+document.getElementById(
+"parallelResult"
+).innerText =
+"Enter valid resistor values.";
+
+return;
+
+}
+
+let reciprocal =
+values.reduce(
+(sum, R) =>
+sum + (1 / R),
+0
+);
+
+let equivalent =
+1 / reciprocal;
+
+document.getElementById(
+"parallelResult"
+).innerText =
+
+"Equivalent Resistance = " +
+equivalent +
+" Ω";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Unit Converter - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto 60px;
+}
+
+.converter {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.08);
+}
+
+select,
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+label {
+    font-weight: bold;
+}
+
+button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    background: #f3f4f6;
+
+    border-radius: 10px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.info {
+    margin-top: 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(200px, 1fr));
+
+    gap: 15px;
+}
+
+.info-card {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.06);
+
+    text-align: center;
+}
+
+.home {
+    display: block;
+
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>🔄 Unit Converter</h1>
+
+<p>
+Convert units quickly and accurately.
+</p>
+
+</section>
+
+
+<div class="container">
+
+
+<div class="converter">
+
+
+<label>
+Conversion Type
+</label>
+
+<select id="category"
+        onchange="loadUnits()">
+
+<option value="length">
+📏 Length
+</option>
+
+<option value="mass">
+⚖️ Mass
+</option>
+
+<option value="temperature">
+🌡️ Temperature
+</option>
+
+<option value="speed">
+🚗 Speed
+</option>
+
+<option value="area">
+📐 Area
+</option>
+
+<option value="volume">
+🧊 Volume
+</option>
+
+<option value="time">
+🕐 Time
+</option>
+
+<option value="data">
+💾 Data Storage
+</option>
+
+</select>
+
+
+<label>
+From
+</label>
+
+<select id="fromUnit"></select>
+
+
+<label>
+Value
+</label>
+
+<input
+id="value"
+type="number"
+placeholder="Enter value"
+>
+
+
+<label>
+To
+</label>
+
+<select id="toUnit"></select>
+
+
+<button onclick="convert()">
+Convert
+</button>
+
+
+<div
+class="result"
+id="result"
+>
+Result will appear here
+</div>
+
+
+</div>
+
+
+
+<div class="info">
+
+
+<div class="info-card">
+
+<h3>📏 Length</h3>
+
+<p>
+m, km, cm, mm, inch, foot, yard, mile
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>⚖️ Mass</h3>
+
+<p>
+kg, g, mg, pound, ounce
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>🌡️ Temperature</h3>
+
+<p>
+Celsius, Fahrenheit, Kelvin
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>💾 Data</h3>
+
+<p>
+Byte, KB, MB, GB, TB
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+const units = {
+
+length: {
+
+meter: 1,
+
+kilometer: 1000,
+
+centimeter: 0.01,
+
+millimeter: 0.001,
+
+inch: 0.0254,
+
+foot: 0.3048,
+
+yard: 0.9144,
+
+mile: 1609.344
+
+},
+
+
+mass: {
+
+kilogram: 1,
+
+gram: 0.001,
+
+milligram: 0.000001,
+
+pound: 0.45359237,
+
+ounce: 0.0283495231
+
+},
+
+
+speed: {
+
+"meter/second": 1,
+
+"kilometer/hour":
+1 / 3.6,
+
+"mile/hour":
+0.44704,
+
+"knot":
+0.514444
+
+},
+
+
+area: {
+
+"sq meter": 1,
+
+"sq kilometer":
+1000000,
+
+"sq centimeter":
+0.0001,
+
+"sq foot":
+0.092903,
+
+"sq inch":
+0.00064516,
+
+"acre":
+4046.8564224,
+
+"hectare":
+10000
+
+},
+
+
+volume: {
+
+"cubic meter": 1,
+
+"liter": 0.001,
+
+"milliliter": 0.000001,
+
+"cubic centimeter":
+0.000001,
+
+"cubic foot":
+0.0283168,
+
+"gallon":
+0.00378541
+
+},
+
+
+time: {
+
+second: 1,
+
+minute: 60,
+
+hour: 3600,
+
+day: 86400,
+
+week: 604800,
+
+year: 31536000
+
+},
+
+
+data: {
+
+byte: 1,
+
+kilobyte: 1024,
+
+megabyte:
+1024 ** 2,
+
+gigabyte:
+1024 ** 3,
+
+terabyte:
+1024 ** 4
+
+}
+
+};
+
+
+
+function loadUnits() {
+
+let category =
+document.getElementById(
+"category"
+).value;
+
+
+let from =
+document.getElementById(
+"fromUnit"
+);
+
+let to =
+document.getElementById(
+"toUnit"
+);
+
+
+from.innerHTML = "";
+
+to.innerHTML = "";
+
+
+if (
+category ===
+"temperature"
+) {
+
+let temperatureUnits = [
+"celsius",
+"fahrenheit",
+"kelvin"
+];
+
+
+temperatureUnits.forEach(
+unit => {
+
+let option =
+document.createElement(
+"option"
+);
+
+option.value = unit;
+
+option.textContent =
+unit.toUpperCase();
+
+from.appendChild(option);
+
+let option2 =
+document.createElement(
+"option"
+);
+
+option2.value = unit;
+
+option2.textContent =
+unit.toUpperCase();
+
+to.appendChild(option2);
+
+});
+
+return;
+
+}
+
+
+Object.keys(
+units[category]
+).forEach(
+unit => {
+
+let option =
+document.createElement(
+"option"
+);
+
+option.value = unit;
+
+option.textContent =
+unit;
+
+from.appendChild(option);
+
+
+let option2 =
+document.createElement(
+"option"
+);
+
+option2.value = unit;
+
+option2.textContent =
+unit;
+
+to.appendChild(option2);
+
+});
+
+}
+
+
+
+function temperatureConvert(
+value,
+from,
+to
+) {
+
+let celsius;
+
+
+if (from === "celsius") {
+
+celsius = value;
+
+}
+
+else if (
+from === "fahrenheit"
+) {
+
+celsius =
+(value - 32) *
+5 / 9;
+
+}
+
+else if (
+from === "kelvin"
+) {
+
+celsius =
+value - 273.15;
+
+}
+
+
+if (to === "celsius") {
+
+return celsius;
+
+}
+
+
+if (to === "fahrenheit") {
+
+return (
+celsius *
+9 / 5
+) + 32;
+
+}
+
+
+if (to === "kelvin") {
+
+return celsius + 273.15;
+
+}
+
+}
+
+
+
+function convert() {
+
+let category =
+document.getElementById(
+"category"
+).value;
+
+
+let value =
+Number(
+document.getElementById(
+"value"
+).value
+);
+
+
+let from =
+document.getElementById(
+"fromUnit"
+).value;
+
+
+let to =
+document.getElementById(
+"toUnit"
+).value;
+
+
+if (isNaN(value)) {
+
+document.getElementById(
+"result"
+).innerText =
+"Please enter a valid number.";
+
+return;
+
+}
+
+
+let result;
+
+
+if (
+category ===
+"temperature"
+) {
+
+result =
+temperatureConvert(
+value,
+from,
+to
+);
+
+}
+
+else {
+
+let baseValue =
+value *
+units[category][from];
+
+result =
+baseValue /
+units[category][to];
+
+}
+
+
+document.getElementById(
+"result"
+).innerText =
+
+value +
+" " +
+from +
+" = " +
+result.toFixed(8) +
+" " +
+to;
+
+}
+
+
+loadUnits();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CalcWorld - Every Calculation. One World.</title>
+
+
+    <!-- Main Website CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <!-- History CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='history.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+                         HEADER
+================================================== -->
+
+<header>
+
+    <div class="logo">
+        🌎 CalcWorld
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ==================================================
+                          HERO
+================================================== -->
+
+<section class="hero">
+
+    <h1>
+        Welcome to
+        <span>CalcWorld</span>
+    </h1>
+
+    <p>
+        Every Calculation. One World.
+        Explore calculators for mathematics,
+        science, finance, engineering,
+        programming and everyday calculations.
+    </p>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-container">
+
+        <input
+            type="text"
+            id="searchBox"
+            placeholder="🔍 Search a calculator..."
+            onkeyup="searchCalculators()"
+        >
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+                    CALCULATOR SECTION
+================================================== -->
+
+<div class="container">
+
+
+    <h2 class="section-title">
+        All Calculators
+    </h2>
+
+
+    <p class="section-description">
+        Choose a calculator category and start calculating.
+    </p>
+
+
+    <div class="categories">
+
+
+        <!-- BASIC -->
+
+        <a
+            href="/calculator"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="basic calculator arithmetic addition subtraction multiplication division"
+            >
+
+                <div class="icon">
+                    🧮
+                </div>
+
+                <h3>
+                    Basic Calculator
+                </h3>
+
+                <p>
+                    Addition, subtraction,
+                    multiplication and division.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- SCIENTIFIC -->
+
+        <a
+            href="/scientific"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="scientific calculator trigonometry sin cos tan logarithm square root powers"
+            >
+
+                <div class="icon">
+                    🔬
+                </div>
+
+                <h3>
+                    Scientific Calculator
+                </h3>
+
+                <p>
+                    Trigonometry, logarithms,
+                    powers and advanced calculations.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- MATHEMATICS -->
+
+        <a
+            href="/mathematics"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="mathematics percentage average ratio hcf lcm equations"
+            >
+
+                <div class="icon">
+                    📐
+                </div>
+
+                <h3>
+                    Mathematics
+                </h3>
+
+                <p>
+                    Percentage, average, ratio,
+                    HCF, LCM and equations.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ADVANCED MATHEMATICS -->
+
+        <a
+            href="/advanced-math"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="advanced mathematics probability factorial permutation combination gcd lcm prime quadratic logarithm exponent sequence"
+            >
+
+                <div class="icon">
+                    🧠
+                </div>
+
+                <h3>
+                    Advanced Mathematics
+                </h3>
+
+                <p>
+                    Probability, factorial,
+                    equations, sequences and more.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- FINANCE -->
+
+        <a
+            href="/finance"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="finance emi loan interest gst discount profit loss sip cagr investment"
+            >
+
+                <div class="icon">
+                    💰
+                </div>
+
+                <h3>
+                    Finance
+                </h3>
+
+                <p>
+                    EMI, loans, interest,
+                    GST, SIP, CAGR and more.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- STATISTICS -->
+
+        <a
+            href="/statistics"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="statistics mean median mode variance standard deviation probability"
+            >
+
+                <div class="icon">
+                    📊
+                </div>
+
+                <h3>
+                    Statistics
+                </h3>
+
+                <p>
+                    Mean, median, mode,
+                    variance and probability.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- GEOMETRY -->
+
+        <a
+            href="/geometry"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="geometry area volume perimeter circle triangle rectangle square sphere cylinder cube"
+            >
+
+                <div class="icon">
+                    📐
+                </div>
+
+                <h3>
+                    Geometry
+                </h3>
+
+                <p>
+                    Area, volume, perimeter
+                    and geometric shapes.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- PHYSICS -->
+
+        <a
+            href="/physics"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="physics force speed acceleration work energy power mass"
+            >
+
+                <div class="icon">
+                    ⚛️
+                </div>
+
+                <h3>
+                    Physics
+                </h3>
+
+                <p>
+                    Force, speed, work,
+                    energy and power.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- UNIT CONVERTER -->
+
+        <a
+            href="/converter"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="unit converter length mass weight temperature speed area volume time data"
+            >
+
+                <div class="icon">
+                    🔄
+                </div>
+
+                <h3>
+                    Unit Converter
+                </h3>
+
+                <p>
+                    Convert length, mass,
+                    temperature, speed and more.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- PROGRAMMER -->
+
+        <a
+            href="/programmer"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="programmer calculator binary decimal octal hexadecimal bitwise and or xor"
+            >
+
+                <div class="icon">
+                    💻
+                </div>
+
+                <h3>
+                    Programmer
+                </h3>
+
+                <p>
+                    Binary, decimal, hexadecimal,
+                    octal and bitwise operations.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ENGINEERING -->
+
+        <a
+            href="/engineering"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="engineering electrical mechanical civil ohm law power torque stress strain pressure density resistor"
+            >
+
+                <div class="icon">
+                    🏗️
+                </div>
+
+                <h3>
+                    Engineering
+                </h3>
+
+                <p>
+                    Electrical, mechanical,
+                    civil and engineering formulas.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- CHEMISTRY -->
+
+        <a
+            href="/chemistry"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="chemistry molar mass moles molarity molality dilution ph poh gas law boyle charles concentration"
+            >
+
+                <div class="icon">
+                    🧪
+                </div>
+
+                <h3>
+                    Chemistry
+                </h3>
+
+                <p>
+                    Moles, molarity, pH,
+                    gas laws and concentration.
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- BIOLOGY -->
+
+        <a
+            href="/biology"
+            class="calculator-link"
+        >
+
+            <div
+                class="calculator-card"
+                data-name="biology microscope magnification dna genetics population hardy weinberg ecology biomass survival"
+            >
+
+                <div class="icon">
+                    🧬
+                </div>
+
+                <h3>
+                    Biology
+                </h3>
+
+                <p>
+                    Genetics, microscopy,
+                    population and ecology calculations.
+                </p>
+
+            </div>
+
+        </a>
+
+
+    </div>
+
+
+    <!-- ==================================================
+                         FEATURES
+    ================================================== -->
+
+    <div class="features">
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Fast
+            </h3>
+
+            <p>
+                Get calculation results instantly.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🎯
+            </div>
+
+            <h3>
+                Accurate
+            </h3>
+
+            <p>
+                Reliable formulas and calculations.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📱
+            </div>
+
+            <h3>
+                Responsive
+            </h3>
+
+            <p>
+                Works on phones, tablets and computers.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🌎
+            </div>
+
+            <h3>
+                All in One
+            </h3>
+
+            <p>
+                Multiple calculator categories
+                in one platform.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+                    CALCULATION HISTORY
+    ================================================== -->
+
+    <section class="history-container">
+
+        <h2>
+            🧾 Calculation History
+        </h2>
+
+
+        <div
+            id="historyList"
+            class="history-list"
+        >
+
+        </div>
+
+
+        <button
+            class="clear-history"
+            onclick="clearHistory()"
+        >
+            🗑️ Clear All History
+        </button>
+
+    </section>
+
+
+
+    <!-- ==================================================
+                           CTA
+    ================================================== -->
+
+    <div class="cta">
+
+        <h2>
+            Every Calculation. One World. 🌎
+        </h2>
+
+        <p>
+            CalcWorld brings different types
+            of calculations together in one
+            simple platform.
+        </p>
+
+        <a
+            href="/scientific"
+            class="cta-button"
+        >
+            Start Calculating
+        </a>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==================================================
+                         FOOTER
+================================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+        🌎 CalcWorld
+    </div>
+
+    <p>
+        Every Calculation. One World.
+    </p>
+
+    <p>
+        Mathematics • Science • Finance • Engineering
+    </p>
+
+    <p>
+        © 2026 CalcWorld. All rights reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- ==================================================
+                       SEARCH SCRIPT
+================================================== -->
+
+<script>
+
+function searchCalculators() {
+
+    const searchBox =
+        document.getElementById(
+            "searchBox"
+        );
+
+
+    const search =
+        searchBox.value
+        .toLowerCase()
+        .trim();
+
+
+    const cards =
+        document.querySelectorAll(
+            ".calculator-link"
+        );
+
+
+    cards.forEach(
+        function(card) {
+
+            const calculator =
+                card.querySelector(
+                    ".calculator-card"
+                );
+
+
+            const name =
+                calculator
+                .getAttribute(
+                    "data-name"
+                )
+                .toLowerCase();
+
+
+            if (
+                name.includes(search)
+            ) {
+
+                card.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                card.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+
+
+<!-- ==================================================
+                    HISTORY JAVASCRIPT
+================================================== -->
+
+<script
+    src="{{ url_for('static', filename='history.js') }}"
+></script>
+
+
+</body>
+
+</html>

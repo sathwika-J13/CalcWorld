@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Basic Calculator - CalcWorld</title>
+
+    <!-- Main CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <!-- Calculator CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='calculator.css') }}"
+    >
+
+    <!-- History CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='history.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+                         HEADER
+================================================== -->
+
+<header>
+
+    <div class="logo">
+        🌎 CalcWorld
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ==================================================
+                    CALCULATOR PAGE
+================================================== -->
+
+<main class="calculator-container">
+
+
+    <div class="calculator-header">
+
+        <h1>
+            🧮 Basic Calculator
+        </h1>
+
+        <p>
+            Perform addition, subtraction,
+            multiplication and division.
+        </p>
+
+    </div>
+
+
+
+    <!-- ==================================================
+                       CALCULATOR
+    ================================================== -->
+
+    <div class="calculator-box">
+
+
+        <!-- DISPLAY -->
+
+        <input
+            type="text"
+            id="display"
+            class="calculator-display"
+            readonly
+        >
+
+
+        <!-- BUTTONS -->
+
+        <div class="calculator-buttons">
+
+
+            <!-- ROW 1 -->
+
+            <button
+                class="calc-btn"
+                onclick="clearDisplay()"
+            >
+                AC
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="deleteLast()"
+            >
+                DEL
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('%')"
+            >
+                %
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('/')"
+            >
+                ÷
+            </button>
+
+
+
+            <!-- ROW 2 -->
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('7')"
+            >
+                7
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('8')"
+            >
+                8
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('9')"
+            >
+                9
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('*')"
+            >
+                ×
+            </button>
+
+
+
+            <!-- ROW 3 -->
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('4')"
+            >
+                4
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('5')"
+            >
+                5
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('6')"
+            >
+                6
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('-')"
+            >
+                −
+            </button>
+
+
+
+            <!-- ROW 4 -->
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('1')"
+            >
+                1
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('2')"
+            >
+                2
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('3')"
+            >
+                3
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('+')"
+            >
+                +
+            </button>
+
+
+
+            <!-- ROW 5 -->
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('0')"
+            >
+                0
+            </button>
+
+
+            <button
+                class="calc-btn"
+                onclick="appendValue('.')"
+            >
+                .
+            </button>
+
+
+            <button
+                class="calc-btn wide"
+                onclick="calculate()"
+            >
+                =
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+                       RESULT
+    ================================================== -->
+
+    <div
+        id="resultBox"
+        class="calculation-result"
+        style="display:none;"
+    >
+
+        <strong>
+            Result:
+        </strong>
+
+        <span id="result">
+        </span>
+
+
+        <br>
+
+
+        <button
+            onclick="copyResult()"
+            class="calculate-button"
+        >
+            📋 Copy Result
+        </button>
+
+    </div>
+
+
+
+    <!-- ==================================================
+                       HISTORY
+    ================================================== -->
+
+    <section class="history-container">
+
+        <h2>
+            🧾 Calculation History
+        </h2>
+
+
+        <div
+            id="historyList"
+            class="history-list"
+        >
+        </div>
+
+
+        <button
+            class="clear-history"
+            onclick="clearHistory()"
+        >
+            🗑️ Clear All History
+        </button>
+
+    </section>
+
+
+
+    <!-- BACK BUTTON -->
+
+    <a
+        href="/"
+        class="back-button"
+    >
+        ← Back to CalcWorld
+    </a>
+
+
+</main>
+
+
+
+<!-- ==================================================
+                      FOOTER
+================================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+        🌎 CalcWorld
+    </div>
+
+    <p>
+        Every Calculation. One World.
+    </p>
+
+    <p>
+        © 2026 CalcWorld
+    </p>
+
+</footer>
+
+
+
+<!-- ==================================================
+                    HISTORY JS
+================================================== -->
+
+<script
+    src="{{ url_for('static', filename='history.js') }}"
+></script>
+
+
+
+<!-- ==================================================
+                  BASIC CALCULATOR JS
+================================================== -->
+
+<script>
+
+let display =
+    document.getElementById("display");
+
+let result =
+    document.getElementById("result");
+
+let resultBox =
+    document.getElementById("resultBox");
+
+
+
+/* ==========================================
+   ADD VALUE
+========================================== */
+
+function appendValue(value) {
+
+    display.value += value;
+
+}
+
+
+
+/* ==========================================
+   CLEAR
+========================================== */
+
+function clearDisplay() {
+
+    display.value = "";
+
+    result.textContent = "";
+
+    resultBox.style.display = "none";
+
+}
+
+
+
+/* ==========================================
+   DELETE LAST CHARACTER
+========================================== */
+
+function deleteLast() {
+
+    display.value =
+        display.value.slice(0, -1);
+
+}
+
+
+
+/* ==========================================
+   CALCULATE
+========================================== */
+
+function calculate() {
+
+    let expression =
+        display.value.trim();
+
+
+    if (expression === "") {
+
+        return;
+
+    }
+
+
+    try {
+
+        /*
+         * Convert percentage.
+         *
+         * Example:
+         * 50% → 0.5
+         */
+
+        let calculation =
+            expression.replace(
+                /(\d+(?:\.\d+)?)%/g,
+                "($1/100)"
+            );
+
+
+        /*
+         * Calculate expression.
+         */
+
+        let answer =
+            Function(
+                '"use strict"; return (' +
+                calculation +
+                ')'
+            )();
+
+
+        /*
+         * Check valid result.
+         */
+
+        if (
+            typeof answer !== "number" ||
+            !Number.isFinite(answer)
+        ) {
+
+            throw new Error(
+                "Invalid calculation"
+            );
+
+        }
+
+
+        /*
+         * Show result.
+         */
+
+        result.textContent =
+            answer;
+
+        resultBox.style.display =
+            "block";
+
+
+        /*
+         * IMPORTANT:
+         * Save calculation to CalcWorld
+         * history.
+         */
+
+        if (
+            typeof addToHistory ===
+            "function"
+        ) {
+
+            addToHistory(
+                expression,
+                answer
+            );
+
+        }
+
+
+    }
+
+    catch (error) {
+
+        result.textContent =
+            "Invalid calculation";
+
+        resultBox.style.display =
+            "block";
+
+    }
+
+}
+
+
+
+/* ==========================================
+   COPY RESULT
+========================================== */
+
+function copyResult() {
+
+    let value =
+        result.textContent;
+
+
+    if (!value) {
+
+        return;
+
+    }
+
+
+    navigator.clipboard
+        .writeText(value)
+        .then(function() {
+
+            alert(
+                "Result copied!"
+            );
+
+        })
+        .catch(function() {
+
+            alert(
+                "Unable to copy result."
+            );
+
+        });
+
+}
+
+
+
+/* ==========================================
+             KEYBOARD SUPPORT
+========================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+
+        /*
+         * Numbers
+         */
+
+        if (
+            /^[0-9.]$/.test(
+                event.key
+            )
+        ) {
+
+            appendValue(
+                event.key
+            );
+
+        }
+
+
+        /*
+         * Operators
+         */
+
+        else if (
+            ["+", "-", "*", "/"].includes(
+                event.key
+            )
+        ) {
+
+            appendValue(
+                event.key
+            );
+
+        }
+
+
+        /*
+         * Enter = Calculate
+         */
+
+        else if (
+            event.key === "Enter"
+        ) {
+
+            calculate();
+
+        }
+
+
+        /*
+         * Backspace
+         */
+
+        else if (
+            event.key === "Backspace"
+        ) {
+
+            deleteLast();
+
+        }
+
+
+        /*
+         * Escape = Clear
+         */
+
+        else if (
+            event.key === "Escape"
+        ) {
+
+            clearDisplay();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

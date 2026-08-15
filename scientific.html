@@ -1,0 +1,84 @@
+async function calculate() {
+
+    const expression = display.value.trim();
+
+    if (!expression) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "/api/scientific",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    expression: expression,
+                    angle_mode: angleMode
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error
+            );
+
+        }
+
+
+        const answer = data.result;
+
+
+        lastAnswer =
+            Number(answer);
+
+
+        result.textContent =
+            answer;
+
+
+        resultBox.style.display =
+            "block";
+
+
+        if (
+            typeof addToHistory ===
+            "function"
+        ) {
+
+            addToHistory(
+                expression +
+                " [" +
+                angleMode +
+                "]",
+                answer
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        result.textContent =
+            "Invalid calculation";
+
+        resultBox.style.display =
+            "block";
+
+    }
+
+}

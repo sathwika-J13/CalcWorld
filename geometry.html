@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Geometry - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 20px;
+
+    margin: 30px 0 50px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0;
+
+    border:
+    1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 15px;
+    padding: 12px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+
+    line-height: 1.7;
+}
+
+.home {
+    display: block;
+    text-align: center;
+
+    margin: 30px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>📐 Geometry Calculators</h1>
+
+<p>
+Calculate areas, volumes, perimeter and more.
+</p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- CIRCLE -->
+
+<div class="card">
+
+<h2>⭕ Circle</h2>
+
+<input
+id="circleRadius"
+type="number"
+placeholder="Radius"
+>
+
+<button onclick="circle()">
+Calculate
+</button>
+
+<div
+class="result"
+id="circleResult"
+></div>
+
+</div>
+
+
+<!-- RECTANGLE -->
+
+<div class="card">
+
+<h2>▭ Rectangle</h2>
+
+<input
+id="rectangleLength"
+type="number"
+placeholder="Length"
+>
+
+<input
+id="rectangleWidth"
+type="number"
+placeholder="Width"
+>
+
+<button onclick="rectangle()">
+Calculate
+</button>
+
+<div
+class="result"
+id="rectangleResult"
+></div>
+
+</div>
+
+
+<!-- TRIANGLE -->
+
+<div class="card">
+
+<h2>🔺 Triangle</h2>
+
+<input
+id="triangleBase"
+type="number"
+placeholder="Base"
+>
+
+<input
+id="triangleHeight"
+type="number"
+placeholder="Height"
+>
+
+<button onclick="triangle()">
+Calculate
+</button>
+
+<div
+class="result"
+id="triangleResult"
+></div>
+
+</div>
+
+
+<!-- SPHERE -->
+
+<div class="card">
+
+<h2>🔵 Sphere</h2>
+
+<input
+id="sphereRadius"
+type="number"
+placeholder="Radius"
+>
+
+<button onclick="sphere()">
+Calculate
+</button>
+
+<div
+class="result"
+id="sphereResult"
+></div>
+
+</div>
+
+
+<!-- CYLINDER -->
+
+<div class="card">
+
+<h2>🥫 Cylinder</h2>
+
+<input
+id="cylinderRadius"
+type="number"
+placeholder="Radius"
+>
+
+<input
+id="cylinderHeight"
+type="number"
+placeholder="Height"
+>
+
+<button onclick="cylinder()">
+Calculate
+</button>
+
+<div
+class="result"
+id="cylinderResult"
+></div>
+
+</div>
+
+
+<!-- CUBE -->
+
+<div class="card">
+
+<h2>🧊 Cube</h2>
+
+<input
+id="cubeSide"
+type="number"
+placeholder="Side"
+>
+
+<button onclick="cube()">
+Calculate
+</button>
+
+<div
+class="result"
+id="cubeResult"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+function circle() {
+
+let r =
+Number(
+document.getElementById(
+"circleRadius"
+).value
+);
+
+let area =
+Math.PI * r * r;
+
+let circumference =
+2 * Math.PI * r;
+
+document.getElementById(
+"circleResult"
+).innerHTML =
+
+"Area = " +
+area.toFixed(2) +
+
+"<br>Circumference = " +
+circumference.toFixed(2);
+
+}
+
+
+function rectangle() {
+
+let length =
+Number(
+document.getElementById(
+"rectangleLength"
+).value
+);
+
+let width =
+Number(
+document.getElementById(
+"rectangleWidth"
+).value
+);
+
+let area =
+length * width;
+
+let perimeter =
+2 * (length + width);
+
+document.getElementById(
+"rectangleResult"
+).innerHTML =
+
+"Area = " +
+area +
+
+"<br>Perimeter = " +
+perimeter;
+
+}
+
+
+function triangle() {
+
+let base =
+Number(
+document.getElementById(
+"triangleBase"
+).value
+);
+
+let height =
+Number(
+document.getElementById(
+"triangleHeight"
+).value
+);
+
+let area =
+0.5 * base * height;
+
+document.getElementById(
+"triangleResult"
+).innerText =
+
+"Area = " +
+area;
+
+}
+
+
+function sphere() {
+
+let r =
+Number(
+document.getElementById(
+"sphereRadius"
+).value
+);
+
+let volume =
+(4 / 3) *
+Math.PI *
+Math.pow(r, 3);
+
+let surface =
+4 *
+Math.PI *
+Math.pow(r, 2);
+
+document.getElementById(
+"sphereResult"
+).innerHTML =
+
+"Volume = " +
+volume.toFixed(2) +
+
+"<br>Surface Area = " +
+surface.toFixed(2);
+
+}
+
+
+function cylinder() {
+
+let r =
+Number(
+document.getElementById(
+"cylinderRadius"
+).value
+);
+
+let h =
+Number(
+document.getElementById(
+"cylinderHeight"
+).value
+);
+
+let volume =
+Math.PI *
+r *
+r *
+h;
+
+let surface =
+2 *
+Math.PI *
+r *
+(r + h);
+
+document.getElementById(
+"cylinderResult"
+).innerHTML =
+
+"Volume = " +
+volume.toFixed(2) +
+
+"<br>Surface Area = " +
+surface.toFixed(2);
+
+}
+
+
+function cube() {
+
+let side =
+Number(
+document.getElementById(
+"cubeSide"
+).value
+);
+
+let volume =
+Math.pow(side, 3);
+
+let surface =
+6 *
+Math.pow(side, 2);
+
+document.getElementById(
+"cubeResult"
+).innerHTML =
+
+"Volume = " +
+volume +
+
+"<br>Surface Area = " +
+surface;
+
+}
+
+</script>
+
+</body>
+
+</html>
