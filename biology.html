@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Biology Calculator - CalcWorld</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 8%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #6b7280;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto 60px;
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.formula {
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.result {
+    margin-top: 15px;
+    padding: 14px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+}
+
+.home {
+    display: block;
+    text-align: center;
+    margin: 30px;
+
+    color: #2563eb;
+    text-decoration: none;
+}
+
+footer {
+    background: #111827;
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🌎 CalcWorld
+</div>
+
+<a href="/">
+Home
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<h1>
+🧬 Biology Calculator
+</h1>
+
+<p>
+Explore calculations related to genetics,
+microscopy, populations and ecology.
+</p>
+
+</section>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- MICROSCOPE -->
+
+<div class="card">
+
+<h2>🔬 Microscope Magnification</h2>
+
+<p class="formula">
+Total Magnification =
+Eyepiece × Objective
+</p>
+
+<input
+id="eye"
+type="number"
+placeholder="Eyepiece Magnification"
+>
+
+<input
+id="objective"
+type="number"
+placeholder="Objective Magnification"
+>
+
+<button onclick="magnification()">
+Calculate
+</button>
+
+<div
+class="result"
+id="magnificationResult"
+></div>
+
+</div>
+
+
+<!-- CELL SIZE -->
+
+<div class="card">
+
+<h2>🔬 Cell Size</h2>
+
+<p class="formula">
+Actual Size =
+Image Size ÷ Magnification
+</p>
+
+<input
+id="imageSize"
+type="number"
+placeholder="Image Size"
+>
+
+<input
+id="magnificationValue"
+type="number"
+placeholder="Magnification"
+>
+
+<button onclick="cellSize()">
+Calculate
+</button>
+
+<div
+class="result"
+id="cellResult"
+></div>
+
+</div>
+
+
+<!-- DNA PERCENTAGE -->
+
+<div class="card">
+
+<h2>🧬 DNA Base Percentage</h2>
+
+<p class="formula">
+In double-stranded DNA:
+A = T and G = C
+</p>
+
+<input
+id="adenine"
+type="number"
+placeholder="Adenine %"
+>
+
+<button onclick="dnaPercentage()">
+Calculate
+</button>
+
+<div
+class="result"
+id="dnaResult"
+></div>
+
+</div>
+
+
+<!-- DNA COMPLEMENT -->
+
+<div class="card">
+
+<h2>🧬 DNA Complement</h2>
+
+<p class="formula">
+A ↔ T
+<br>
+G ↔ C
+</p>
+
+<input
+id="dnaSequence"
+type="text"
+placeholder="Enter DNA sequence"
+>
+
+<button onclick="dnaComplement()">
+Find Complement
+</button>
+
+<div
+class="result"
+id="complementResult"
+></div>
+
+</div>
+
+
+<!-- POPULATION GROWTH -->
+
+<div class="card">
+
+<h2>📈 Population Growth</h2>
+
+<p class="formula">
+N = N₀eʳᵗ
+</p>
+
+<input
+id="initialPopulation"
+type="number"
+placeholder="Initial Population"
+>
+
+<input
+id="growthRate"
+type="number"
+placeholder="Growth Rate (%)"
+>
+
+<input
+id="growthTime"
+type="number"
+placeholder="Time"
+>
+
+<button onclick="populationGrowth()">
+Calculate
+</button>
+
+<div
+class="result"
+id="populationResult"
+></div>
+
+</div>
+
+
+<!-- POPULATION DENSITY -->
+
+<div class="card">
+
+<h2>🌱 Population Density</h2>
+
+<p class="formula">
+Density = Population ÷ Area
+</p>
+
+<input
+id="population"
+type="number"
+placeholder="Population"
+>
+
+<input
+id="area"
+type="number"
+placeholder="Area"
+>
+
+<button onclick="populationDensity()">
+Calculate
+</button>
+
+<div
+class="result"
+id="densityResult"
+></div>
+
+</div>
+
+
+<!-- GROWTH RATE -->
+
+<div class="card">
+
+<h2>📊 Population Growth Rate</h2>
+
+<p class="formula">
+Growth Rate =
+(New − Old) ÷ Old × 100
+</p>
+
+<input
+id="oldPopulation"
+type="number"
+placeholder="Old Population"
+>
+
+<input
+id="newPopulation"
+type="number"
+placeholder="New Population"
+>
+
+<button onclick="growthRateCalc()">
+Calculate
+</button>
+
+<div
+class="result"
+id="growthRateResult"
+></div>
+
+</div>
+
+
+<!-- HARDY WEINBERG -->
+
+<div class="card">
+
+<h2>🧬 Hardy-Weinberg</h2>
+
+<p class="formula">
+p + q = 1
+<br>
+p² + 2pq + q² = 1
+</p>
+
+<input
+id="recessiveFrequency"
+type="number"
+placeholder="q² frequency"
+>
+
+<button onclick="hardyWeinberg()">
+Calculate
+</button>
+
+<div
+class="result"
+id="hardyResult"
+></div>
+
+</div>
+
+
+<!-- ECOLOGICAL EFFICIENCY -->
+
+<div class="card">
+
+<h2>🌍 Ecological Efficiency</h2>
+
+<p class="formula">
+Efficiency =
+Energy at next level ÷
+Energy at previous level × 100
+</p>
+
+<input
+id="energyPrevious"
+type="number"
+placeholder="Previous Level Energy"
+>
+
+<input
+id="energyNext"
+type="number"
+placeholder="Next Level Energy"
+>
+
+<button onclick="ecologicalEfficiency()">
+Calculate
+</button>
+
+<div
+class="result"
+id="efficiencyResult"
+></div>
+
+</div>
+
+
+<!-- BIOMASS DENSITY -->
+
+<div class="card">
+
+<h2>🌿 Biomass Density</h2>
+
+<p class="formula">
+Biomass Density =
+Biomass ÷ Area
+</p>
+
+<input
+id="biomass"
+type="number"
+placeholder="Biomass"
+>
+
+<input
+id="biomassArea"
+type="number"
+placeholder="Area"
+>
+
+<button onclick="biomassDensity()">
+Calculate
+</button>
+
+<div
+class="result"
+id="biomassResult"
+></div>
+
+</div>
+
+
+<!-- GENERATION TIME -->
+
+<div class="card">
+
+<h2>🧫 Generation Time</h2>
+
+<p class="formula">
+Generation Time =
+Total Time ÷ Number of Generations
+</p>
+
+<input
+id="generationTime"
+type="number"
+placeholder="Total Time"
+>
+
+<input
+id="generations"
+type="number"
+placeholder="Number of Generations"
+>
+
+<button onclick="generationTimeCalc()">
+Calculate
+</button>
+
+<div
+class="result"
+id="generationResult"
+></div>
+
+</div>
+
+
+<!-- SURVIVAL RATE -->
+
+<div class="card">
+
+<h2>🐾 Survival Rate</h2>
+
+<p class="formula">
+Survival Rate =
+Survivors ÷ Initial Population × 100
+</p>
+
+<input
+id="initialSurvivors"
+type="number"
+placeholder="Initial Population"
+>
+
+<input
+id="survivors"
+type="number"
+placeholder="Survivors"
+>
+
+<button onclick="survivalRate()">
+Calculate
+</button>
+
+<div
+class="result"
+id="survivalResult"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<a
+class="home"
+href="/"
+>
+← Back to CalcWorld
+</a>
+
+
+<footer>
+
+© 2026 CalcWorld |
+Every Calculation. One World. 🌎
+
+</footer>
+
+
+<script>
+
+
+/* MAGNIFICATION */
+
+function magnification() {
+
+let eye =
+Number(
+document.getElementById("eye").value
+);
+
+let objective =
+Number(
+document.getElementById("objective").value
+);
+
+if (
+eye <= 0 ||
+objective <= 0
+) {
+
+document.getElementById(
+"magnificationResult"
+).innerText =
+"Enter valid magnifications.";
+
+return;
+
+}
+
+let total =
+eye * objective;
+
+document.getElementById(
+"magnificationResult"
+).innerText =
+"Total Magnification = " +
+total +
+"×";
+
+}
+
+
+/* CELL SIZE */
+
+function cellSize() {
+
+let image =
+Number(
+document.getElementById("imageSize").value
+);
+
+let magnification =
+Number(
+document.getElementById(
+"magnificationValue"
+).value
+);
+
+if (magnification <= 0) {
+
+document.getElementById(
+"cellResult"
+).innerText =
+"Magnification must be greater than 0.";
+
+return;
+
+}
+
+let actual =
+image / magnification;
+
+document.getElementById(
+"cellResult"
+).innerText =
+"Actual Size = " +
+actual;
+
+}
+
+
+/* DNA PERCENTAGE */
+
+function dnaPercentage() {
+
+let A =
+Number(
+document.getElementById("adenine").value
+);
+
+if (
+A < 0 ||
+A > 100
+) {
+
+document.getElementById(
+"dnaResult"
+).innerText =
+"Adenine percentage must be 0–100.";
+
+return;
+
+}
+
+let T = A;
+
+let GC =
+100 - A - T;
+
+if (GC < 0) {
+
+document.getElementById(
+"dnaResult"
+).innerText =
+"Adenine percentage is too high.";
+
+return;
+
+}
+
+let G =
+GC / 2;
+
+let C =
+G;
+
+document.getElementById(
+"dnaResult"
+).innerHTML =
+
+"A = " + A.toFixed(2) + "%<br>" +
+"T = " + T.toFixed(2) + "%<br>" +
+"G = " + G.toFixed(2) + "%<br>" +
+"C = " + C.toFixed(2) + "%";
+
+}
+
+
+/* DNA COMPLEMENT */
+
+function dnaComplement() {
+
+let sequence =
+document.getElementById(
+"dnaSequence"
+).value
+.toUpperCase()
+.replace(/\s/g, "");
+
+if (
+sequence === "" ||
+!/^[ATGC]+$/.test(sequence)
+) {
+
+document.getElementById(
+"complementResult"
+).innerText =
+"Enter a valid DNA sequence using A, T, G and C.";
+
+return;
+
+}
+
+let complement = "";
+
+for (
+let i = 0;
+i < sequence.length;
+i++
+) {
+
+let base =
+sequence[i];
+
+if (base === "A")
+complement += "T";
+
+else if (base === "T")
+complement += "A";
+
+else if (base === "G")
+complement += "C";
+
+else
+complement += "G";
+
+}
+
+document.getElementById(
+"complementResult"
+).innerHTML =
+
+"Original: " +
+sequence +
+
+"<br>Complement: " +
+complement;
+
+}
+
+
+/* POPULATION GROWTH */
+
+function populationGrowth() {
+
+let N0 =
+Number(
+document.getElementById(
+"initialPopulation"
+).value
+);
+
+let rate =
+Number(
+document.getElementById(
+"growthRate"
+).value
+) / 100;
+
+let time =
+Number(
+document.getElementById(
+"growthTime"
+).value
+);
+
+if (
+N0 <= 0
+) {
+
+document.getElementById(
+"populationResult"
+).innerText =
+"Initial population must be greater than 0.";
+
+return;
+
+}
+
+let N =
+N0 *
+Math.exp(
+rate * time
+);
+
+document.getElementById(
+"populationResult"
+).innerText =
+"Estimated Population = " +
+N.toFixed(2);
+
+}
+
+
+/* POPULATION DENSITY */
+
+function populationDensity() {
+
+let population =
+Number(
+document.getElementById(
+"population"
+).value
+);
+
+let area =
+Number(
+document.getElementById(
+"area"
+).value
+);
+
+if (area <= 0) {
+
+document.getElementById(
+"densityResult"
+).innerText =
+"Area must be greater than 0.";
+
+return;
+
+}
+
+let density =
+population / area;
+
+document.getElementById(
+"densityResult"
+).innerText =
+"Population Density = " +
+density.toFixed(4);
+
+}
+
+
+/* GROWTH RATE */
+
+function growthRateCalc() {
+
+let oldValue =
+Number(
+document.getElementById(
+"oldPopulation"
+).value
+);
+
+let newValue =
+Number(
+document.getElementById(
+"newPopulation"
+).value
+);
+
+if (oldValue <= 0) {
+
+document.getElementById(
+"growthRateResult"
+).innerText =
+"Old population must be greater than 0.";
+
+return;
+
+}
+
+let rate =
+(
+(newValue - oldValue)
+/
+oldValue
+) * 100;
+
+document.getElementById(
+"growthRateResult"
+).innerText =
+"Growth Rate = " +
+rate.toFixed(2) +
+"%";
+
+}
+
+
+/* HARDY WEINBERG */
+
+function hardyWeinberg() {
+
+let q2 =
+Number(
+document.getElementById(
+"recessiveFrequency"
+).value
+);
+
+if (
+q2 < 0 ||
+q2 > 1
+) {
+
+document.getElementById(
+"hardyResult"
+).innerText =
+"q² must be between 0 and 1.";
+
+return;
+
+}
+
+let q =
+Math.sqrt(q2);
+
+let p =
+1 - q;
+
+let p2 =
+p * p;
+
+let twoPQ =
+2 * p * q;
+
+document.getElementById(
+"hardyResult"
+).innerHTML =
+
+"q = " + q.toFixed(4) +
+"<br>" +
+
+"p = " + p.toFixed(4) +
+"<br>" +
+
+"p² = " + p2.toFixed(4) +
+"<br>" +
+
+"2pq = " + twoPQ.toFixed(4) +
+"<br>" +
+
+"q² = " + q2.toFixed(4);
+
+}
+
+
+/* ECOLOGICAL EFFICIENCY */
+
+function ecologicalEfficiency() {
+
+let previous =
+Number(
+document.getElementById(
+"energyPrevious"
+).value
+);
+
+let next =
+Number(
+document.getElementById(
+"energyNext"
+).value
+);
+
+if (previous <= 0) {
+
+document.getElementById(
+"efficiencyResult"
+).innerText =
+"Previous energy must be greater than 0.";
+
+return;
+
+}
+
+let efficiency =
+(next / previous) * 100;
+
+document.getElementById(
+"efficiencyResult"
+).innerText =
+"Ecological Efficiency = " +
+efficiency.toFixed(2) +
+"%";
+
+}
+
+
+/* BIOMASS DENSITY */
+
+function biomassDensity() {
+
+let biomass =
+Number(
+document.getElementById(
+"biomass"
+).value
+);
+
+let area =
+Number(
+document.getElementById(
+"biomassArea"
+).value
+);
+
+if (area <= 0) {
+
+document.getElementById(
+"biomassResult"
+).innerText =
+"Area must be greater than 0.";
+
+return;
+
+}
+
+let density =
+biomass / area;
+
+document.getElementById(
+"biomassResult"
+).innerText =
+"Biomass Density = " +
+density.toFixed(4);
+
+}
+
+
+/* GENERATION TIME */
+
+function generationTimeCalc() {
+
+let time =
+Number(
+document.getElementById(
+"generationTime"
+).value
+);
+
+let generations =
+Number(
+document.getElementById(
+"generations"
+).value
+);
+
+if (generations <= 0) {
+
+document.getElementById(
+"generationResult"
+).innerText =
+"Number of generations must be greater than 0.";
+
+return;
+
+}
+
+let result =
+time / generations;
+
+document.getElementById(
+"generationResult"
+).innerText =
+"Generation Time = " +
+result.toFixed(4);
+
+}
+
+
+/* SURVIVAL RATE */
+
+function survivalRate() {
+
+let initial =
+Number(
+document.getElementById(
+"initialSurvivors"
+).value
+);
+
+let survivors =
+Number(
+document.getElementById(
+"survivors"
+).value
+);
+
+if (
+initial <= 0 ||
+survivors < 0
+) {
+
+document.getElementById(
+"survivalResult"
+).innerText =
+"Enter valid values.";
+
+return;
+
+}
+
+let rate =
+(survivors / initial) * 100;
+
+document.getElementById(
+"survivalResult"
+).innerText =
+"Survival Rate = " +
+rate.toFixed(2) +
+"%";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
