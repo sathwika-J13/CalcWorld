@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Percentage Calculator - CalcWorld
+    </title>
+
+    <meta
+        name="description"
+        content="Free online percentage calculator. Calculate percentages, percentage increase, percentage decrease and what percentage one number is of another."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <link
+        rel="canonical"
+        href="https://calcworld.onrender.com/percentage-calculator"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .calculator,
+        .information {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .home {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>
+        <a href="/">
+            CalcWorld
+        </a>
+    </h1>
+
+    <p>
+        Percentage Calculator
+    </p>
+
+</header>
+
+
+<main>
+
+
+    <section class="calculator">
+
+        <h2>
+            Free Percentage Calculator
+        </h2>
+
+
+        <label for="operation">
+            Calculation
+        </label>
+
+        <select id="operation">
+
+            <option value="percent_of">
+                What is X% of Y?
+            </option>
+
+            <option value="increase">
+                Percentage Increase
+            </option>
+
+            <option value="decrease">
+                Percentage Decrease
+            </option>
+
+            <option value="what_percent">
+                What percentage is X of Y?
+            </option>
+
+        </select>
+
+
+        <label for="value">
+            First Number
+        </label>
+
+        <input
+            type="number"
+            id="value"
+            placeholder="Enter first number"
+        >
+
+
+        <label for="percent">
+            Percentage / Second Number
+        </label>
+
+        <input
+            type="number"
+            id="percent"
+            placeholder="Enter percentage or second number"
+        >
+
+
+        <button onclick="calculatePercentage()">
+            Calculate
+        </button>
+
+
+        <div
+            id="result"
+            class="result"
+        >
+            Result will appear here
+        </div>
+
+    </section>
+
+
+    <section class="information">
+
+        <h2>
+            Percentage Calculator
+        </h2>
+
+        <p>
+            CalcWorld's percentage calculator helps you
+            quickly calculate percentages, percentage
+            increases, percentage decreases and the
+            percentage relationship between two numbers.
+        </p>
+
+
+        <h3>
+            Example
+        </h3>
+
+        <p>
+            20% of 500 = 100
+        </p>
+
+        <p>
+            A 10% increase on 500 = 550
+        </p>
+
+        <p>
+            A 10% decrease on 500 = 450
+        </p>
+
+
+        <a
+            href="/"
+            class="home"
+        >
+            ← Back to CalcWorld
+        </a>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 CalcWorld
+
+</footer>
+
+
+<script>
+
+async function calculatePercentage() {
+
+    const value =
+        document.getElementById(
+            "value"
+        ).value;
+
+    const percent =
+        document.getElementById(
+            "percent"
+        ).value;
+
+    const operation =
+        document.getElementById(
+            "operation"
+        ).value;
+
+    const resultBox =
+        document.getElementById(
+            "result"
+        );
+
+
+    if (
+        value === "" ||
+        percent === ""
+    ) {
+
+        resultBox.textContent =
+            "Please enter both numbers.";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/percentage",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        value:
+                            value,
+
+                        percent:
+                            percent,
+
+                        operation:
+                            operation
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+
+            resultBox.textContent =
+                "Result: " +
+                data.result;
+
+        } else {
+
+            resultBox.textContent =
+                "Error: " +
+                data.error;
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        resultBox.textContent =
+            "Server error.";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
