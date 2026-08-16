@@ -1,799 +1,288 @@
-/* ==================================================
-   CALCWORLD - CALCULATION HISTORY
-================================================== */
+// =========================================================
+// CALCWORLD SCIENTIFIC CALCULATOR
+// =========================================================
 
 
-/*
-   Storage key
-*/
+// ---------------------------------------------------------
+// VARIABLES
+// ---------------------------------------------------------
 
-const HISTORY_KEY =
-    "calcworld_history";
+const display = document.getElementById("display");
+
+const result = document.getElementById("result");
+
+const resultBox = document.getElementById("resultBox");
+
+const historyList = document.getElementById("historyList");
+
+let angleMode = "DEG";
+
+let lastAnswer = 0;
 
 
+// ---------------------------------------------------------
+// INSERT VALUE
+// ---------------------------------------------------------
 
-/* ==================================================
-   GET HISTORY
-================================================== */
+function insertValue(value) {
 
-function getHistory() {
+    display.value += value;
+
+    display.focus();
+}
+
+
+// ---------------------------------------------------------
+// CLEAR DISPLAY
+// ---------------------------------------------------------
+
+function clearDisplay() {
+
+    display.value = "";
+
+    result.textContent = "0";
+
+    resultBox.style.display = "none";
+
+    display.focus();
+}
+
+
+// ---------------------------------------------------------
+// DELETE LAST CHARACTER
+// ---------------------------------------------------------
+
+function deleteLast() {
+
+    display.value = display.value.slice(0, -1);
+
+    display.focus();
+}
+
+
+// ---------------------------------------------------------
+// ANGLE MODE
+// ---------------------------------------------------------
+
+function setAngleMode(mode) {
+
+    angleMode = mode;
+
+    document.getElementById("degBtn")
+        .classList.remove("active");
+
+    document.getElementById("radBtn")
+        .classList.remove("active");
+
+    document.getElementById("gradBtn")
+        .classList.remove("active");
+
+
+    if (mode === "DEG") {
+
+        document.getElementById("degBtn")
+            .classList.add("active");
+
+    }
+
+    else if (mode === "RAD") {
+
+        document.getElementById("radBtn")
+            .classList.add("active");
+
+    }
+
+    else if (mode === "GRAD") {
+
+        document.getElementById("gradBtn")
+            .classList.add("active");
+
+    }
+}
+
+
+// ---------------------------------------------------------
+// CALCULATE
+// ---------------------------------------------------------
+
+async function calculate() {
+
+    const expression = display.value.trim();
+
+
+    if (!expression) {
+
+        return;
+    }
+
+
+    result.textContent = "Calculating...";
+
+    resultBox.style.display = "block";
+
 
     try {
 
-        const savedHistory =
-            localStorage.getItem(
-                HISTORY_KEY
+        const response = await fetch(
+            "/api/scientific",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    expression: expression,
+                    angle_mode: angleMode
+                })
+            }
+        );
+
+
+        // -------------------------------------------------
+        // Check HTTP response
+        // -------------------------------------------------
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error: " + response.status
             );
-
-
-        if (!savedHistory) {
-
-            return [];
-
         }
 
 
-        const history =
-            JSON.parse(
-                savedHistory
+        const data = await response.json();
+
+
+        // -------------------------------------------------
+        // Check API response
+        // -------------------------------------------------
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error || "Calculation failed"
             );
-
-
-        if (!Array.isArray(history)) {
-
-            return [];
-
         }
 
 
-        return history;
+        // -------------------------------------------------
+        // Display answer
+        // -------------------------------------------------
+
+        const answer = data.result;
+
+        lastAnswer = Number(answer);
+
+        result.textContent = answer;
+
+        resultBox.style.display = "block";
+
+
+        // -------------------------------------------------
+        // Add history
+        // -------------------------------------------------
+
+        addToHistory(
+            expression + " [" + angleMode + "]",
+            answer
+        );
 
     }
+
 
     catch (error) {
 
         console.error(
-            "Unable to read history:",
+            "Scientific Calculator Error:",
             error
         );
 
-        return [];
+        result.textContent =
+            "Invalid calculation";
 
+        resultBox.style.display =
+            "block";
     }
-
 }
 
 
-
-/* ==================================================
-   SAVE HISTORY
-================================================== */
-
-function saveHistory(history) {
-
-    try {
-
-        localStorage.setItem(
-            HISTORY_KEY,
-            JSON.stringify(history)
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Unable to save history:",
-            error
-        );
-
-    }
-
-}
-
-
-
-/* ==================================================
-   ADD CALCULATION
-================================================== */
+// ---------------------------------------------------------
+// HISTORY
+// ---------------------------------------------------------
 
 function addToHistory(
     expression,
-    result
+    answer
 ) {
 
-    /*
-       Don't save empty calculations.
-    */
+    const item =
+        document.createElement("li");
 
-    if (
-        expression === undefined ||
-        result === undefined
+
+    item.textContent =
+        expression + " = " + answer;
+
+
+    historyList.prepend(item);
+
+
+    // Keep only latest 20 calculations
+
+    while (
+        historyList.children.length > 20
     ) {
 
-        return;
-
-    }
-
-
-    const cleanExpression =
-        String(expression).trim();
-
-
-    const cleanResult =
-        String(result).trim();
-
-
-    if (
-        cleanExpression === "" ||
-        cleanResult === ""
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-       Get existing history.
-    */
-
-    const history =
-        getHistory();
-
-
-    /*
-       Add newest calculation
-       to the beginning.
-    */
-
-    history.unshift({
-
-        expression:
-            cleanExpression,
-
-        result:
-            cleanResult,
-
-        time:
-            new Date().toLocaleString()
-
-    });
-
-
-    /*
-       Keep maximum 100 calculations.
-    */
-
-    if (history.length > 100) {
-
-        history.splice(
-            100
+        historyList.removeChild(
+            historyList.lastChild
         );
-
     }
-
-
-    /*
-       Save.
-    */
-
-    saveHistory(history);
-
-
-    /*
-       Update screen.
-    */
-
-    displayHistory();
-
 }
 
 
+// ---------------------------------------------------------
+// KEYBOARD SUPPORT
+// ---------------------------------------------------------
 
-/* ==================================================
-   DISPLAY HISTORY
-================================================== */
+display.addEventListener(
+    "keydown",
+    function(event) {
 
-function displayHistory() {
+        if (event.key === "Enter") {
 
-    const historyContainer =
-        document.getElementById(
-            "historyList"
-        );
+            event.preventDefault();
 
-
-    /*
-       If this page doesn't have
-       history section, stop.
-    */
-
-    if (!historyContainer) {
-
-        return;
-
-    }
-
-
-    const history =
-        getHistory();
-
-
-    /*
-       Clear current list.
-    */
-
-    historyContainer.innerHTML =
-        "";
-
-
-    /*
-       No history.
-    */
-
-    if (
-        history.length === 0
-    ) {
-
-        historyContainer.innerHTML =
-
-            `
-            <div class="empty-history">
-
-                🧾 No calculations yet.
-
-                <br>
-
-                Your calculations will
-                appear here.
-
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    /*
-       Display every calculation.
-    */
-
-    history.forEach(
-        function(item, index) {
-
-            const historyItem =
-                document.createElement(
-                    "div"
-                );
-
-
-            historyItem.className =
-                "history-item";
-
-
-            /*
-               Create expression.
-            */
-
-            const expression =
-                document.createElement(
-                    "div"
-                );
-
-
-            expression.className =
-                "history-expression";
-
-
-            expression.textContent =
-                item.expression;
-
-
-            /*
-               Create result.
-            */
-
-            const result =
-                document.createElement(
-                    "div"
-                );
-
-
-            result.className =
-                "history-result";
-
-
-            result.textContent =
-                "= " + item.result;
-
-
-            /*
-               Create time.
-            */
-
-            const time =
-                document.createElement(
-                    "div"
-                );
-
-
-            time.className =
-                "history-time";
-
-
-            time.textContent =
-                item.time;
-
-
-            /*
-               Create action area.
-            */
-
-            const actions =
-                document.createElement(
-                    "div"
-                );
-
-
-            actions.className =
-                "history-actions";
-
-
-            /*
-               Copy button.
-            */
-
-            const copyButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            copyButton.type =
-                "button";
-
-
-            copyButton.textContent =
-                "📋 Copy";
-
-
-            copyButton.addEventListener(
-                "click",
-                function() {
-
-                    copyHistoryResult(
-                        index
-                    );
-
-                }
-            );
-
-
-            /*
-               Delete button.
-            */
-
-            const deleteButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            deleteButton.type =
-                "button";
-
-
-            deleteButton.textContent =
-                "🗑️ Delete";
-
-
-            deleteButton.addEventListener(
-                "click",
-                function() {
-
-                    deleteHistoryItem(
-                        index
-                    );
-
-                }
-            );
-
-
-            /*
-               Put buttons inside
-               action area.
-            */
-
-            actions.appendChild(
-                copyButton
-            );
-
-
-            actions.appendChild(
-                deleteButton
-            );
-
-
-            /*
-               Put everything inside
-               history item.
-            */
-
-            historyItem.appendChild(
-                expression
-            );
-
-
-            historyItem.appendChild(
-                result
-            );
-
-
-            historyItem.appendChild(
-                time
-            );
-
-
-            historyItem.appendChild(
-                actions
-            );
-
-
-            /*
-               Put item into history list.
-            */
-
-            historyContainer.appendChild(
-                historyItem
-            );
-
+            calculate();
         }
-    );
-
-}
 
 
+        if (event.key === "Escape") {
 
-/* ==================================================
-   COPY HISTORY RESULT
-================================================== */
-
-function copyHistoryResult(index) {
-
-    const history =
-        getHistory();
+            clearDisplay();
+        }
 
 
-    if (
-        !history[index]
-    ) {
+        if (event.key === "Backspace") {
 
-        return;
+            return;
+        }
 
     }
+);
 
 
-    const value =
-        history[index].result;
-
-
-    /*
-       Modern clipboard.
-    */
-
-    if (
-        navigator.clipboard &&
-        window.isSecureContext
-    ) {
-
-        navigator.clipboard
-            .writeText(value)
-            .then(
-                function() {
-
-                    showHistoryMessage(
-                        "✅ Result copied!"
-                    );
-
-                }
-            )
-            .catch(
-                function() {
-
-                    fallbackCopy(
-                        value
-                    );
-
-                }
-            );
-
-    }
-
-    else {
-
-        fallbackCopy(
-            value
-        );
-
-    }
-
-}
-
-
-
-/* ==================================================
-   FALLBACK COPY
-================================================== */
-
-function fallbackCopy(value) {
-
-    const textArea =
-        document.createElement(
-            "textarea"
-        );
-
-
-    textArea.value =
-        value;
-
-
-    textArea.style.position =
-        "fixed";
-
-
-    textArea.style.left =
-        "-999999px";
-
-
-    document.body.appendChild(
-        textArea
-    );
-
-
-    textArea.focus();
-
-    textArea.select();
-
-
-    try {
-
-        document.execCommand(
-            "copy"
-        );
-
-
-        showHistoryMessage(
-            "✅ Result copied!"
-        );
-
-    }
-
-    catch (error) {
-
-        showHistoryMessage(
-            "❌ Unable to copy."
-        );
-
-    }
-
-
-    document.body.removeChild(
-        textArea
-    );
-
-}
-
-
-
-/* ==================================================
-   DELETE ONE HISTORY ITEM
-================================================== */
-
-function deleteHistoryItem(index) {
-
-    const history =
-        getHistory();
-
-
-    if (
-        index < 0 ||
-        index >= history.length
-    ) {
-
-        return;
-
-    }
-
-
-    history.splice(
-        index,
-        1
-    );
-
-
-    saveHistory(
-        history
-    );
-
-
-    displayHistory();
-
-}
-
-
-
-/* ==================================================
-   CLEAR ALL HISTORY
-================================================== */
-
-function clearHistory() {
-
-    const history =
-        getHistory();
-
-
-    /*
-       Nothing to delete.
-    */
-
-    if (
-        history.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const confirmed =
-        window.confirm(
-            "Are you sure you want to clear all calculation history?"
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    localStorage.removeItem(
-        HISTORY_KEY
-    );
-
-
-    displayHistory();
-
-
-    showHistoryMessage(
-        "🗑️ History cleared."
-    );
-
-}
-
-
-
-/* ==================================================
-   TEMPORARY MESSAGE
-================================================== */
-
-function showHistoryMessage(message) {
-
-    /*
-       Remove previous message.
-    */
-
-    const oldMessage =
-        document.getElementById(
-            "historyMessage"
-        );
-
-
-    if (oldMessage) {
-
-        oldMessage.remove();
-
-    }
-
-
-    /*
-       Create message.
-    */
-
-    const messageElement =
-        document.createElement(
-            "div"
-        );
-
-
-    messageElement.id =
-        "historyMessage";
-
-
-    messageElement.textContent =
-        message;
-
-
-    messageElement.style.position =
-        "fixed";
-
-
-    messageElement.style.bottom =
-        "25px";
-
-
-    messageElement.style.left =
-        "50%";
-
-
-    messageElement.style.transform =
-        "translateX(-50%)";
-
-
-    messageElement.style.padding =
-        "12px 20px";
-
-
-    messageElement.style.background =
-        "#111827";
-
-
-    messageElement.style.color =
-        "white";
-
-
-    messageElement.style.borderRadius =
-        "8px";
-
-
-    messageElement.style.zIndex =
-        "9999";
-
-
-    messageElement.style.fontSize =
-        "14px";
-
-
-    document.body.appendChild(
-        messageElement
-    );
-
-
-    /*
-       Remove after 2 seconds.
-    */
-
-    setTimeout(
-        function() {
-
-            if (
-                messageElement
-                .parentNode
-            ) {
-
-                messageElement.remove();
-
-            }
-
-        },
-        2000
-    );
-
-}
-
-
-
-/* ==================================================
-   PAGE LOAD
-================================================== */
+// ---------------------------------------------------------
+// INITIALIZE
+// ---------------------------------------------------------
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        displayHistory();
+        setAngleMode("DEG");
+
+        display.focus();
 
     }
 );
