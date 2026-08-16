@@ -2,295 +2,344 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CalcWorld - Universal Calculator</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 950px;
-            margin: auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            font-size: 42px;
-            margin-bottom: 8px;
-        }
-
-        header p {
-            color: #cbd5e1;
-            font-size: 16px;
-        }
-
-        /* =========================
-           TABS
-        ========================= */
-
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            background: #334155;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .tab:hover {
-            background: #475569;
-        }
-
-        .tab.active {
-            background: #2563eb;
-        }
-
-        /* =========================
-           CALCULATOR
-        ========================= */
-
-        .calculator {
-            background: #111827;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-        }
-
-        /* =========================
-           DISPLAY
-        ========================= */
-
-        .display {
-            width: 100%;
-            height: 80px;
-
-            background: #020617;
-            color: white;
-
-            border: 2px solid #334155;
-            border-radius: 12px;
-
-            outline: none;
-
-            font-size: 30px;
-            text-align: right;
-
-            padding: 15px;
-            margin-bottom: 15px;
-        }
 
-        .display:focus {
-            border-color: #2563eb;
-        }
+<meta charset="UTF-8">
 
-        /* =========================
-           ANGLE MODE
-        ========================= */
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        .angle-mode {
-            display: none;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+<title>CalcWorld - Universal Calculator</title>
 
-        .angle-mode button {
-            border: none;
-            padding: 8px 18px;
-            border-radius: 8px;
-            background: #334155;
-            color: white;
-            cursor: pointer;
-        }
+<style>
 
-        .angle-mode button.active {
-            background: #2563eb;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        /* =========================
-           SCIENTIFIC BUTTONS
-        ========================= */
+body{
 
-        .scientific-buttons {
-            display: none;
+    font-family:Arial,sans-serif;
 
-            grid-template-columns: repeat(5, 1fr);
+    min-height:100vh;
 
-            gap: 10px;
+    background:
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b
+    );
 
-            margin-bottom: 12px;
-        }
+    color:white;
 
-        .scientific-buttons button {
-            height: 50px;
+    padding:20px;
+}
 
-            border: none;
-            border-radius: 8px;
+.container{
 
-            background: #475569;
-            color: white;
+    max-width:1100px;
 
-            font-size: 16px;
+    margin:auto;
+}
 
-            cursor: pointer;
-        }
+header{
 
-        .scientific-buttons button:hover {
-            background: #64748b;
-        }
+    text-align:center;
 
-        /* =========================
-           BASIC BUTTONS
-        ========================= */
+    margin-bottom:25px;
+}
 
-        .buttons {
-            display: grid;
+header h1{
 
-            grid-template-columns: repeat(4, 1fr);
+    font-size:44px;
 
-            gap: 10px;
-        }
+    margin-bottom:8px;
+}
 
-        .calc {
-            height: 60px;
+header p{
 
-            border: none;
-            border-radius: 10px;
+    color:#cbd5e1;
+}
 
-            background: #334155;
-            color: white;
 
-            font-size: 20px;
+/* NAVIGATION */
 
-            cursor: pointer;
-        }
+.nav{
 
-        .calc:hover {
-            background: #475569;
-        }
+    display:flex;
 
-        .operator {
-            background: #2563eb;
-        }
+    gap:8px;
 
-        .operator:hover {
-            background: #1d4ed8;
-        }
+    overflow-x:auto;
 
-        .clear {
-            background: #dc2626;
-        }
+    padding-bottom:10px;
 
-        .clear:hover {
-            background: #b91c1c;
-        }
+    margin-bottom:20px;
+}
 
-        .equal {
-            background: #16a34a;
+.nav button{
 
-            grid-column: span 2;
-        }
+    white-space:nowrap;
 
-        .equal:hover {
-            background: #15803d;
-        }
+    border:none;
 
-        /* =========================
-           ERROR
-        ========================= */
+    padding:12px 18px;
 
-        .error-message {
-            display: none;
+    border-radius:10px;
 
-            background: #7f1d1d;
-            color: #fecaca;
+    background:#334155;
 
-            padding: 10px;
+    color:white;
 
-            border-radius: 8px;
+    cursor:pointer;
+}
 
-            margin-bottom: 12px;
+.nav button.active{
 
-            text-align: center;
+    background:#2563eb;
+}
 
-            font-size: 14px;
-        }
 
-        /* =========================
-           LOADING
-        ========================= */
+/* SECTIONS */
 
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
+.section{
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+    display:none;
 
-        @media (max-width: 600px) {
+    background:#111827;
 
-            body {
-                padding: 10px;
-            }
+    padding:25px;
 
-            header h1 {
-                font-size: 32px;
-            }
+    border-radius:20px;
 
-            .calculator {
-                padding: 12px;
-            }
+    box-shadow:
+    0 20px 50px
+    rgba(0,0,0,.35);
+}
 
-            .display {
-                height: 70px;
-                font-size: 24px;
-            }
+.section.active{
 
-            .calc {
-                height: 55px;
-                font-size: 18px;
-            }
+    display:block;
+}
 
-            .scientific-buttons {
-                grid-template-columns: repeat(4, 1fr);
-            }
+.section h2{
 
-            .scientific-buttons button {
-                font-size: 14px;
-                height: 45px;
-            }
-        }
-    </style>
+    margin-bottom:20px;
+}
+
+
+/* DISPLAY */
+
+.display{
+
+    width:100%;
+
+    height:75px;
+
+    background:#020617;
+
+    border:2px solid #334155;
+
+    border-radius:12px;
+
+    color:white;
+
+    font-size:28px;
+
+    text-align:right;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+    outline:none;
+}
+
+
+/* BUTTON GRID */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:10px;
+}
+
+.btn{
+
+    min-height:55px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#334155;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    padding:10px;
+}
+
+.btn:hover{
+
+    background:#475569;
+}
+
+.operator{
+
+    background:#2563eb;
+}
+
+.clear{
+
+    background:#dc2626;
+}
+
+.equal{
+
+    background:#16a34a;
+
+    grid-column:span 2;
+}
+
+
+/* SCIENTIFIC */
+
+.scientific-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(5,1fr);
+
+    gap:8px;
+
+    margin-bottom:12px;
+}
+
+.scientific-grid button{
+
+    border:none;
+
+    background:#475569;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+
+/* FORM */
+
+.form{
+
+    display:grid;
+
+    gap:12px;
+
+    max-width:600px;
+}
+
+input,select{
+
+    width:100%;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#020617;
+
+    color:white;
+
+    border:1px solid #475569;
+}
+
+.action{
+
+    background:#2563eb;
+
+    border:none;
+
+    padding:13px;
+
+    color:white;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:16px;
+}
+
+
+/* RESULT */
+
+.result{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    background:#1e293b;
+
+    border-radius:10px;
+
+    line-height:1.8;
+}
+
+
+/* STATISTICS */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:10px;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    header h1{
+
+        font-size:34px;
+    }
+
+    .scientific-grid{
+
+        grid-template-columns:
+        repeat(4,1fr);
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
 </head>
 
 
@@ -298,916 +347,1623 @@
 
 <div class="container">
 
-    <!-- =========================
-         HEADER
-    ========================= -->
 
-    <header>
+<header>
 
-        <h1>CalcWorld</h1>
+<h1>CalcWorld</h1>
 
-        <p>Universal Online Calculator</p>
+<p>Universal Online Calculator</p>
 
-    </header>
+</header>
 
 
-    <!-- =========================
-         CALCULATOR TABS
-    ========================= -->
+<!-- =====================================================
+NAVIGATION
+===================================================== -->
 
-    <div class="tabs">
+<div class="nav">
 
-        <button
-            class="tab active"
-            id="basicTab"
-            onclick="switchCalculator('basic')">
+<button class="active"
+onclick="showSection('basic',this)">
+Basic
+</button>
 
-            Basic
+<button
+onclick="showSection('scientific',this)">
+Scientific
+</button>
 
-        </button>
+<button
+onclick="showSection('mathematics',this)">
+Mathematics
+</button>
 
+<button
+onclick="showSection('percentage',this)">
+Percentage
+</button>
 
-        <button
-            class="tab"
-            id="scientificTab"
-            onclick="switchCalculator('scientific')">
+<button
+onclick="showSection('statistics',this)">
+Statistics
+</button>
 
-            Scientific
+<button
+onclick="showSection('number',this)">
+Number System
+</button>
 
-        </button>
+<button
+onclick="showSection('unit',this)">
+Unit Converter
+</button>
 
-    </div>
+<button
+onclick="showSection('age',this)">
+Age
+</button>
 
+<button
+onclick="showSection('finance',this)">
+Finance
+</button>
 
-    <!-- =========================
-         CALCULATOR
-    ========================= -->
+</div>
 
-    <div class="calculator" id="calculator">
 
+<!-- =====================================================
+BASIC
+===================================================== -->
 
-        <!-- ERROR MESSAGE -->
+<section
+id="basic"
+class="section active">
 
-        <div
-            class="error-message"
-            id="errorMessage">
-        </div>
+<h2>Basic Calculator</h2>
 
+<input
+id="basicDisplay"
+class="display"
+placeholder="0">
 
-        <!-- =========================
-             ANGLE MODE
-        ========================= -->
+<div class="grid">
 
-        <div
-            class="angle-mode"
-            id="angleMode">
+<button class="btn clear"
+onclick="clearInput('basicDisplay')">
+C
+</button>
 
-            <button
-                id="degButton"
-                class="active"
-                onclick="setAngleMode('DEG')">
+<button class="btn"
+onclick="deleteInput('basicDisplay')">
+DEL
+</button>
 
-                DEG
+<button class="btn"
+onclick="add('basicDisplay','%')">
+%
+</button>
 
-            </button>
+<button class="btn operator"
+onclick="add('basicDisplay','/')">
+÷
+</button>
 
 
-            <button
-                id="radButton"
-                onclick="setAngleMode('RAD')">
+<button class="btn"
+onclick="add('basicDisplay','7')">
+7
+</button>
 
-                RAD
+<button class="btn"
+onclick="add('basicDisplay','8')">
+8
+</button>
 
-            </button>
+<button class="btn"
+onclick="add('basicDisplay','9')">
+9
+</button>
 
-        </div>
+<button class="btn operator"
+onclick="add('basicDisplay','*')">
+×
+</button>
 
 
-        <!-- =========================
-             SCIENTIFIC BUTTONS
-        ========================= -->
+<button class="btn"
+onclick="add('basicDisplay','4')">
+4
+</button>
 
-        <div
-            class="scientific-buttons"
-            id="scientificButtons">
+<button class="btn"
+onclick="add('basicDisplay','5')">
+5
+</button>
 
+<button class="btn"
+onclick="add('basicDisplay','6')">
+6
+</button>
 
-            <button
-                onclick="insertFunction('sin')">
+<button class="btn operator"
+onclick="add('basicDisplay','-')">
+−
+</button>
 
-                sin
 
-            </button>
+<button class="btn"
+onclick="add('basicDisplay','1')">
+1
+</button>
 
+<button class="btn"
+onclick="add('basicDisplay','2')">
+2
+</button>
 
-            <button
-                onclick="insertFunction('cos')">
+<button class="btn"
+onclick="add('basicDisplay','3')">
+3
+</button>
 
-                cos
+<button class="btn operator"
+onclick="add('basicDisplay','+')">
++
+</button>
 
-            </button>
 
+<button class="btn"
+onclick="add('basicDisplay','0')">
+0
+</button>
 
-            <button
-                onclick="insertFunction('tan')">
+<button class="btn"
+onclick="add('basicDisplay','.')">
+.
+</button>
 
-                tan
+<button class="btn"
+onclick="add('basicDisplay','(')">
+(
+</button>
 
-            </button>
+<button class="btn"
+onclick="add('basicDisplay',')')">
+)
+</button>
 
 
-            <button
-                onclick="insertFunction('sqrt')">
+<button class="btn equal"
+onclick="basicCalculate()">
+=
+</button>
 
-                √
+</div>
 
-            </button>
+</section>
 
 
-            <button
-                onclick="insertFunction('log')">
+<!-- =====================================================
+SCIENTIFIC
+===================================================== -->
 
-                log
+<section
+id="scientific"
+class="section">
 
-            </button>
+<h2>Scientific Calculator</h2>
 
+<div style="margin-bottom:12px">
 
-            <button
-                onclick="insertFunction('ln')">
+<button class="action"
+onclick="setAngle('DEG')">
+DEG
+</button>
 
-                ln
+<button class="action"
+onclick="setAngle('RAD')">
+RAD
+</button>
 
-            </button>
+</div>
 
 
-            <button
-                onclick="insertConstant('pi')">
+<div class="scientific-grid">
 
-                π
+<button onclick="scientificAdd('sin(')">
+sin
+</button>
 
-            </button>
+<button onclick="scientificAdd('cos(')">
+cos
+</button>
 
+<button onclick="scientificAdd('tan(')">
+tan
+</button>
 
-            <button
-                onclick="insertConstant('e')">
+<button onclick="scientificAdd('sqrt(')">
+√
+</button>
 
-                e
+<button onclick="scientificAdd('log(')">
+log
+</button>
 
-            </button>
+<button onclick="scientificAdd('ln(')">
+ln
+</button>
 
+<button onclick="scientificAdd('factorial(')">
+x!
+</button>
 
-            <button
-                onclick="squareNumber()">
+<button onclick="scientificAdd('pi')">
+π
+</button>
 
-                x²
+<button onclick="scientificAdd('e')">
+e
+</button>
 
-            </button>
+<button onclick="scientificAdd('**2')">
+x²
+</button>
 
+</div>
 
-            <button
-                onclick="factorialNumber()">
 
-                x!
+<input
+id="scientificDisplay"
+class="display"
+placeholder="0">
 
-            </button>
 
-        </div>
+<div class="grid">
 
+<button class="btn clear"
+onclick="clearInput('scientificDisplay')">
+C
+</button>
 
-        <!-- =========================
-             DISPLAY
-        ========================= -->
+<button class="btn"
+onclick="deleteInput('scientificDisplay')">
+DEL
+</button>
 
-        <input
-            type="text"
-            id="display"
-            class="display"
-            placeholder="0"
-            autocomplete="off"
-            inputmode="decimal"
-        >
+<button class="btn"
+onclick="scientificAdd('%')">
+%
+</button>
 
+<button class="btn operator"
+onclick="scientificAdd('/')">
+÷
+</button>
 
-        <!-- =========================
-             CALCULATOR BUTTONS
-        ========================= -->
 
-        <div class="buttons">
+<button class="btn"
+onclick="scientificAdd('7')">
+7
+</button>
 
+<button class="btn"
+onclick="scientificAdd('8')">
+8
+</button>
 
-            <!-- ROW 1 -->
+<button class="btn"
+onclick="scientificAdd('9')">
+9
+</button>
 
-            <button
-                class="calc clear"
-                onclick="clearDisplay()">
+<button class="btn operator"
+onclick="scientificAdd('*')">
+×
+</button>
 
-                C
 
-            </button>
+<button class="btn"
+onclick="scientificAdd('4')">
+4
+</button>
 
+<button class="btn"
+onclick="scientificAdd('5')">
+5
+</button>
 
-            <button
-                class="calc"
-                onclick="deleteLast()">
+<button class="btn"
+onclick="scientificAdd('6')">
+6
+</button>
 
-                DEL
+<button class="btn operator"
+onclick="scientificAdd('-')">
+−
+</button>
 
-            </button>
 
+<button class="btn"
+onclick="scientificAdd('1')">
+1
+</button>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('%')">
+<button class="btn"
+onclick="scientificAdd('2')">
+2
+</button>
 
-                %
+<button class="btn"
+onclick="scientificAdd('3')">
+3
+</button>
 
-            </button>
+<button class="btn operator"
+onclick="scientificAdd('+')">
++
+</button>
 
 
-            <button
-                class="calc operator"
-                onclick="addToDisplay('/')">
+<button class="btn"
+onclick="scientificAdd('0')">
+0
+</button>
 
-                ÷
+<button class="btn"
+onclick="scientificAdd('.')">
+.
+</button>
 
-            </button>
+<button class="btn"
+onclick="scientificAdd('(')">
+(
+</button>
 
+<button class="btn"
+onclick="scientificAdd(')')">
+)
+</button>
 
-            <!-- ROW 2 -->
 
-            <button
-                class="calc"
-                onclick="addToDisplay('7')">
+<button class="btn equal"
+onclick="scientificCalculate()">
+=
+</button>
 
-                7
+</div>
 
-            </button>
+</section>
 
 
-            <button
-                class="calc"
-                onclick="addToDisplay('8')">
+<!-- =====================================================
+MATHEMATICS
+===================================================== -->
 
-                8
+<section
+id="mathematics"
+class="section">
 
-            </button>
+<h2>Mathematics Calculator</h2>
 
+<div class="form">
 
-            <button
-                class="calc"
-                onclick="addToDisplay('9')">
+<input
+id="mathValue"
+type="number"
+placeholder="Enter number">
 
-                9
+<select id="mathOperation">
 
-            </button>
+<option value="square">
+Square
+</option>
 
+<option value="cube">
+Cube
+</option>
 
-            <button
-                class="calc operator"
-                onclick="addToDisplay('*')">
+<option value="sqrt">
+Square Root
+</option>
 
-                ×
+<option value="factorial">
+Factorial
+</option>
 
-            </button>
+<option value="absolute">
+Absolute Value
+</option>
 
+<option value="reciprocal">
+Reciprocal
+</option>
 
-            <!-- ROW 3 -->
+</select>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('4')">
+<button class="action"
+onclick="mathCalculate()">
+Calculate
+</button>
 
-                4
+</div>
 
-            </button>
+<div
+id="mathResult"
+class="result">
+Result will appear here
+</div>
 
+</section>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('5')">
 
-                5
+<!-- =====================================================
+PERCENTAGE
+===================================================== -->
 
-            </button>
+<section
+id="percentage"
+class="section">
 
+<h2>Percentage Calculator</h2>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('6')">
+<div class="form">
 
-                6
+<input
+id="percentageValue"
+type="number"
+placeholder="Value">
 
-            </button>
+<input
+id="percentagePercent"
+type="number"
+placeholder="Percentage">
 
+<select id="percentageOperation">
 
-            <button
-                class="calc operator"
-                onclick="addToDisplay('-')">
+<option value="percent_of">
+What is X% of Y?
+</option>
 
-                −
+<option value="increase">
+Increase by %
+</option>
 
-            </button>
+<option value="decrease">
+Decrease by %
+</option>
 
+<option value="what_percent">
+What percentage?
+</option>
 
-            <!-- ROW 4 -->
+</select>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('1')">
+<button class="action"
+onclick="percentageCalculate()">
+Calculate
+</button>
 
-                1
+</div>
 
-            </button>
+<div
+id="percentageResult"
+class="result">
+Result will appear here
+</div>
 
+</section>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('2')">
 
-                2
+<!-- =====================================================
+STATISTICS
+===================================================== -->
 
-            </button>
+<section
+id="statistics"
+class="section">
 
+<h2>Statistics Calculator</h2>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('3')">
+<div class="form">
 
-                3
+<input
+id="statisticsNumbers"
+placeholder="Example: 10,20,30,40,50">
 
-            </button>
+<button class="action"
+onclick="statisticsCalculate()">
+Calculate Statistics
+</button>
 
+</div>
 
-            <button
-                class="calc operator"
-                onclick="addToDisplay('+')">
+<div
+id="statisticsResult"
+class="result">
+Results will appear here
+</div>
 
-                +
+</section>
 
-            </button>
 
+<!-- =====================================================
+NUMBER SYSTEM
+===================================================== -->
 
-            <!-- ROW 5 -->
+<section
+id="number"
+class="section">
 
-            <button
-                class="calc"
-                onclick="addToDisplay('0')">
+<h2>Number System Converter</h2>
 
-                0
+<div class="form">
 
-            </button>
+<input
+id="numberValue"
+placeholder="Enter number">
 
+<select id="numberBase">
 
-            <button
-                class="calc"
-                onclick="addToDisplay('.')">
+<option value="2">
+Binary
+</option>
 
-                .
+<option value="8">
+Octal
+</option>
 
-            </button>
+<option value="10"
+selected>
+Decimal
+</option>
 
+<option value="16">
+Hexadecimal
+</option>
 
-            <button
-                class="calc"
-                onclick="addToDisplay('(')">
+</select>
 
-                (
+<button class="action"
+onclick="numberConvert()">
+Convert
+</button>
 
-            </button>
+</div>
 
+<div
+id="numberResult"
+class="result">
+Results will appear here
+</div>
 
-            <button
-                class="calc"
-                onclick="addToDisplay(')')">
+</section>
 
-                )
 
-            </button>
+<!-- =====================================================
+UNIT CONVERTER
+===================================================== -->
 
+<section
+id="unit"
+class="section">
 
-            <!-- EQUAL -->
+<h2>Unit Converter</h2>
 
-            <button
-                class="calc equal"
-                onclick="calculate()">
+<div class="form">
 
-                =
+<select id="unitCategory"
+onchange="updateUnits()">
 
-            </button>
+<option value="length">
+Length
+</option>
 
-        </div>
+<option value="weight">
+Weight
+</option>
 
-    </div>
+<option value="temperature">
+Temperature
+</option>
+
+<option value="time">
+Time
+</option>
+
+</select>
+
+
+<input
+id="unitValue"
+type="number"
+placeholder="Value">
+
+
+<select id="fromUnit"></select>
+
+<select id="toUnit"></select>
+
+
+<button class="action"
+onclick="unitConvert()">
+Convert
+</button>
+
+</div>
+
+<div
+id="unitResult"
+class="result">
+Result will appear here
+</div>
+
+</section>
+
+
+<!-- =====================================================
+AGE
+===================================================== -->
+
+<section
+id="age"
+class="section">
+
+<h2>Age Calculator</h2>
+
+<div class="form">
+
+<input
+id="birthDate"
+type="date">
+
+<button class="action"
+onclick="ageCalculate()">
+Calculate Age
+</button>
+
+</div>
+
+<div
+id="ageResult"
+class="result">
+Your age will appear here
+</div>
+
+</section>
+
+
+<!-- =====================================================
+FINANCE
+===================================================== -->
+
+<section
+id="finance"
+class="section">
+
+<h2>EMI Calculator</h2>
+
+<div class="form">
+
+<input
+id="loanAmount"
+type="number"
+placeholder="Loan Amount">
+
+<input
+id="interestRate"
+type="number"
+placeholder="Annual Interest Rate (%)">
+
+<input
+id="loanMonths"
+type="number"
+placeholder="Loan Period (Months)">
+
+<button class="action"
+onclick="emiCalculate()">
+Calculate EMI
+</button>
+
+</div>
+
+<div
+id="financeResult"
+class="result">
+EMI results will appear here
+</div>
+
+</section>
+
 
 </div>
 
 
 <script>
 
-    /* =====================================================
-       GLOBAL VARIABLES
-    ===================================================== */
+/* =====================================================
+NAVIGATION
+===================================================== */
 
-    let calculatorType = "basic";
+function showSection(id,button){
 
-    let angleMode = "DEG";
+    document
+    .querySelectorAll(".section")
+    .forEach(section=>{
+        section.classList.remove("active");
+    });
 
-    const display =
-        document.getElementById("display");
+    document
+    .querySelectorAll(".nav button")
+    .forEach(btn=>{
+        btn.classList.remove("active");
+    });
 
-    const calculator =
-        document.getElementById("calculator");
+    document
+    .getElementById(id)
+    .classList.add("active");
 
-    const errorMessage =
-        document.getElementById("errorMessage");
+    button.classList.add("active");
+}
 
 
-    /* =====================================================
-       SWITCH CALCULATOR
-    ===================================================== */
+/* =====================================================
+BASIC
+===================================================== */
 
-    function switchCalculator(type) {
+function add(id,value){
 
-        calculatorType = type;
+    document
+    .getElementById(id)
+    .value += value;
+}
 
-        clearDisplay();
 
-        hideError();
+function clearInput(id){
 
+    document
+    .getElementById(id)
+    .value="";
+}
 
-        const basicTab =
-            document.getElementById("basicTab");
 
-        const scientificTab =
-            document.getElementById("scientificTab");
+function deleteInput(id){
 
-        const scientificButtons =
-            document.getElementById("scientificButtons");
+    const input=
+    document.getElementById(id);
 
-        const angleModeDiv =
-            document.getElementById("angleMode");
+    input.value=
+    input.value.slice(0,-1);
+}
 
 
-        if (type === "basic") {
+async function basicCalculate(){
 
-            basicTab.classList.add("active");
+    const input=
+    document.getElementById("basicDisplay");
 
-            scientificTab.classList.remove("active");
+    const expression=
+    input.value.trim();
 
-            scientificButtons.style.display = "none";
+    if(!expression) return;
 
-            angleModeDiv.style.display = "none";
+    try{
 
-        }
+        const response=
+        await fetch(
+            "/api/basic",
+            {
+                method:"POST",
 
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
 
-        else {
-
-            basicTab.classList.remove("active");
-
-            scientificTab.classList.add("active");
-
-            scientificButtons.style.display = "grid";
-
-            angleModeDiv.style.display = "flex";
-
-        }
-
-    }
-
-
-    /* =====================================================
-       ADD TO DISPLAY
-    ===================================================== */
-
-    function addToDisplay(value) {
-
-        hideError();
-
-        display.value += value;
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       CLEAR
-    ===================================================== */
-
-    function clearDisplay() {
-
-        display.value = "";
-
-        hideError();
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       DELETE
-    ===================================================== */
-
-    function deleteLast() {
-
-        display.value =
-            display.value.slice(0, -1);
-
-        hideError();
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       CALCULATE
-    ===================================================== */
-
-    async function calculate() {
-
-        const expression =
-            display.value.trim();
-
-
-        if (!expression) {
-
-            return;
-
-        }
-
-
-        hideError();
-
-
-        let endpoint;
-
-
-        if (calculatorType === "basic") {
-
-            endpoint = "/api/basic";
-
-        }
-
-        else {
-
-            endpoint = "/api/scientific";
-
-        }
-
-
-        try {
-
-            calculator.classList.add("loading");
-
-
-            const response =
-                await fetch(endpoint, {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        expression: expression,
-
-                        angle_mode: angleMode
-
-                    })
-
-                });
-
-
-            let data;
-
-
-            try {
-
-                data =
-                    await response.json();
-
+                body:JSON.stringify({
+                    expression:expression
+                })
             }
+        );
 
-            catch {
+        const data=
+        await response.json();
 
-                throw new Error(
-                    "Server returned an invalid response."
-                );
+        if(!response.ok){
 
-            }
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.error ||
-                    "Calculation failed."
-                );
-
-            }
-
-
-            if (
-                data.result === undefined ||
-                data.result === null
-            ) {
-
-                throw new Error(
-                    "No result returned by server."
-                );
-
-            }
-
-
-            display.value =
-                formatResult(data.result);
-
-        }
-
-
-        catch (error) {
-
-            console.error(
-                "CalcWorld error:",
-                error
+            throw new Error(
+                data.error ||
+                "Calculation error"
             );
-
-
-            showError(
-                error.message ||
-                "Internal Server Error"
-            );
-
         }
 
-
-        finally {
-
-            calculator.classList.remove("loading");
-
-        }
+        input.value=
+        format(data.result);
 
     }
+    catch(error){
 
-
-    /* =====================================================
-       FORMAT RESULT
-    ===================================================== */
-
-    function formatResult(result) {
-
-        if (typeof result === "number") {
-
-            if (!Number.isFinite(result)) {
-
-                return "Error";
-
-            }
-
-
-            return Number(
-                result.toPrecision(12)
-            ).toString();
-
-        }
-
-
-        return result;
-
+        input.value=
+        error.message;
     }
+}
 
 
-    /* =====================================================
-       SCIENTIFIC FUNCTION
-    ===================================================== */
+/* =====================================================
+SCIENTIFIC
+===================================================== */
 
-    function insertFunction(functionName) {
+let angleMode="DEG";
 
-        hideError();
 
+function scientificAdd(value){
 
-        const value =
-            display.value.trim();
+    document
+    .getElementById("scientificDisplay")
+    .value += value;
+}
 
 
-        if (value === "") {
+function setAngle(mode){
 
-            display.value =
-                functionName + "(";
+    angleMode=mode;
+}
 
-        }
 
-        else {
+async function scientificCalculate(){
 
-            display.value =
-                functionName +
-                "(" +
-                value +
-                ")";
-
-        }
-
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       CONSTANT
-    ===================================================== */
-
-    function insertConstant(constant) {
-
-        hideError();
-
-        display.value += constant;
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       SQUARE
-    ===================================================== */
-
-    function squareNumber() {
-
-        const value =
-            display.value.trim();
-
-
-        if (!value) {
-
-            return;
-
-        }
-
-
-        display.value =
-            "(" +
-            value +
-            ")^2";
-
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       FACTORIAL
-    ===================================================== */
-
-    function factorialNumber() {
-
-        const value =
-            display.value.trim();
-
-
-        if (!value) {
-
-            return;
-
-        }
-
-
-        display.value =
-            "factorial(" +
-            value +
-            ")";
-
-
-        display.focus();
-
-    }
-
-
-    /* =====================================================
-       ANGLE MODE
-    ===================================================== */
-
-    function setAngleMode(mode) {
-
-        angleMode = mode;
-
-
-        const degButton =
-            document.getElementById("degButton");
-
-        const radButton =
-            document.getElementById("radButton");
-
-
-        if (mode === "DEG") {
-
-            degButton.classList.add("active");
-
-            radButton.classList.remove("active");
-
-        }
-
-        else {
-
-            radButton.classList.add("active");
-
-            degButton.classList.remove("active");
-
-        }
-
-    }
-
-
-    /* =====================================================
-       ERROR MESSAGE
-    ===================================================== */
-
-    function showError(message) {
-
-        errorMessage.textContent =
-            message;
-
-        errorMessage.style.display =
-            "block";
-
-    }
-
-
-    function hideError() {
-
-        errorMessage.textContent = "";
-
-        errorMessage.style.display =
-            "none";
-
-    }
-
-
-    /* =====================================================
-       KEYBOARD SUPPORT
-    ===================================================== */
-
-    display.addEventListener(
-        "keydown",
-        function(event) {
-
-
-            if (event.key === "Enter") {
-
-                event.preventDefault();
-
-                calculate();
-
-            }
-
-
-            if (event.key === "Escape") {
-
-                event.preventDefault();
-
-                clearDisplay();
-
-            }
-
-
-            if (event.key === "Backspace") {
-
-                hideError();
-
-            }
-
-        }
+    const input=
+    document.getElementById(
+        "scientificDisplay"
     );
 
+    const expression=
+    input.value.trim();
 
-    /* =====================================================
-       PREVENT INVALID BASIC CHARACTERS
-    ===================================================== */
+    if(!expression) return;
 
-    display.addEventListener(
-        "input",
-        function() {
+    try{
 
-            hideError();
+        const response=
+        await fetch(
+            "/api/scientific",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    expression:
+                    expression,
+
+                    angle_mode:
+                    angleMode
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "Calculation error"
+            );
+        }
+
+        input.value=
+        format(data.result);
+
+    }
+    catch(error){
+
+        input.value=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+MATHEMATICS
+===================================================== */
+
+async function mathCalculate(){
+
+    const value=
+    document
+    .getElementById("mathValue")
+    .value;
+
+    const operation=
+    document
+    .getElementById("mathOperation")
+    .value;
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/mathematics",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    value:value,
+
+                    operation:operation
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById("mathResult")
+        .innerHTML=
+        "<b>Result:</b> "
+        +
+        format(data.result);
+
+    }
+    catch(error){
+
+        document
+        .getElementById("mathResult")
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+PERCENTAGE
+===================================================== */
+
+async function percentageCalculate(){
+
+    const value=
+    document
+    .getElementById("percentageValue")
+    .value;
+
+    const percent=
+    document
+    .getElementById("percentagePercent")
+    .value;
+
+    const operation=
+    document
+    .getElementById("percentageOperation")
+    .value;
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/percentage",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    value:value,
+
+                    percent:percent,
+
+                    operation:operation
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById("percentageResult")
+        .innerHTML=
+        "<b>Result:</b> "
+        +
+        format(data.result);
+
+    }
+    catch(error){
+
+        document
+        .getElementById("percentageResult")
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+STATISTICS
+===================================================== */
+
+async function statisticsCalculate(){
+
+    const input=
+    document
+    .getElementById(
+        "statisticsNumbers"
+    )
+    .value;
+
+    const numbers=
+    input
+    .split(",")
+    .map(x=>x.trim())
+    .filter(x=>x!=="");
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/statistics",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+                    numbers:numbers
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById(
+            "statisticsResult"
+        )
+        .innerHTML=
+
+        "<b>Count:</b> "
+        + data.count
+
+        + "<br><b>Sum:</b> "
+        + format(data.sum)
+
+        + "<br><b>Mean:</b> "
+        + format(data.mean)
+
+        + "<br><b>Median:</b> "
+        + format(data.median)
+
+        + "<br><b>Minimum:</b> "
+        + format(data.min)
+
+        + "<br><b>Maximum:</b> "
+        + format(data.max)
+
+        + "<br><b>Range:</b> "
+        + format(data.range)
+
+        + "<br><b>Variance:</b> "
+        + format(data.variance)
+
+        + "<br><b>Standard Deviation:</b> "
+        + format(
+            data.standard_deviation
+        );
+
+    }
+    catch(error){
+
+        document
+        .getElementById(
+            "statisticsResult"
+        )
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+NUMBER SYSTEM
+===================================================== */
+
+async function numberConvert(){
+
+    const value=
+    document
+    .getElementById("numberValue")
+    .value;
+
+    const fromBase=
+    document
+    .getElementById("numberBase")
+    .value;
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/number-system",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    value:value,
+
+                    from_base:
+                    fromBase
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById("numberResult")
+        .innerHTML=
+
+        "<b>Binary:</b> "
+        + data.binary
+
+        + "<br><b>Octal:</b> "
+        + data.octal
+
+        + "<br><b>Decimal:</b> "
+        + data.decimal
+
+        + "<br><b>Hexadecimal:</b> "
+        + data.hexadecimal;
+
+    }
+    catch(error){
+
+        document
+        .getElementById(
+            "numberResult"
+        )
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+UNIT CONVERTER
+===================================================== */
+
+const unitOptions={
+
+    length:[
+        "meter",
+        "kilometer",
+        "centimeter",
+        "millimeter",
+        "mile",
+        "yard",
+        "foot",
+        "inch"
+    ],
+
+    weight:[
+        "kilogram",
+        "gram",
+        "milligram",
+        "pound",
+        "ounce"
+    ],
+
+    temperature:[
+        "celsius",
+        "fahrenheit",
+        "kelvin"
+    ],
+
+    time:[
+        "second",
+        "minute",
+        "hour",
+        "day"
+    ]
+};
+
+
+function updateUnits(){
+
+    const category=
+    document
+    .getElementById(
+        "unitCategory"
+    )
+    .value;
+
+    const units=
+    unitOptions[category];
+
+    const from=
+    document
+    .getElementById("fromUnit");
+
+    const to=
+    document
+    .getElementById("toUnit");
+
+    from.innerHTML="";
+    to.innerHTML="";
+
+    units.forEach(unit=>{
+
+        from.innerHTML +=
+        `<option value="${unit}">
+        ${unit}
+        </option>`;
+
+        to.innerHTML +=
+        `<option value="${unit}">
+        ${unit}
+        </option>`;
+
+    });
+}
+
+
+async function unitConvert(){
+
+    const category=
+    document
+    .getElementById(
+        "unitCategory"
+    )
+    .value;
+
+    const value=
+    document
+    .getElementById("unitValue")
+    .value;
+
+    const fromUnit=
+    document
+    .getElementById("fromUnit")
+    .value;
+
+    const toUnit=
+    document
+    .getElementById("toUnit")
+    .value;
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/unit",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    category:category,
+
+                    value:value,
+
+                    from_unit:
+                    fromUnit,
+
+                    to_unit:
+                    toUnit
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById(
+            "unitResult"
+        )
+        .innerHTML=
+
+        "<b>Result:</b> "
+        + format(data.result)
+        + " "
+        + toUnit;
+
+    }
+    catch(error){
+
+        document
+        .getElementById(
+            "unitResult"
+        )
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+AGE
+===================================================== */
+
+async function ageCalculate(){
+
+    const value=
+    document
+    .getElementById(
+        "birthDate"
+    )
+    .value;
+
+    if(!value){
+
+        document
+        .getElementById(
+            "ageResult"
+        )
+        .textContent=
+        "Select your birth date.";
+
+        return;
+    }
+
+    const parts=
+    value.split("-");
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/age",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    birth_year:
+                    parts[0],
+
+                    birth_month:
+                    parts[1],
+
+                    birth_day:
+                    parts[2]
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById(
+            "ageResult"
+        )
+        .innerHTML=
+
+        "<b>"
+        + data.message
+        + "</b>";
+
+    }
+    catch(error){
+
+        document
+        .getElementById(
+            "ageResult"
+        )
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+EMI
+===================================================== */
+
+async function emiCalculate(){
+
+    const principal=
+    document
+    .getElementById(
+        "loanAmount"
+    )
+    .value;
+
+    const rate=
+    document
+    .getElementById(
+        "interestRate"
+    )
+    .value;
+
+    const months=
+    document
+    .getElementById(
+        "loanMonths"
+    )
+    .value;
+
+    try{
+
+        const response=
+        await fetch(
+            "/api/emi",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    principal:principal,
+
+                    rate:rate,
+
+                    months:months
+                })
+            }
+        );
+
+        const data=
+        await response.json();
+
+        if(!response.ok)
+            throw new Error(data.error);
+
+        document
+        .getElementById(
+            "financeResult"
+        )
+        .innerHTML=
+
+        "<b>Monthly EMI:</b> ₹"
+        + format(data.monthly_payment)
+
+        + "<br><b>Total Payment:</b> ₹"
+        + format(data.total_payment)
+
+        + "<br><b>Total Interest:</b> ₹"
+        + format(data.total_interest);
+
+    }
+    catch(error){
+
+        document
+        .getElementById(
+            "financeResult"
+        )
+        .textContent=
+        error.message;
+    }
+}
+
+
+/* =====================================================
+FORMAT
+===================================================== */
+
+function format(value){
+
+    if(
+        typeof value === "number"
+    ){
+
+        return Number(
+            value.toPrecision(12)
+        ).toString();
+
+    }
+
+    return value;
+}
+
+
+/* =====================================================
+INITIALIZE UNIT CONVERTER
+===================================================== */
+
+updateUnits();
+
+
+/* =====================================================
+KEYBOARD
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        const active=
+        document.querySelector(
+            ".section.active"
+        );
+
+        if(
+            active &&
+            active.id==="basic"
+        ){
+
+            if(event.key==="Enter"){
+
+                basicCalculate();
+
+            }
 
         }
-    );
 
+        if(
+            active &&
+            active.id==="scientific"
+        ){
 
-    /* =====================================================
-       START IN BASIC MODE
-    ===================================================== */
+            if(event.key==="Enter"){
 
-    switchCalculator("basic");
+                scientificCalculate();
+
+            }
+
+        }
+
+    }
+);
 
 </script>
 
