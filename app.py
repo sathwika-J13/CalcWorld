@@ -1,8 +1,73 @@
 from flask import Flask, render_template, request, jsonify
-import sympy as sp
 import math
+import ast
+import operator
 
 app = Flask(__name__)
+
+
+# =========================================================
+# SAFE BASIC CALCULATOR
+# =========================================================
+
+allowed_operators = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Mod: operator.mod,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+    ast.UAdd: operator.pos
+}
+
+
+def safe_calculate(expression):
+    """
+    Safely calculate basic mathematical expressions.
+    Supports:
+    + - * / % **
+    parentheses
+    """
+
+    expression = expression.replace("^", "**")
+
+    tree = ast.parse(expression, mode="eval")
+
+    def evaluate(node):
+
+        if isinstance(node, ast.Expression):
+            return evaluate(node.body)
+
+        if isinstance(node, ast.Constant):
+            if isinstance(node.value, (int, float)):
+                return node.value
+            raise ValueError("Invalid number")
+
+        if isinstance(node, ast.BinOp):
+            left = evaluate(node.left)
+            right = evaluate(node.right)
+
+            operation = allowed_operators.get(type(node.op))
+
+            if operation is None:
+                raise ValueError("Invalid operator")
+
+            return operation(left, right)
+
+        if isinstance(node, ast.UnaryOp):
+            value = evaluate(node.operand)
+
+            operation = allowed_operators.get(type(node.op))
+
+            if operation is None:
+                raise ValueError("Invalid operator")
+
+            return operation(value)
+
+        raise ValueError("Invalid expression")
+
+    return evaluate(tree)
 
 
 # =========================================================
@@ -15,226 +80,166 @@ def home():
 
 
 # =========================================================
-# BASIC CALCULATOR PAGE
+# BASIC CALCULATOR API
 # =========================================================
 
-@app.route("/basic")
-def basic():
-    return render_template("basic.html")
-
-
-# =========================================================
-# SCIENTIFIC CALCULATOR PAGE
-# =========================================================
-
-@app.route("/scientific")
-def scientific_page():
-    return render_template("scientific.html")
-
-
-# =========================================================
-# MATHEMATICS PAGE
-# =========================================================
-
-@app.route("/mathematics")
-def mathematics_page():
-    return render_template("mathematics.html")
-
-
-# =========================================================
-# UNIT CONVERTER PAGE
-# =========================================================
-
-@app.route("/converter")
-def converter_page():
-    return render_template("converter.html")
-
-
-# =========================================================
-# SCIENTIFIC CALCULATOR API
-# =========================================================
-
-@app.route("/api/scientific", methods=["POST"])
-def scientific():
+@app.route("/api/basic", methods=["POST"])
+def basic_calculation():
 
     try:
 
-        data = request.get_json(silent=True) or {}
+        data = request.get_json()
 
-        expression = str(
-            data.get("expression", "")
-        ).strip()
+        if not data:
+            return jsonify({
+                "error": "No data received"
+            }), 400
 
-        angle_mode = str(
-            data.get("angle_mode", "DEG")
-        ).upper()
+        expression = data.get("expression")
 
+        if expression is None:
+            return jsonify({
+                "error": "Expression is required"
+            }), 400
+
+        expression = str(expression).strip()
 
         if not expression:
-
             return jsonify({
                 "error": "Expression is empty"
             }), 400
 
+        result = safe_calculate(expression)
 
-        # ---------------------------------------------
-        # Convert calculator symbols
-        # ---------------------------------------------
+        if isinstance(result, float):
 
-        expression = expression.replace("×", "*")
-        expression = expression.replace("÷", "/")
-        expression = expression.replace("−", "-")
+            if result.is_integer():
+                result = int(result)
+
+        return jsonify({
+            "success": True,
+            "result": result
+        })
+
+    except ZeroDivisionError:
+
+        return jsonify({
+            "success": False,
+            "error": "Cannot divide by zero"
+        }), 400
+
+    except Exception as e:
+
+        print("BASIC ERROR:", str(e))
+
+        return jsonify({
+            "success": False,
+            "error": "Invalid calculation"
+        }), 400
+
+
+# =========================================================
+# SCIENTIFIC CALCULATOR
+# =========================================================
+
+@app.route("/api/scientific", methods=["POST"])
+def scientific_calculation():
+
+    try:
+
+        data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "error": "No data received"
+            }), 400
+
+        expression = data.get("expression", "").strip()
+        angle_mode = data.get("angle_mode", "DEG")
+
+        if not expression:
+            return jsonify({
+                "error": "Expression is empty"
+            }), 400
+
+        # Convert common mathematical symbols
         expression = expression.replace("^", "**")
         expression = expression.replace("π", "pi")
+        expression = expression.replace("√", "sqrt")
 
+        # Angle conversion
+        def sin(x):
+            if angle_mode == "DEG":
+                return math.sin(math.radians(x))
+            return math.sin(x)
 
-        # ---------------------------------------------
-        # Percentage
-        # ---------------------------------------------
+        def cos(x):
+            if angle_mode == "DEG":
+                return math.cos(math.radians(x))
+            return math.cos(x)
 
-        expression = expression.replace("%", "/100")
+        def tan(x):
+            if angle_mode == "DEG":
+                return math.tan(math.radians(x))
+            return math.tan(x)
 
+        functions = {
+            "sin": sin,
+            "cos": cos,
+            "tan": tan,
+            "asin": math.asin,
+            "acos": math.acos,
+            "atan": math.atan,
 
-        # ---------------------------------------------
-        # Trigonometric functions
-        # ---------------------------------------------
+            "sqrt": math.sqrt,
+            "log": math.log10,
+            "ln": math.log,
 
-        if angle_mode == "DEG":
+            "abs": abs,
+            "exp": math.exp,
 
-            def sin_deg(x):
-                return sp.sin(sp.pi * x / 180)
+            "floor": math.floor,
+            "ceil": math.ceil,
 
-            def cos_deg(x):
-                return sp.cos(sp.pi * x / 180)
+            "factorial": math.factorial,
 
-            def tan_deg(x):
-                return sp.tan(sp.pi * x / 180)
-
-            allowed_functions = {
-
-                "sin": sin_deg,
-                "cos": cos_deg,
-                "tan": tan_deg,
-
-                "asin": sp.asin,
-                "acos": sp.acos,
-                "atan": sp.atan,
-
-            }
-
-        else:
-
-            allowed_functions = {
-
-                "sin": sp.sin,
-                "cos": sp.cos,
-                "tan": sp.tan,
-
-                "asin": sp.asin,
-                "acos": sp.acos,
-                "atan": sp.atan,
-
-            }
-
-
-        # ---------------------------------------------
-        # Other functions
-        # ---------------------------------------------
-
-        allowed_functions.update({
-
-            "sqrt": sp.sqrt,
-
-            "log": sp.log10,
-
-            "ln": sp.log,
-
-            "abs": sp.Abs,
-
-            "exp": sp.exp,
-
-            "factorial": sp.factorial,
-
-        })
-
-
-        # ---------------------------------------------
-        # Constants
-        # ---------------------------------------------
-
-        allowed_symbols = {
-
-            "pi": sp.pi,
-
-            "e": sp.E,
-
+            "pi": math.pi,
+            "e": math.e
         }
 
-
-        allowed_symbols.update(
-            allowed_functions
-        )
-
-
-        # ---------------------------------------------
-        # Calculate
-        # ---------------------------------------------
-
-        result = sp.sympify(
+        # Evaluate scientific expression
+        result = eval(
             expression,
-            locals=allowed_symbols
+            {
+                "__builtins__": {}
+            },
+            functions
         )
 
+        if isinstance(result, float):
 
-        result = sp.N(
-            result,
-            12
-        )
-
-
-        # ---------------------------------------------
-        # Format result
-        # ---------------------------------------------
-
-        if result.is_real:
-
-            value = float(result)
-
-
-            if math.isfinite(value):
-
-                if value.is_integer():
-
-                    output = str(
-                        int(value)
-                    )
-
-                else:
-
-                    output = str(value)
-
-            else:
-
-                output = str(result)
-
-        else:
-
-            output = str(result)
-
+            if result.is_integer():
+                result = int(result)
 
         return jsonify({
-
-            "result": output
-
+            "success": True,
+            "result": result
         })
 
-
-    except Exception as error:
+    except ZeroDivisionError:
 
         return jsonify({
+            "success": False,
+            "error": "Cannot divide by zero"
+        }), 400
 
-            "error": str(error)
+    except Exception as e:
 
+        print("SCIENTIFIC ERROR:", str(e))
+
+        return jsonify({
+            "success": False,
+            "error": "Invalid scientific calculation"
         }), 400
 
 
@@ -243,65 +248,62 @@ def scientific():
 # =========================================================
 
 @app.route("/api/mathematics", methods=["POST"])
-def mathematics_api():
+def mathematics():
 
     try:
 
-        data = request.get_json(silent=True) or {}
+        data = request.get_json()
 
-        expression = str(
-            data.get("expression", "")
-        ).strip()
-
-
-        if not expression:
-
+        if not data:
             return jsonify({
-                "error": "Expression is empty"
+                "error": "No data received"
             }), 400
 
+        operation = data.get("operation")
+        value = data.get("value")
 
-        expression = expression.replace(
-            "×", "*"
-        )
+        if operation == "square":
 
-        expression = expression.replace(
-            "÷", "/"
-        )
+            result = float(value) ** 2
 
-        expression = expression.replace(
-            "−", "-"
-        )
+        elif operation == "cube":
 
-        expression = expression.replace(
-            "^", "**"
-        )
+            result = float(value) ** 3
 
+        elif operation == "sqrt":
 
-        result = sp.sympify(
-            expression
-        )
+            result = math.sqrt(float(value))
 
+        elif operation == "factorial":
 
-        result = sp.N(
-            result,
-            12
-        )
+            result = math.factorial(int(value))
 
+        elif operation == "percentage":
+
+            result = float(value) / 100
+
+        else:
+
+            return jsonify({
+                "success": False,
+                "error": "Unknown operation"
+            }), 400
+
+        if isinstance(result, float) and result.is_integer():
+            result = int(result)
 
         return jsonify({
-
-            "result": str(result)
-
+            "success": True,
+            "result": result
         })
 
+    except Exception as e:
 
-    except Exception as error:
+        print("MATHEMATICS ERROR:", str(e))
 
         return jsonify({
-
-            "error": str(error)
-
+            "success": False,
+            "error": "Invalid mathematical operation"
         }), 400
 
 
@@ -313,40 +315,19 @@ def mathematics_api():
 def health():
 
     return jsonify({
-
         "status": "online",
-
-        "application": "CalcWorld"
-
+        "message": "CalcWorld API is working"
     })
 
 
 # =========================================================
-# 404 ERROR
-# =========================================================
-
-@app.errorhandler(404)
-def page_not_found(error):
-
-    return jsonify({
-
-        "error": "Page not found"
-
-    }), 404
-
-
-# =========================================================
-# RUN APPLICATION
+# START SERVER
 # =========================================================
 
 if __name__ == "__main__":
 
     app.run(
-
         host="0.0.0.0",
-
         port=5000,
-
-        debug=True
-
+        debug=False
     )
