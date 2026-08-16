@@ -70,7 +70,7 @@ def safe_calculate(expression):
 
 
 # =========================================================
-# HOME PAGE
+# HOME
 # =========================================================
 
 @app.route("/")
@@ -91,6 +91,7 @@ def basic():
 
         if not data:
             return jsonify({
+                "success": False,
                 "error": "No data received"
             }), 400
 
@@ -100,6 +101,7 @@ def basic():
 
         if not expression:
             return jsonify({
+                "success": False,
                 "error": "Expression is empty"
             }), 400
 
@@ -122,7 +124,7 @@ def basic():
 
     except Exception as e:
 
-        print("Basic calculation error:", e)
+        print("Basic error:", e)
 
         return jsonify({
             "success": False,
@@ -141,11 +143,6 @@ def scientific():
 
         data = request.get_json()
 
-        if not data:
-            return jsonify({
-                "error": "No data received"
-            }), 400
-
         expression = str(
             data.get("expression", "")
         ).strip()
@@ -156,23 +153,22 @@ def scientific():
         )
 
         if not expression:
+
             return jsonify({
+                "success": False,
                 "error": "Expression is empty"
             }), 400
 
         expression = expression.replace(
-            "^",
-            "**"
+            "^", "**"
         )
 
         expression = expression.replace(
-            "π",
-            "pi"
+            "π", "pi"
         )
 
         expression = expression.replace(
-            "√",
-            "sqrt"
+            "√", "sqrt"
         )
 
         def sin(x):
@@ -226,9 +222,7 @@ def scientific():
 
         result = eval(
             expression,
-            {
-                "__builtins__": {}
-            },
+            {"__builtins__": {}},
             functions
         )
 
@@ -249,7 +243,7 @@ def scientific():
 
     except Exception as e:
 
-        print("Scientific calculation error:", e)
+        print("Scientific error:", e)
 
         return jsonify({
             "success": False,
@@ -350,9 +344,7 @@ def percentage():
 
         if operation == "percent_of":
 
-            result = (
-                value * percent / 100
-            )
+            result = value * percent / 100
 
         elif operation == "increase":
 
@@ -373,9 +365,7 @@ def percentage():
                     "Cannot divide by zero"
                 )
 
-            result = (
-                percent / value * 100
-            )
+            result = percent / value * 100
 
         else:
 
@@ -419,7 +409,6 @@ def statistics():
         ]
 
         if not numbers:
-
             raise ValueError(
                 "Enter numbers"
             )
@@ -435,13 +424,9 @@ def statistics():
         if count % 2 == 0:
 
             median = (
-                sorted_numbers[
-                    count // 2 - 1
-                ]
+                sorted_numbers[count // 2 - 1]
                 +
-                sorted_numbers[
-                    count // 2
-                ]
+                sorted_numbers[count // 2]
             ) / 2
 
         else:
@@ -462,24 +447,15 @@ def statistics():
         return jsonify({
 
             "success": True,
-
             "count": count,
-
             "sum": total,
-
             "mean": mean,
-
             "median": median,
-
             "min": min(numbers),
-
             "max": max(numbers),
-
             "range":
                 max(numbers) - min(numbers),
-
             "variance": variance,
-
             "standard_deviation":
                 standard_deviation
 
@@ -509,10 +485,7 @@ def number_system():
         ).strip()
 
         from_base = int(
-            data.get(
-                "from_base",
-                10
-            )
+            data.get("from_base", 10)
         )
 
         number = int(
@@ -538,7 +511,7 @@ def number_system():
 
         })
 
-    except Exception as e:
+    except Exception:
 
         return jsonify({
             "success": False,
@@ -557,21 +530,15 @@ def unit_converter():
 
         data = request.get_json()
 
-        category = data.get(
-            "category"
-        )
+        category = data.get("category")
 
         value = float(
             data.get("value", 0)
         )
 
-        from_unit = data.get(
-            "from_unit"
-        )
+        from_unit = data.get("from_unit")
 
-        to_unit = data.get(
-            "to_unit"
-        )
+        to_unit = data.get("to_unit")
 
 
         if category == "length":
@@ -590,9 +557,9 @@ def unit_converter():
             }
 
             result = (
-                value *
-                units[from_unit] /
-                units[to_unit]
+                value
+                * units[from_unit]
+                / units[to_unit]
             )
 
 
@@ -609,9 +576,9 @@ def unit_converter():
             }
 
             result = (
-                value *
-                units[from_unit] /
-                units[to_unit]
+                value
+                * units[from_unit]
+                / units[to_unit]
             )
 
 
@@ -623,59 +590,53 @@ def unit_converter():
 
             elif (
                 from_unit == "celsius"
-                and
-                to_unit == "fahrenheit"
+                and to_unit == "fahrenheit"
             ):
 
-                result = (
-                    value * 9 / 5
-                ) + 32
+                result = value * 9 / 5 + 32
 
             elif (
                 from_unit == "fahrenheit"
-                and
-                to_unit == "celsius"
+                and to_unit == "celsius"
             ):
 
-                result = (
-                    value - 32
-                ) * 5 / 9
+                result = (value - 32) * 5 / 9
 
             elif (
                 from_unit == "celsius"
-                and
-                to_unit == "kelvin"
+                and to_unit == "kelvin"
             ):
 
                 result = value + 273.15
 
             elif (
                 from_unit == "kelvin"
-                and
-                to_unit == "celsius"
+                and to_unit == "celsius"
             ):
 
                 result = value - 273.15
 
             elif (
                 from_unit == "fahrenheit"
-                and
-                to_unit == "kelvin"
+                and to_unit == "kelvin"
             ):
 
                 result = (
-                    value - 32
-                ) * 5 / 9 + 273.15
+                    (value - 32)
+                    * 5 / 9
+                    + 273.15
+                )
 
             elif (
                 from_unit == "kelvin"
-                and
-                to_unit == "fahrenheit"
+                and to_unit == "fahrenheit"
             ):
 
                 result = (
-                    value - 273.15
-                ) * 9 / 5 + 32
+                    (value - 273.15)
+                    * 9 / 5
+                    + 32
+                )
 
             else:
 
@@ -696,9 +657,9 @@ def unit_converter():
             }
 
             result = (
-                value *
-                units[from_unit] /
-                units[to_unit]
+                value
+                * units[from_unit]
+                / units[to_unit]
             )
 
 
@@ -712,7 +673,6 @@ def unit_converter():
         return jsonify({
 
             "success": True,
-
             "result": result
 
         })
@@ -814,11 +774,13 @@ def emi():
         )
 
         if principal <= 0:
+
             raise ValueError(
                 "Loan amount must be greater than zero"
             )
 
         if months <= 0:
+
             raise ValueError(
                 "Loan period must be greater than zero"
             )
@@ -837,15 +799,11 @@ def emi():
 
             monthly_payment = (
                 principal
-                *
-                monthly_rate
-                *
-                (1 + monthly_rate)
-                ** months
+                * monthly_rate
+                * (1 + monthly_rate) ** months
                 /
                 (
-                    (1 + monthly_rate)
-                    ** months
+                    (1 + monthly_rate) ** months
                     - 1
                 )
             )
@@ -879,6 +837,18 @@ def emi():
             "success": False,
             "error": str(e)
         }), 400
+
+
+# =========================================================
+# GOOGLE SEARCH CONSOLE VERIFICATION
+# =========================================================
+
+@app.route("/google0c4dd368fd659561.html")
+def google_verification():
+
+    return app.send_static_file(
+        "google0c4dd368fd659561.html"
+    )
 
 
 # =========================================================
@@ -923,7 +893,7 @@ def health():
 
 
 # =========================================================
-# START
+# RUN
 # =========================================================
 
 if __name__ == "__main__":
