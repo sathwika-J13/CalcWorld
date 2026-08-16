@@ -5,28 +5,509 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>CalcWorld - Every Calculation. One World.</title>
+    <meta name="description"
+          content="CalcWorld - Free online calculators for mathematics, science, finance and everyday calculations.">
 
-
-    <!-- Main Website CSS -->
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+    <title>CalcWorld - Universal Calculator</title>
 
 
-    <!-- History CSS -->
+    <style>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='history.css') }}"
-    >
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+            height: 70px;
+
+            background: #111827;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+
+        .logo span {
+            color: #22c55e;
+        }
+
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+
+        .nav-links a:hover {
+            color: #22c55e;
+        }
+
+
+        .menu-button {
+            display: none;
+
+            border: none;
+            background: transparent;
+
+            color: white;
+
+            font-size: 28px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            text-align: center;
+
+            padding: 80px 20px 50px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eefcf4,
+                    #f5f7fb
+                );
+        }
+
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
+        }
+
+
+        .hero h1 span {
+            color: #16a34a;
+        }
+
+
+        .hero p {
+            max-width: 700px;
+
+            margin: auto;
+
+            color: #667085;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-container {
+            max-width: 600px;
+
+            margin: 35px auto 0;
+
+            position: relative;
+        }
+
+
+        .search {
+            width: 100%;
+
+            padding: 17px 22px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 35px;
+
+            background: white;
+
+            outline: none;
+
+            font-size: 16px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .search:focus {
+            border-color: #22c55e;
+
+            box-shadow:
+                0 0 0 3px rgba(34, 197, 94, 0.15);
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            width: 90%;
+
+            max-width: 1200px;
+
+            margin: 55px auto;
+        }
+
+
+        .section-title {
+            text-align: center;
+
+            font-size: 30px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+
+            gap: 22px;
+        }
+
+
+        .card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 30px 22px;
+
+            text-align: center;
+
+            box-shadow:
+                0 6px 25px rgba(0, 0, 0, 0.07);
+
+            transition:
+                transform 0.25s,
+                box-shadow 0.25s;
+
+            border: 1px solid #eef0f3;
+        }
+
+
+        .card:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 14px 35px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 18px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 38px;
+
+            background: #f0fdf4;
+        }
+
+
+        .card h3 {
+            font-size: 21px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .card p {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            min-height: 45px;
+        }
+
+
+        .card-button {
+            display: inline-block;
+
+            margin-top: 22px;
+
+            padding: 11px 20px;
+
+            border-radius: 9px;
+
+            background: #16a34a;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .card-button:hover {
+            background: #15803d;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           COMING SOON
+        ========================= */
+
+        .coming-soon {
+            opacity: 0.75;
+        }
+
+
+        .coming-soon .card-button {
+            background: #6b7280;
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+            margin-top: 70px;
+
+            padding: 65px 8%;
+
+            background: #111827;
+
+            color: white;
+
+            text-align: center;
+        }
+
+
+        .features h2 {
+            font-size: 30px;
+
+            margin-bottom: 40px;
+        }
+
+
+        .feature-grid {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 30px;
+        }
+
+
+        .feature {
+            padding: 15px;
+        }
+
+
+        .feature-icon {
+            font-size: 38px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .feature h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .feature p {
+            color: #aeb4c0;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0b1120;
+
+            color: #9ca3af;
+
+            text-align: center;
+
+            padding: 25px 15px;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           NO RESULTS
+        ========================= */
+
+        #noResults {
+            display: none;
+
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+
+            .menu-button {
+                display: block;
+            }
+
+
+            .nav-links {
+                display: none;
+
+                position: absolute;
+
+                top: 70px;
+                left: 0;
+                right: 0;
+
+                background: #111827;
+
+                flex-direction: column;
+
+                padding: 20px;
+
+                gap: 18px;
+            }
+
+
+            .nav-links.show {
+                display: flex;
+            }
+
+
+            .hero {
+                padding-top: 55px;
+            }
+
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+
+            .hero p {
+                font-size: 16px;
+            }
+
+
+            .container {
+                width: 92%;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+
+            .card {
+                padding: 25px 18px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -34,31 +515,56 @@
 <body>
 
 
-<!-- ==================================================
-                         HEADER
-================================================== -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-<header>
+<nav>
 
-    <div class="logo">
-        🌎 CalcWorld
-    </div>
-
-    <nav>
-
-        <a href="/">
-            Home
-        </a>
-
-    </nav>
-
-</header>
+    <a href="/" class="logo">
+        Calc<span>World</span>
+    </a>
 
 
+    <button
+        class="menu-button"
+        onclick="toggleMenu()"
+        aria-label="Open menu">
+        ☰
+    </button>
 
-<!-- ==================================================
-                          HERO
-================================================== -->
+
+    <ul class="nav-links" id="navLinks">
+
+        <li>
+            <a href="/">Home</a>
+        </li>
+
+        <li>
+            <a href="/basic">Basic</a>
+        </li>
+
+        <li>
+            <a href="/scientific">Scientific</a>
+        </li>
+
+        <li>
+            <a href="/mathematics">Mathematics</a>
+        </li>
+
+        <li>
+            <a href="/converter">Converter</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
@@ -67,23 +573,23 @@
         <span>CalcWorld</span>
     </h1>
 
+
     <p>
-        Every Calculation. One World.
-        Explore calculators for mathematics,
-        science, finance, engineering,
-        programming and everyday calculations.
+        Your all-in-one online calculator platform
+        for mathematics, science, finance,
+        statistics and everyday calculations.
     </p>
 
-
-    <!-- SEARCH -->
 
     <div class="search-container">
 
         <input
             type="text"
-            id="searchBox"
-            placeholder="🔍 Search a calculator..."
-            onkeyup="searchCalculators()"
+            id="search"
+            class="search"
+            placeholder="Search calculators..."
+            oninput="searchCalculators()"
+            autocomplete="off"
         >
 
     </div>
@@ -92,436 +598,274 @@
 
 
 
-<!-- ==================================================
-                    CALCULATOR SECTION
-================================================== -->
+<!-- =========================
+     CALCULATORS
+========================= -->
 
-<div class="container">
-
+<main class="container">
 
     <h2 class="section-title">
-        All Calculators
+        Explore Calculators
     </h2>
 
 
-    <p class="section-description">
-        Choose a calculator category and start calculating.
-    </p>
-
-
-    <div class="categories">
+    <div class="cards" id="calculatorCards">
 
 
         <!-- BASIC -->
 
-        <a
-            href="/calculator"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card"
+            data-search="basic calculator arithmetic addition subtraction multiplication division percentage">
 
-            <div
-                class="calculator-card"
-                data-name="basic calculator arithmetic addition subtraction multiplication division"
-            >
-
-                <div class="icon">
-                    🧮
-                </div>
-
-                <h3>
-                    Basic Calculator
-                </h3>
-
-                <p>
-                    Addition, subtraction,
-                    multiplication and division.
-                </p>
-
+            <div class="icon">
+                🧮
             </div>
 
-        </a>
+            <h3>
+                Basic Calculator
+            </h3>
+
+            <p>
+                Perform everyday arithmetic
+                calculations quickly and easily.
+            </p>
+
+            <a
+                href="/basic"
+                class="card-button">
+                Open Calculator
+            </a>
+
+        </div>
 
 
 
         <!-- SCIENTIFIC -->
 
-        <a
-            href="/scientific"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card"
+            data-search="scientific calculator sin cos tan logarithm power square root trigonometry">
 
-            <div
-                class="calculator-card"
-                data-name="scientific calculator trigonometry sin cos tan logarithm square root powers"
-            >
-
-                <div class="icon">
-                    🔬
-                </div>
-
-                <h3>
-                    Scientific Calculator
-                </h3>
-
-                <p>
-                    Trigonometry, logarithms,
-                    powers and advanced calculations.
-                </p>
-
+            <div class="icon">
+                🔬
             </div>
 
-        </a>
+            <h3>
+                Scientific Calculator
+            </h3>
+
+            <p>
+                Trigonometry, logarithms, powers,
+                roots and advanced calculations.
+            </p>
+
+            <a
+                href="/scientific"
+                class="card-button">
+                Open Calculator
+            </a>
+
+        </div>
 
 
 
         <!-- MATHEMATICS -->
 
-        <a
-            href="/mathematics"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card"
+            data-search="mathematics calculator equations hcf lcm percentage ratio">
 
-            <div
-                class="calculator-card"
-                data-name="mathematics percentage average ratio hcf lcm equations"
-            >
-
-                <div class="icon">
-                    📐
-                </div>
-
-                <h3>
-                    Mathematics
-                </h3>
-
-                <p>
-                    Percentage, average, ratio,
-                    HCF, LCM and equations.
-                </p>
-
+            <div class="icon">
+                📐
             </div>
 
-        </a>
+            <h3>
+                Mathematics
+            </h3>
 
+            <p>
+                Solve mathematical expressions,
+                equations and common problems.
+            </p>
 
+            <a
+                href="/mathematics"
+                class="card-button">
+                Open Calculator
+            </a>
 
-        <!-- ADVANCED MATHEMATICS -->
-
-        <a
-            href="/advanced-math"
-            class="calculator-link"
-        >
-
-            <div
-                class="calculator-card"
-                data-name="advanced mathematics probability factorial permutation combination gcd lcm prime quadratic logarithm exponent sequence"
-            >
-
-                <div class="icon">
-                    🧠
-                </div>
-
-                <h3>
-                    Advanced Mathematics
-                </h3>
-
-                <p>
-                    Probability, factorial,
-                    equations, sequences and more.
-                </p>
-
-            </div>
-
-        </a>
-
-
-
-        <!-- FINANCE -->
-
-        <a
-            href="/finance"
-            class="calculator-link"
-        >
-
-            <div
-                class="calculator-card"
-                data-name="finance emi loan interest gst discount profit loss sip cagr investment"
-            >
-
-                <div class="icon">
-                    💰
-                </div>
-
-                <h3>
-                    Finance
-                </h3>
-
-                <p>
-                    EMI, loans, interest,
-                    GST, SIP, CAGR and more.
-                </p>
-
-            </div>
-
-        </a>
-
-
-
-        <!-- STATISTICS -->
-
-        <a
-            href="/statistics"
-            class="calculator-link"
-        >
-
-            <div
-                class="calculator-card"
-                data-name="statistics mean median mode variance standard deviation probability"
-            >
-
-                <div class="icon">
-                    📊
-                </div>
-
-                <h3>
-                    Statistics
-                </h3>
-
-                <p>
-                    Mean, median, mode,
-                    variance and probability.
-                </p>
-
-            </div>
-
-        </a>
-
-
-
-        <!-- GEOMETRY -->
-
-        <a
-            href="/geometry"
-            class="calculator-link"
-        >
-
-            <div
-                class="calculator-card"
-                data-name="geometry area volume perimeter circle triangle rectangle square sphere cylinder cube"
-            >
-
-                <div class="icon">
-                    📐
-                </div>
-
-                <h3>
-                    Geometry
-                </h3>
-
-                <p>
-                    Area, volume, perimeter
-                    and geometric shapes.
-                </p>
-
-            </div>
-
-        </a>
-
-
-
-        <!-- PHYSICS -->
-
-        <a
-            href="/physics"
-            class="calculator-link"
-        >
-
-            <div
-                class="calculator-card"
-                data-name="physics force speed acceleration work energy power mass"
-            >
-
-                <div class="icon">
-                    ⚛️
-                </div>
-
-                <h3>
-                    Physics
-                </h3>
-
-                <p>
-                    Force, speed, work,
-                    energy and power.
-                </p>
-
-            </div>
-
-        </a>
+        </div>
 
 
 
         <!-- UNIT CONVERTER -->
 
-        <a
-            href="/converter"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card"
+            data-search="unit converter length weight temperature area volume speed">
 
-            <div
-                class="calculator-card"
-                data-name="unit converter length mass weight temperature speed area volume time data"
-            >
-
-                <div class="icon">
-                    🔄
-                </div>
-
-                <h3>
-                    Unit Converter
-                </h3>
-
-                <p>
-                    Convert length, mass,
-                    temperature, speed and more.
-                </p>
-
+            <div class="icon">
+                🔄
             </div>
 
-        </a>
+            <h3>
+                Unit Converter
+            </h3>
+
+            <p>
+                Convert length, weight, temperature,
+                area, volume and more.
+            </p>
+
+            <a
+                href="/converter"
+                class="card-button">
+                Open Converter
+            </a>
+
+        </div>
 
 
 
-        <!-- PROGRAMMER -->
+        <!-- FINANCE -->
 
-        <a
-            href="/programmer"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card coming-soon"
+            data-search="finance calculator emi loan interest compound simple interest">
 
-            <div
-                class="calculator-card"
-                data-name="programmer calculator binary decimal octal hexadecimal bitwise and or xor"
-            >
-
-                <div class="icon">
-                    💻
-                </div>
-
-                <h3>
-                    Programmer
-                </h3>
-
-                <p>
-                    Binary, decimal, hexadecimal,
-                    octal and bitwise operations.
-                </p>
-
+            <div class="icon">
+                💰
             </div>
 
-        </a>
+            <h3>
+                Finance Calculator
+            </h3>
+
+            <p>
+                EMI, simple interest, compound
+                interest and financial calculations.
+            </p>
+
+            <button
+                class="card-button"
+                onclick="comingSoon('Finance Calculator')">
+                Coming Soon
+            </button>
+
+        </div>
 
 
 
-        <!-- ENGINEERING -->
+        <!-- STATISTICS -->
 
-        <a
-            href="/engineering"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card coming-soon"
+            data-search="statistics calculator mean median mode standard deviation variance">
 
-            <div
-                class="calculator-card"
-                data-name="engineering electrical mechanical civil ohm law power torque stress strain pressure density resistor"
-            >
-
-                <div class="icon">
-                    🏗️
-                </div>
-
-                <h3>
-                    Engineering
-                </h3>
-
-                <p>
-                    Electrical, mechanical,
-                    civil and engineering formulas.
-                </p>
-
+            <div class="icon">
+                📊
             </div>
 
-        </a>
+            <h3>
+                Statistics
+            </h3>
+
+            <p>
+                Calculate mean, median, mode,
+                variance and standard deviation.
+            </p>
+
+            <button
+                class="card-button"
+                onclick="comingSoon('Statistics Calculator')">
+                Coming Soon
+            </button>
+
+        </div>
 
 
 
-        <!-- CHEMISTRY -->
+        <!-- DATE -->
 
-        <a
-            href="/chemistry"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card coming-soon"
+            data-search="date calculator days date difference age time">
 
-            <div
-                class="calculator-card"
-                data-name="chemistry molar mass moles molarity molality dilution ph poh gas law boyle charles concentration"
-            >
-
-                <div class="icon">
-                    🧪
-                </div>
-
-                <h3>
-                    Chemistry
-                </h3>
-
-                <p>
-                    Moles, molarity, pH,
-                    gas laws and concentration.
-                </p>
-
+            <div class="icon">
+                📅
             </div>
 
-        </a>
+            <h3>
+                Date Calculator
+            </h3>
+
+            <p>
+                Calculate date differences,
+                days and time periods.
+            </p>
+
+            <button
+                class="card-button"
+                onclick="comingSoon('Date Calculator')">
+                Coming Soon
+            </button>
+
+        </div>
 
 
 
-        <!-- BIOLOGY -->
+        <!-- FORMULA -->
 
-        <a
-            href="/biology"
-            class="calculator-link"
-        >
+        <div
+            class="card calculator-card coming-soon"
+            data-search="formula library mathematics physics engineering formulas">
 
-            <div
-                class="calculator-card"
-                data-name="biology microscope magnification dna genetics population hardy weinberg ecology biomass survival"
-            >
-
-                <div class="icon">
-                    🧬
-                </div>
-
-                <h3>
-                    Biology
-                </h3>
-
-                <p>
-                    Genetics, microscopy,
-                    population and ecology calculations.
-                </p>
-
+            <div class="icon">
+                📚
             </div>
 
-        </a>
+            <h3>
+                Formula Library
+            </h3>
+
+            <p>
+                Explore useful mathematics,
+                physics and engineering formulas.
+            </p>
+
+            <button
+                class="card-button"
+                onclick="comingSoon('Formula Library')">
+                Coming Soon
+            </button>
+
+        </div>
 
 
     </div>
 
 
-    <!-- ==================================================
-                         FEATURES
-    ================================================== -->
+    <div id="noResults">
+        No calculator found.
+    </div>
 
-    <div class="features">
+</main>
+
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="features">
+
+    <h2>
+        Why Use CalcWorld?
+    </h2>
+
+
+    <div class="feature-grid">
 
 
         <div class="feature">
@@ -535,11 +879,11 @@
             </h3>
 
             <p>
-                Get calculation results instantly.
+                Get calculations quickly without
+                unnecessary steps.
             </p>
 
         </div>
-
 
 
         <div class="feature">
@@ -553,11 +897,11 @@
             </h3>
 
             <p>
-                Reliable formulas and calculations.
+                Powerful mathematical calculations
+                using reliable algorithms.
             </p>
 
         </div>
-
 
 
         <div class="feature">
@@ -571,26 +915,26 @@
             </h3>
 
             <p>
-                Works on phones, tablets and computers.
+                Designed to work on phones,
+                tablets and computers.
             </p>
 
         </div>
-
 
 
         <div class="feature">
 
             <div class="feature-icon">
-                🌎
+                🆓
             </div>
 
             <h3>
-                All in One
+                Free
             </h3>
 
             <p>
-                Multiple calculator categories
-                in one platform.
+                Use CalcWorld online without
+                complicated registration.
             </p>
 
         </div>
@@ -598,169 +942,154 @@
 
     </div>
 
-
-
-    <!-- ==================================================
-                    CALCULATION HISTORY
-    ================================================== -->
-
-    <section class="history-container">
-
-        <h2>
-            🧾 Calculation History
-        </h2>
-
-
-        <div
-            id="historyList"
-            class="history-list"
-        >
-
-        </div>
-
-
-        <button
-            class="clear-history"
-            onclick="clearHistory()"
-        >
-            🗑️ Clear All History
-        </button>
-
-    </section>
+</section>
 
 
 
-    <!-- ==================================================
-                           CTA
-    ================================================== -->
-
-    <div class="cta">
-
-        <h2>
-            Every Calculation. One World. 🌎
-        </h2>
-
-        <p>
-            CalcWorld brings different types
-            of calculations together in one
-            simple platform.
-        </p>
-
-        <a
-            href="/scientific"
-            class="cta-button"
-        >
-            Start Calculating
-        </a>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- ==================================================
-                         FOOTER
-================================================== -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-    <div class="footer-logo">
-        🌎 CalcWorld
-    </div>
-
     <p>
-        Every Calculation. One World.
-    </p>
-
-    <p>
-        Mathematics • Science • Finance • Engineering
-    </p>
-
-    <p>
-        © 2026 CalcWorld. All rights reserved.
+        © <span id="year"></span> CalcWorld.
+        All rights reserved.
     </p>
 
 </footer>
 
 
 
-<!-- ==================================================
-                       SEARCH SCRIPT
-================================================== -->
-
 <script>
 
-function searchCalculators() {
 
-    const searchBox =
-        document.getElementById(
-            "searchBox"
-        );
+    /* =========================
+       MOBILE MENU
+    ========================= */
 
+    function toggleMenu() {
 
-    const search =
-        searchBox.value
-        .toLowerCase()
-        .trim();
+        const menu =
+            document.getElementById("navLinks");
 
+        menu.classList.toggle("show");
 
-    const cards =
-        document.querySelectorAll(
-            ".calculator-link"
-        );
+    }
 
 
-    cards.forEach(
-        function(card) {
 
-            const calculator =
-                card.querySelector(
-                    ".calculator-card"
-                );
+    /* =========================
+       SEARCH CALCULATORS
+    ========================= */
+
+    function searchCalculators() {
+
+        const search =
+            document
+                .getElementById("search")
+                .value
+                .toLowerCase()
+                .trim();
 
 
-            const name =
-                calculator
-                .getAttribute(
-                    "data-name"
-                )
-                .toLowerCase();
+        const cards =
+            document.querySelectorAll(
+                ".calculator-card"
+            );
+
+
+        let found = 0;
+
+
+        cards.forEach(card => {
+
+            const searchText =
+                card.dataset.search.toLowerCase();
 
 
             if (
-                name.includes(search)
+                search === "" ||
+                searchText.includes(search)
             ) {
 
-                card.style.display =
-                    "block";
+                card.style.display = "";
+
+                found++;
+
+            } else {
+
+                card.style.display = "none";
 
             }
 
-            else {
+        });
 
-                card.style.display =
-                    "none";
 
-            }
+        const noResults =
+            document.getElementById("noResults");
+
+
+        if (found === 0) {
+
+            noResults.style.display = "block";
+
+        } else {
+
+            noResults.style.display = "none";
 
         }
-    );
 
-}
+    }
+
+
+
+    /* =========================
+       COMING SOON
+    ========================= */
+
+    function comingSoon(name) {
+
+        alert(
+            name +
+            " will be available soon!"
+        );
+
+    }
+
+
+
+    /* =========================
+       YEAR
+    ========================= */
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+
+
+    /* =========================
+       CLOSE MOBILE MENU
+    ========================= */
+
+    document.querySelectorAll(
+        ".nav-links a"
+    ).forEach(link => {
+
+        link.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById("navLinks")
+                    .classList.remove("show");
+
+            }
+        );
+
+    });
 
 </script>
-
-
-
-<!-- ==================================================
-                    HISTORY JAVASCRIPT
-================================================== -->
-
-<script
-    src="{{ url_for('static', filename='history.js') }}"
-></script>
 
 
 </body>
