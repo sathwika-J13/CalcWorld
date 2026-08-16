@@ -1,84 +1,555 @@
-async function calculate() {
+<!DOCTYPE html>
+<html lang="en">
 
-    const expression = display.value.trim();
+<head>
+    <meta charset="UTF-8">
 
-    if (!expression) {
-        return;
-    }
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    try {
+    <title>CalcWorld - Scientific Calculator</title>
 
-        const response = await fetch(
-            "/api/scientific",
-            {
-                method: "POST",
+    <style>
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-                body: JSON.stringify({
-                    expression: expression,
-                    angle_mode: angleMode
-                })
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .navbar {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .home-link {
+            color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 9px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+        }
+
+        .display {
+            width: 100%;
+            min-height: 70px;
+            font-size: 28px;
+            padding: 15px;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .mode-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-row button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #e5e7eb;
+            font-weight: bold;
+        }
+
+        .mode-row button.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .buttons button {
+            min-height: 55px;
+            border: none;
+            border-radius: 9px;
+            background: #e5e7eb;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .buttons button:hover {
+            opacity: 0.8;
+        }
+
+        .number {
+            background: #f3f4f6 !important;
+        }
+
+        .operator {
+            background: #dbeafe !important;
+        }
+
+        .function {
+            background: #ede9fe !important;
+        }
+
+        .clear {
+            background: #fee2e2 !important;
+        }
+
+        .equals {
+            background: #2563eb !important;
+            color: white;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        .result-label {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        #result {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .history {
+            margin-top: 25px;
+        }
+
+        .history h2 {
+            margin-bottom: 10px;
+        }
+
+        #historyList {
+            list-style: none;
+        }
+
+        #historyList li {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            margin-bottom: 6px;
+            border-radius: 7px;
+        }
+
+        @media (max-width: 650px) {
+
+            .buttons {
+                grid-template-columns: repeat(4, 1fr);
             }
-        );
 
+            .container {
+                margin: 15px auto;
+                padding: 10px;
+            }
 
-        const data = await response.json();
-
-
-        if (!data.success) {
-
-            throw new Error(
-                data.error
-            );
+            .display {
+                font-size: 22px;
+            }
 
         }
 
+    </style>
 
-        const answer = data.result;
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🌎 CalcWorld
+        </div>
+
+        <a href="/" class="home-link">
+            Home
+        </a>
+
+    </nav>
 
 
-        lastAnswer =
-            Number(answer);
+    <main class="container">
+
+        <h1>🔬 Scientific Calculator</h1>
+
+        <div class="calculator">
+
+            <!-- DISPLAY -->
+
+            <input
+                type="text"
+                id="display"
+                class="display"
+                placeholder="0"
+                autocomplete="off"
+            >
 
 
-        result.textContent =
-            answer;
+            <!-- ANGLE MODE -->
+
+            <div class="mode-row">
+
+                <button
+                    id="degBtn"
+                    class="active"
+                    onclick="setAngleMode('DEG')">
+                    DEG
+                </button>
+
+                <button
+                    id="radBtn"
+                    onclick="setAngleMode('RAD')">
+                    RAD
+                </button>
+
+                <button
+                    id="gradBtn"
+                    onclick="setAngleMode('GRAD')">
+                    GRAD
+                </button>
+
+            </div>
 
 
-        resultBox.style.display =
-            "block";
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button
+                    class="clear"
+                    onclick="clearDisplay()">
+                    AC
+                </button>
+
+                <button
+                    class="clear"
+                    onclick="deleteLast()">
+                    DEL
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('(')">
+                    (
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue(')')">
+                    )
+                </button>
+
+                <button
+                    class="operator"
+                    onclick="insertValue('÷')">
+                    ÷
+                </button>
 
 
-        if (
-            typeof addToHistory ===
-            "function"
-        ) {
+                <button
+                    class="function"
+                    onclick="insertValue('sin(')">
+                    sin
+                </button>
 
-            addToHistory(
-                expression +
-                " [" +
-                angleMode +
-                "]",
-                answer
-            );
+                <button
+                    class="function"
+                    onclick="insertValue('cos(')">
+                    cos
+                </button>
 
-        }
+                <button
+                    class="function"
+                    onclick="insertValue('tan(')">
+                    tan
+                </button>
 
-    }
+                <button
+                    class="function"
+                    onclick="insertValue('√(')">
+                    √
+                </button>
 
-    catch (error) {
+                <button
+                    class="operator"
+                    onclick="insertValue('×')">
+                    ×
+                </button>
 
-        console.error(error);
 
-        result.textContent =
-            "Invalid calculation";
+                <button
+                    class="function"
+                    onclick="insertValue('asin(')">
+                    sin⁻¹
+                </button>
 
-        resultBox.style.display =
-            "block";
+                <button
+                    class="function"
+                    onclick="insertValue('acos(')">
+                    cos⁻¹
+                </button>
 
-    }
+                <button
+                    class="function"
+                    onclick="insertValue('atan(')">
+                    tan⁻¹
+                </button>
 
-}
+                <button
+                    class="function"
+                    onclick="insertValue('log(')">
+                    log
+                </button>
+
+                <button
+                    class="operator"
+                    onclick="insertValue('-')">
+                    −
+                </button>
+
+
+                <button
+                    class="function"
+                    onclick="insertValue('ln(')">
+                    ln
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('sinh(')">
+                    sinh
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('cosh(')">
+                    cosh
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('tanh(')">
+                    tanh
+                </button>
+
+                <button
+                    class="operator"
+                    onclick="insertValue('+')">
+                    +
+                </button>
+
+
+                <button
+                    class="function"
+                    onclick="insertValue('π')">
+                    π
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('e')">
+                    e
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('^')">
+                    xʸ
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('factorial(')">
+                    n!
+                </button>
+
+                <button
+                    class="operator"
+                    onclick="insertValue('%')">
+                    %
+                </button>
+
+
+                <button
+                    class="number"
+                    onclick="insertValue('7')">
+                    7
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('8')">
+                    8
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('9')">
+                    9
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('abs(')">
+                    |x|
+                </button>
+
+                <button
+                    class="operator"
+                    onclick="insertValue('/')">
+                    /
+                </button>
+
+
+                <button
+                    class="number"
+                    onclick="insertValue('4')">
+                    4
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('5')">
+                    5
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('6')">
+                    6
+                </button>
+
+                <button
+                    class="function"
+                    onclick="insertValue('floor(')">
+                    floor
+                </button>
+
+                <button
+                    class="operator"
+                    onclick="insertValue('*')">
+                    ×
+                </button>
+
+
+                <button
+                    class="number"
+                    onclick="insertValue('1')">
+                    1
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('2')">
+                    2
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('3')">
+                    3
+                </button>
+
+                <button
+                    class="number"
+                    onclick="insertValue('0')">
+                    0
+                </button>
+
+                <button
+                    class="equals"
+                    onclick="calculate()">
+                    =
+                </button>
+
+
+                <button
+                    class="number"
+                    onclick="insertValue('.')">
+                    .
+                </button>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div
+                id="resultBox"
+                class="result-box">
+
+                <div class="result-label">
+                    Result
+                </div>
+
+                <div id="result">
+                    0
+                </div>
+
+            </div>
+
+
+            <!-- HISTORY -->
+
+            <div class="history">
+
+                <h2>Calculation History</h2>
+
+                <ul id="historyList"></ul>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- IMPORTANT: LOAD JAVASCRIPT -->
+
+    <script src="{{ url_for('static', filename='scientific.js') }}"></script>
+
+</body>
+
+</html>
