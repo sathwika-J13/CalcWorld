@@ -70,7 +70,7 @@ def safe_calculate(expression):
 
 
 # =========================================================
-# HOME
+# HOME PAGE
 # =========================================================
 
 @app.route("/")
@@ -79,7 +79,7 @@ def home():
 
 
 # =========================================================
-# BASIC
+# BASIC CALCULATOR
 # =========================================================
 
 @app.route("/api/basic", methods=["POST"])
@@ -88,6 +88,11 @@ def basic():
     try:
 
         data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "error": "No data received"
+            }), 400
 
         expression = str(
             data.get("expression", "")
@@ -111,20 +116,22 @@ def basic():
     except ZeroDivisionError:
 
         return jsonify({
+            "success": False,
             "error": "Cannot divide by zero"
         }), 400
 
     except Exception as e:
 
-        print("Basic error:", e)
+        print("Basic calculation error:", e)
 
         return jsonify({
+            "success": False,
             "error": "Invalid calculation"
         }), 400
 
 
 # =========================================================
-# SCIENTIFIC
+# SCIENTIFIC CALCULATOR
 # =========================================================
 
 @app.route("/api/scientific", methods=["POST"])
@@ -133,6 +140,11 @@ def scientific():
     try:
 
         data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "error": "No data received"
+            }), 400
 
         expression = str(
             data.get("expression", "")
@@ -148,30 +160,41 @@ def scientific():
                 "error": "Expression is empty"
             }), 400
 
-        expression = expression.replace("^", "**")
-        expression = expression.replace("π", "pi")
-        expression = expression.replace("√", "sqrt")
+        expression = expression.replace(
+            "^",
+            "**"
+        )
+
+        expression = expression.replace(
+            "π",
+            "pi"
+        )
+
+        expression = expression.replace(
+            "√",
+            "sqrt"
+        )
 
         def sin(x):
-            return math.sin(
-                math.radians(x)
-                if angle_mode == "DEG"
-                else x
-            )
+
+            if angle_mode == "DEG":
+                x = math.radians(x)
+
+            return math.sin(x)
 
         def cos(x):
-            return math.cos(
-                math.radians(x)
-                if angle_mode == "DEG"
-                else x
-            )
+
+            if angle_mode == "DEG":
+                x = math.radians(x)
+
+            return math.cos(x)
 
         def tan(x):
-            return math.tan(
-                math.radians(x)
-                if angle_mode == "DEG"
-                else x
-            )
+
+            if angle_mode == "DEG":
+                x = math.radians(x)
+
+            return math.tan(x)
 
         functions = {
 
@@ -217,11 +240,19 @@ def scientific():
             "result": result
         })
 
-    except Exception as e:
-
-        print("Scientific error:", e)
+    except ZeroDivisionError:
 
         return jsonify({
+            "success": False,
+            "error": "Cannot divide by zero"
+        }), 400
+
+    except Exception as e:
+
+        print("Scientific calculation error:", e)
+
+        return jsonify({
+            "success": False,
             "error": "Invalid scientific calculation"
         }), 400
 
@@ -238,31 +269,47 @@ def mathematics():
         data = request.get_json()
 
         operation = data.get("operation")
-        value = float(data.get("value", 0))
+
+        value = float(
+            data.get("value", 0)
+        )
 
         if operation == "square":
+
             result = value ** 2
 
         elif operation == "cube":
+
             result = value ** 3
 
         elif operation == "sqrt":
+
             result = math.sqrt(value)
 
         elif operation == "factorial":
-            result = math.factorial(int(value))
+
+            result = math.factorial(
+                int(value)
+            )
 
         elif operation == "absolute":
+
             result = abs(value)
 
         elif operation == "reciprocal":
+
+            if value == 0:
+                raise ValueError(
+                    "Cannot divide by zero"
+                )
+
             result = 1 / value
 
         else:
 
-            return jsonify({
-                "error": "Unknown operation"
-            }), 400
+            raise ValueError(
+                "Unknown operation"
+            )
 
         return jsonify({
             "success": True,
@@ -272,6 +319,7 @@ def mathematics():
     except Exception as e:
 
         return jsonify({
+            "success": False,
             "error": str(e)
         }), 400
 
@@ -287,8 +335,13 @@ def percentage():
 
         data = request.get_json()
 
-        value = float(data.get("value", 0))
-        percent = float(data.get("percent", 0))
+        value = float(
+            data.get("value", 0)
+        )
+
+        percent = float(
+            data.get("percent", 0)
+        )
 
         operation = data.get(
             "operation",
@@ -297,7 +350,9 @@ def percentage():
 
         if operation == "percent_of":
 
-            result = value * percent / 100
+            result = (
+                value * percent / 100
+            )
 
         elif operation == "increase":
 
@@ -318,7 +373,9 @@ def percentage():
                     "Cannot divide by zero"
                 )
 
-            result = percent / value * 100
+            result = (
+                percent / value * 100
+            )
 
         else:
 
@@ -334,6 +391,7 @@ def percentage():
     except Exception as e:
 
         return jsonify({
+            "success": False,
             "error": str(e)
         }), 400
 
@@ -349,12 +407,15 @@ def statistics():
 
         data = request.get_json()
 
-        numbers = data.get("numbers", [])
+        numbers = data.get(
+            "numbers",
+            []
+        )
 
         numbers = [
             float(x)
             for x in numbers
-            if str(x).strip() != ""
+            if str(x).strip()
         ]
 
         if not numbers:
@@ -363,30 +424,36 @@ def statistics():
                 "Enter numbers"
             )
 
-        n = len(numbers)
+        count = len(numbers)
 
         total = sum(numbers)
 
-        mean = total / n
+        mean = total / count
 
         sorted_numbers = sorted(numbers)
 
-        if n % 2 == 0:
+        if count % 2 == 0:
 
             median = (
-                sorted_numbers[n // 2 - 1]
+                sorted_numbers[
+                    count // 2 - 1
+                ]
                 +
-                sorted_numbers[n // 2]
+                sorted_numbers[
+                    count // 2
+                ]
             ) / 2
 
         else:
 
-            median = sorted_numbers[n // 2]
+            median = sorted_numbers[
+                count // 2
+            ]
 
         variance = sum(
             (x - mean) ** 2
             for x in numbers
-        ) / n
+        ) / count
 
         standard_deviation = math.sqrt(
             variance
@@ -396,7 +463,7 @@ def statistics():
 
             "success": True,
 
-            "count": n,
+            "count": count,
 
             "sum": total,
 
@@ -408,7 +475,8 @@ def statistics():
 
             "max": max(numbers),
 
-            "range": max(numbers) - min(numbers),
+            "range":
+                max(numbers) - min(numbers),
 
             "variance": variance,
 
@@ -420,6 +488,7 @@ def statistics():
     except Exception as e:
 
         return jsonify({
+            "success": False,
             "error": str(e)
         }), 400
 
@@ -435,13 +504,19 @@ def number_system():
 
         data = request.get_json()
 
-        value = data.get("value")
+        value = str(
+            data.get("value", "")
+        ).strip()
+
         from_base = int(
-            data.get("from_base", 10)
+            data.get(
+                "from_base",
+                10
+            )
         )
 
         number = int(
-            str(value),
+            value,
             from_base
         )
 
@@ -449,19 +524,24 @@ def number_system():
 
             "success": True,
 
-            "binary": bin(number),
+            "binary":
+                bin(number)[2:],
 
-            "octal": oct(number),
+            "octal":
+                oct(number)[2:],
 
-            "decimal": number,
+            "decimal":
+                str(number),
 
-            "hexadecimal": hex(number)
+            "hexadecimal":
+                hex(number)[2:].upper()
 
         })
 
     except Exception as e:
 
         return jsonify({
+            "success": False,
             "error": "Invalid number"
         }), 400
 
@@ -477,36 +557,34 @@ def unit_converter():
 
         data = request.get_json()
 
-        category = data.get("category")
+        category = data.get(
+            "category"
+        )
 
         value = float(
             data.get("value", 0)
         )
 
-        from_unit = data.get("from_unit")
-        to_unit = data.get("to_unit")
+        from_unit = data.get(
+            "from_unit"
+        )
 
+        to_unit = data.get(
+            "to_unit"
+        )
 
-        # LENGTH
 
         if category == "length":
 
             units = {
 
                 "meter": 1,
-
                 "kilometer": 1000,
-
                 "centimeter": 0.01,
-
                 "millimeter": 0.001,
-
                 "mile": 1609.344,
-
                 "yard": 0.9144,
-
                 "foot": 0.3048,
-
                 "inch": 0.0254
 
             }
@@ -518,20 +596,14 @@ def unit_converter():
             )
 
 
-        # WEIGHT
-
         elif category == "weight":
 
             units = {
 
                 "kilogram": 1,
-
                 "gram": 0.001,
-
                 "milligram": 0.000001,
-
                 "pound": 0.45359237,
-
                 "ounce": 0.0283495231
 
             }
@@ -543,8 +615,6 @@ def unit_converter():
             )
 
 
-        # TEMPERATURE
-
         elif category == "temperature":
 
             if from_unit == to_unit:
@@ -553,7 +623,8 @@ def unit_converter():
 
             elif (
                 from_unit == "celsius"
-                and to_unit == "fahrenheit"
+                and
+                to_unit == "fahrenheit"
             ):
 
                 result = (
@@ -562,7 +633,8 @@ def unit_converter():
 
             elif (
                 from_unit == "fahrenheit"
-                and to_unit == "celsius"
+                and
+                to_unit == "celsius"
             ):
 
                 result = (
@@ -571,37 +643,39 @@ def unit_converter():
 
             elif (
                 from_unit == "celsius"
-                and to_unit == "kelvin"
+                and
+                to_unit == "kelvin"
             ):
 
                 result = value + 273.15
 
             elif (
                 from_unit == "kelvin"
-                and to_unit == "celsius"
+                and
+                to_unit == "celsius"
             ):
 
                 result = value - 273.15
 
             elif (
                 from_unit == "fahrenheit"
-                and to_unit == "kelvin"
+                and
+                to_unit == "kelvin"
             ):
 
                 result = (
-                    (value - 32)
-                    * 5 / 9
-                ) + 273.15
+                    value - 32
+                ) * 5 / 9 + 273.15
 
             elif (
                 from_unit == "kelvin"
-                and to_unit == "fahrenheit"
+                and
+                to_unit == "fahrenheit"
             ):
 
                 result = (
-                    (value - 273.15)
-                    * 9 / 5
-                ) + 32
+                    value - 273.15
+                ) * 9 / 5 + 32
 
             else:
 
@@ -610,18 +684,13 @@ def unit_converter():
                 )
 
 
-        # TIME
-
         elif category == "time":
 
             units = {
 
                 "second": 1,
-
                 "minute": 60,
-
                 "hour": 3600,
-
                 "day": 86400
 
             }
@@ -651,6 +720,7 @@ def unit_converter():
     except Exception as e:
 
         return jsonify({
+            "success": False,
             "error": str(e)
         }), 400
 
@@ -712,15 +782,16 @@ def age_calculator():
 
         })
 
-    except Exception as e:
+    except Exception:
 
         return jsonify({
+            "success": False,
             "error": "Invalid date"
         }), 400
 
 
 # =========================================================
-# EMI / FINANCE
+# EMI CALCULATOR
 # =========================================================
 
 @app.route("/api/emi", methods=["POST"])
@@ -742,6 +813,16 @@ def emi():
             data.get("months")
         )
 
+        if principal <= 0:
+            raise ValueError(
+                "Loan amount must be greater than zero"
+            )
+
+        if months <= 0:
+            raise ValueError(
+                "Loan period must be greater than zero"
+            )
+
         monthly_rate = (
             annual_rate / 12 / 100
         )
@@ -756,11 +837,15 @@ def emi():
 
             monthly_payment = (
                 principal
-                * monthly_rate
-                * (1 + monthly_rate) ** months
+                *
+                monthly_rate
+                *
+                (1 + monthly_rate)
+                ** months
                 /
                 (
-                    (1 + monthly_rate) ** months
+                    (1 + monthly_rate)
+                    ** months
                     - 1
                 )
             )
@@ -791,8 +876,33 @@ def emi():
     except Exception as e:
 
         return jsonify({
+            "success": False,
             "error": str(e)
         }), 400
+
+
+# =========================================================
+# ROBOTS.TXT
+# =========================================================
+
+@app.route("/robots.txt")
+def robots():
+
+    return app.send_static_file(
+        "robots.txt"
+    )
+
+
+# =========================================================
+# SITEMAP
+# =========================================================
+
+@app.route("/sitemap.xml")
+def sitemap():
+
+    return app.send_static_file(
+        "sitemap.xml"
+    )
 
 
 # =========================================================
@@ -813,7 +923,7 @@ def health():
 
 
 # =========================================================
-# RUN
+# START
 # =========================================================
 
 if __name__ == "__main__":
