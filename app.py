@@ -124,7 +124,7 @@ def basic():
 
     except Exception as e:
 
-        print("Basic error:", e)
+        print("Basic calculator error:", e)
 
         return jsonify({
             "success": False,
@@ -143,6 +143,12 @@ def scientific():
 
         data = request.get_json()
 
+        if not data:
+            return jsonify({
+                "success": False,
+                "error": "No data received"
+            }), 400
+
         expression = str(
             data.get("expression", "")
         ).strip()
@@ -153,23 +159,14 @@ def scientific():
         )
 
         if not expression:
-
             return jsonify({
                 "success": False,
                 "error": "Expression is empty"
             }), 400
 
-        expression = expression.replace(
-            "^", "**"
-        )
-
-        expression = expression.replace(
-            "π", "pi"
-        )
-
-        expression = expression.replace(
-            "√", "sqrt"
-        )
+        expression = expression.replace("^", "**")
+        expression = expression.replace("π", "pi")
+        expression = expression.replace("√", "sqrt")
 
         def sin(x):
 
@@ -243,7 +240,7 @@ def scientific():
 
     except Exception as e:
 
-        print("Scientific error:", e)
+        print("Scientific calculator error:", e)
 
         return jsonify({
             "success": False,
@@ -263,10 +260,7 @@ def mathematics():
         data = request.get_json()
 
         operation = data.get("operation")
-
-        value = float(
-            data.get("value", 0)
-        )
+        value = float(data.get("value", 0))
 
         if operation == "square":
 
@@ -282,9 +276,7 @@ def mathematics():
 
         elif operation == "factorial":
 
-            result = math.factorial(
-                int(value)
-            )
+            result = math.factorial(int(value))
 
         elif operation == "absolute":
 
@@ -397,10 +389,7 @@ def statistics():
 
         data = request.get_json()
 
-        numbers = data.get(
-            "numbers",
-            []
-        )
+        numbers = data.get("numbers", [])
 
         numbers = [
             float(x)
@@ -537,14 +526,11 @@ def unit_converter():
         )
 
         from_unit = data.get("from_unit")
-
         to_unit = data.get("to_unit")
-
 
         if category == "length":
 
             units = {
-
                 "meter": 1,
                 "kilometer": 1000,
                 "centimeter": 0.01,
@@ -553,34 +539,29 @@ def unit_converter():
                 "yard": 0.9144,
                 "foot": 0.3048,
                 "inch": 0.0254
-
             }
 
             result = (
-                value
-                * units[from_unit]
-                / units[to_unit]
+                value *
+                units[from_unit] /
+                units[to_unit]
             )
-
 
         elif category == "weight":
 
             units = {
-
                 "kilogram": 1,
                 "gram": 0.001,
                 "milligram": 0.000001,
                 "pound": 0.45359237,
                 "ounce": 0.0283495231
-
             }
 
             result = (
-                value
-                * units[from_unit]
-                / units[to_unit]
+                value *
+                units[from_unit] /
+                units[to_unit]
             )
-
 
         elif category == "temperature":
 
@@ -644,24 +625,20 @@ def unit_converter():
                     "Invalid temperature units"
                 )
 
-
         elif category == "time":
 
             units = {
-
                 "second": 1,
                 "minute": 60,
                 "hour": 3600,
                 "day": 86400
-
             }
 
             result = (
-                value
-                * units[from_unit]
-                / units[to_unit]
+                value *
+                units[from_unit] /
+                units[to_unit]
             )
-
 
         else:
 
@@ -669,12 +646,9 @@ def unit_converter():
                 "Invalid category"
             )
 
-
         return jsonify({
-
             "success": True,
             "result": result
-
         })
 
     except Exception as e:
@@ -732,14 +706,10 @@ def age_calculator():
             years -= 1
 
         return jsonify({
-
             "success": True,
-
             "age": years,
-
             "message":
                 f"You are {years} years old."
-
         })
 
     except Exception:
@@ -883,12 +853,8 @@ def sitemap():
 def health():
 
     return jsonify({
-
         "status": "online",
-
-        "message":
-            "CalcWorld API is working"
-
+        "message": "CalcWorld API is working"
     })
 
 
