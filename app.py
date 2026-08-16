@@ -1,348 +1,128 @@
 from flask import Flask, render_template, request, jsonify
 import sympy as sp
+import math
 
 app = Flask(__name__)
 
 
-# =========================================================
-# HOME
-# =========================================================
-
+# -----------------------------
+# HOME PAGE
+# -----------------------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# =========================================================
-# CALCULATOR PAGES
-# =========================================================
-
-@app.route("/calculator")
-def calculator():
-    return render_template("calculator.html")
-
-
-@app.route("/scientific")
-def scientific():
-    return render_template("scientific.html")
-
-
-@app.route("/mathematics")
-def mathematics():
-    return render_template("mathematics.html")
-
-
-@app.route("/advanced-math")
-def advanced_math():
-    return render_template("advanced_math.html")
-
-
-@app.route("/finance")
-def finance():
-    return render_template("finance.html")
-
-
-@app.route("/statistics")
-def statistics():
-    return render_template("statistics.html")
-
-
-@app.route("/geometry")
-def geometry():
-    return render_template("geometry.html")
-
-
-@app.route("/physics")
-def physics():
-    return render_template("physics.html")
-
-
-@app.route("/converter")
-def converter():
-    return render_template("converter.html")
-
-
-@app.route("/programmer")
-def programmer():
-    return render_template("programmer.html")
-
-
-@app.route("/engineering")
-def engineering():
-    return render_template("engineering.html")
-
-
-@app.route("/biology")
-def biology():
-    return render_template("biology.html")
-
-
-@app.route("/chemistry")
-def chemistry():
-    return render_template("chemistry.html")
-
-
-# =========================================================
-# SCIENTIFIC CALCULATOR API
-# =========================================================
-
+# -----------------------------
+# SCIENTIFIC CALCULATOR
+# -----------------------------
 @app.route("/api/scientific", methods=["POST"])
-def scientific_api():
-
+def scientific():
     try:
-
         data = request.get_json()
 
-        if not data:
-            return jsonify({
-                "success": False,
-                "error": "No data received"
-            }), 400
-
-        expression = data.get(
-            "expression",
-            ""
-        ).strip()
-
-        angle_mode = data.get(
-            "angle_mode",
-            "DEG"
-        ).upper()
+        expression = data.get("expression", "").strip()
+        angle_mode = data.get("angle_mode", "DEG")
 
         if not expression:
-            return jsonify({
-                "success": False,
-                "error": "Expression is empty"
-            }), 400
+            return jsonify({"error": "Empty expression"}), 400
 
-        # -------------------------------------------------
-        # Calculator symbol replacements
-        # -------------------------------------------------
-
-        expression = expression.replace("π", "pi")
+        # Convert calculator symbols to SymPy syntax
         expression = expression.replace("×", "*")
         expression = expression.replace("÷", "/")
+        expression = expression.replace("−", "-")
         expression = expression.replace("^", "**")
-        expression = expression.replace("√", "sqrt")
+        expression = expression.replace("π", "pi")
 
-        # -------------------------------------------------
-        # Mathematical functions
-        # -------------------------------------------------
+        # Convert percentage
+        expression = expression.replace("%", "/100")
 
-        functions = {
+        # Angle conversion
+        if angle_mode == "DEG":
+            sin_func = lambda x: sp.sin(sp.pi * x / 180)
+            cos_func = lambda x: sp.cos(sp.pi * x / 180)
+            tan_func = lambda x: sp.tan(sp.pi * x / 180)
+        else:
+            sin_func = sp.sin
+            cos_func = sp.cos
+            tan_func = sp.tan
 
-            "sin": sp.sin,
-            "cos": sp.cos,
-            "tan": sp.tan,
-
+        # Allowed functions
+        allowed = {
+            "sin": sin_func,
+            "cos": cos_func,
+            "tan": tan_func,
+            "sqrt": sp.sqrt,
+            "log": sp.log10,
+            "ln": sp.log,
+            "abs": sp.Abs,
+            "exp": sp.exp,
             "asin": sp.asin,
             "acos": sp.acos,
             "atan": sp.atan,
-
-            "sinh": sp.sinh,
-            "cosh": sp.cosh,
-            "tanh": sp.tanh,
-
-            "sqrt": sp.sqrt,
-
-            "log": sp.log10,
-            "ln": sp.log,
-
-            "exp": sp.exp,
-            "abs": sp.Abs,
-
             "factorial": sp.factorial,
-
-            "floor": sp.floor,
-            "ceil": sp.ceiling
-        }
-
-        # -------------------------------------------------
-        # DEGREE MODE
-        # -------------------------------------------------
-
-        if angle_mode == "DEG":
-
-            functions["sin"] = lambda value: sp.sin(
-                value * sp.pi / 180
-            )
-
-            functions["cos"] = lambda value: sp.cos(
-                value * sp.pi / 180
-            )
-
-            functions["tan"] = lambda value: sp.tan(
-                value * sp.pi / 180
-            )
-
-            functions["asin"] = lambda value: (
-                sp.asin(value) * 180 / sp.pi
-            )
-
-            functions["acos"] = lambda value: (
-                sp.acos(value) * 180 / sp.pi
-            )
-
-            functions["atan"] = lambda value: (
-                sp.atan(value) * 180 / sp.pi
-            )
-
-        # -------------------------------------------------
-        # RADIAN MODE
-        # -------------------------------------------------
-
-        elif angle_mode == "RAD":
-
-            functions["sin"] = sp.sin
-            functions["cos"] = sp.cos
-            functions["tan"] = sp.tan
-
-            functions["asin"] = sp.asin
-            functions["acos"] = sp.acos
-            functions["atan"] = sp.atan
-
-        # -------------------------------------------------
-        # GRADIAN MODE
-        # -------------------------------------------------
-
-        elif angle_mode == "GRAD":
-
-            functions["sin"] = lambda value: sp.sin(
-                value * sp.pi / 200
-            )
-
-            functions["cos"] = lambda value: sp.cos(
-                value * sp.pi / 200
-            )
-
-            functions["tan"] = lambda value: sp.tan(
-                value * sp.pi / 200
-            )
-
-            functions["asin"] = lambda value: (
-                sp.asin(value) * 200 / sp.pi
-            )
-
-            functions["acos"] = lambda value: (
-                sp.acos(value) * 200 / sp.pi
-            )
-
-            functions["atan"] = lambda value: (
-                sp.atan(value) * 200 / sp.pi
-            )
-
-        else:
-
-            return jsonify({
-                "success": False,
-                "error": "Invalid angle mode"
-            }), 400
-
-        # -------------------------------------------------
-        # Constants and functions
-        # -------------------------------------------------
-
-        local_variables = {
-            **functions,
             "pi": sp.pi,
             "e": sp.E,
-            "E": sp.E
         }
 
-        # -------------------------------------------------
-        # Calculate expression
-        # -------------------------------------------------
+        # Evaluate expression
+        result = sp.sympify(expression, locals=allowed)
 
-        result = sp.sympify(
-            expression,
-            locals=local_variables
-        )
+        # Numerical result
+        result = sp.N(result, 12)
 
-        # -------------------------------------------------
-        # Simplify
-        # -------------------------------------------------
+        # Remove unnecessary decimal .0
+        if result.is_real:
+            value = float(result)
 
-        result = sp.simplify(result)
-
-        # -------------------------------------------------
-        # Numeric result
-        # -------------------------------------------------
-
-        numeric_result = sp.N(
-            result,
-            15
-        )
-
-        # -------------------------------------------------
-        # Return JSON
-        # -------------------------------------------------
+            if value.is_integer():
+                output = str(int(value))
+            else:
+                output = str(value)
+        else:
+            output = str(result)
 
         return jsonify({
-
-            "success": True,
-
-            "expression": expression,
-
-            "result": str(
-                numeric_result
-            ),
-
-            "exact": str(
-                result
-            )
-
+            "result": output
         })
 
-    except ZeroDivisionError:
-
+    except Exception as e:
         return jsonify({
-
-            "success": False,
-
-            "error": "Cannot divide by zero"
-
-        }), 400
-
-    except Exception as error:
-
-        print(
-            "Calculator Error:",
-            error
-        )
-
-        return jsonify({
-
-            "success": False,
-
-            "error": "Invalid mathematical expression"
-
+            "error": str(e)
         }), 400
 
 
-# =========================================================
-# API TEST
-# =========================================================
+# -----------------------------
+# SIMPLE MATHEMATICS API
+# -----------------------------
+@app.route("/api/mathematics", methods=["POST"])
+def mathematics():
+    try:
+        data = request.get_json()
+        expression = data.get("expression", "")
 
-@app.route("/api/test")
-def test_api():
+        expression = expression.replace("×", "*")
+        expression = expression.replace("÷", "/")
+        expression = expression.replace("^", "**")
 
-    return jsonify({
+        result = sp.sympify(expression)
 
-        "success": True,
+        return jsonify({
+            "result": str(sp.N(result, 12))
+        })
 
-        "message": "CalcWorld API is working!"
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 400
 
-    })
 
-
-# =========================================================
-# START FLASK
-# =========================================================
-
+# -----------------------------
+# RUN SERVER
+# -----------------------------
 if __name__ == "__main__":
-
     app.run(
-        debug=True,
         host="0.0.0.0",
-        port=5000
+        port=5000,
+        debug=True
     )
