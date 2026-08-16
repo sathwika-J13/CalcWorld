@@ -2,1095 +2,1214 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="CalcWorld - Free online calculators for mathematics, science, finance and everyday calculations.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>CalcWorld - Universal Calculator</title>
 
-
     <style>
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fb;
-            color: #1f2937;
+            font-family: Arial, sans-serif;
             min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            padding: 20px;
         }
 
+        .container {
+            width: 100%;
+            max-width: 950px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #cbd5e1;
+            font-size: 16px;
+        }
 
         /* =========================
-           NAVBAR
+           TABS
         ========================= */
 
-        nav {
-            height: 70px;
-
-            background: #111827;
-
+        .tabs {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 7%;
-
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-
-        .logo {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-
-        .logo span {
-            color: #22c55e;
-        }
-
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            list-style: none;
-        }
-
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
-
-        .nav-links a:hover {
-            color: #22c55e;
-        }
-
-
-        .menu-button {
-            display: none;
-
+        .tab {
             border: none;
-            background: transparent;
-
+            padding: 12px 24px;
+            border-radius: 10px;
+            background: #334155;
             color: white;
-
-            font-size: 28px;
-
+            font-size: 16px;
             cursor: pointer;
         }
 
+        .tab:hover {
+            background: #475569;
+        }
+
+        .tab.active {
+            background: #2563eb;
+        }
 
         /* =========================
-           HERO
+           CALCULATOR
         ========================= */
 
-        .hero {
-            text-align: center;
-
-            padding: 80px 20px 50px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #eefcf4,
-                    #f5f7fb
-                );
+        .calculator {
+            background: #111827;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
-
-
-        .hero h1 {
-            font-size: 52px;
-            margin-bottom: 15px;
-        }
-
-
-        .hero h1 span {
-            color: #16a34a;
-        }
-
-
-        .hero p {
-            max-width: 700px;
-
-            margin: auto;
-
-            color: #667085;
-
-            font-size: 18px;
-
-            line-height: 1.7;
-        }
-
 
         /* =========================
-           SEARCH
+           DISPLAY
         ========================= */
 
-        .search-container {
-            max-width: 600px;
-
-            margin: 35px auto 0;
-
-            position: relative;
-        }
-
-
-        .search {
+        .display {
             width: 100%;
+            height: 80px;
 
-            padding: 17px 22px;
+            background: #020617;
+            color: white;
 
-            border: 1px solid #d1d5db;
-
-            border-radius: 35px;
-
-            background: white;
+            border: 2px solid #334155;
+            border-radius: 12px;
 
             outline: none;
 
-            font-size: 16px;
-
-            box-shadow:
-                0 5px 20px rgba(0, 0, 0, 0.06);
-        }
-
-
-        .search:focus {
-            border-color: #22c55e;
-
-            box-shadow:
-                0 0 0 3px rgba(34, 197, 94, 0.15);
-        }
-
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .container {
-            width: 90%;
-
-            max-width: 1200px;
-
-            margin: 55px auto;
-        }
-
-
-        .section-title {
-            text-align: center;
-
             font-size: 30px;
+            text-align: right;
 
-            margin-bottom: 35px;
-        }
-
-
-        /* =========================
-           CARDS
-        ========================= */
-
-        .cards {
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(240px, 1fr));
-
-            gap: 22px;
-        }
-
-
-        .card {
-            background: white;
-
-            border-radius: 18px;
-
-            padding: 30px 22px;
-
-            text-align: center;
-
-            box-shadow:
-                0 6px 25px rgba(0, 0, 0, 0.07);
-
-            transition:
-                transform 0.25s,
-                box-shadow 0.25s;
-
-            border: 1px solid #eef0f3;
-        }
-
-
-        .card:hover {
-            transform: translateY(-7px);
-
-            box-shadow:
-                0 14px 35px rgba(0, 0, 0, 0.12);
-        }
-
-
-        .icon {
-            width: 70px;
-            height: 70px;
-
-            margin: 0 auto 18px;
-
-            border-radius: 18px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-size: 38px;
-
-            background: #f0fdf4;
-        }
-
-
-        .card h3 {
-            font-size: 21px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .card p {
-            color: #6b7280;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-
-            min-height: 45px;
-        }
-
-
-        .card-button {
-            display: inline-block;
-
-            margin-top: 22px;
-
-            padding: 11px 20px;
-
-            border-radius: 9px;
-
-            background: #16a34a;
-
-            color: white;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            font-weight: bold;
-
-            border: none;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-        }
-
-
-        .card-button:hover {
-            background: #15803d;
-
-            transform: translateY(-1px);
-        }
-
-
-        /* =========================
-           COMING SOON
-        ========================= */
-
-        .coming-soon {
-            opacity: 0.75;
-        }
-
-
-        .coming-soon .card-button {
-            background: #6b7280;
-        }
-
-
-        /* =========================
-           FEATURES
-        ========================= */
-
-        .features {
-            margin-top: 70px;
-
-            padding: 65px 8%;
-
-            background: #111827;
-
-            color: white;
-
-            text-align: center;
-        }
-
-
-        .features h2 {
-            font-size: 30px;
-
-            margin-bottom: 40px;
-        }
-
-
-        .feature-grid {
-            max-width: 1100px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(200px, 1fr));
-
-            gap: 30px;
-        }
-
-
-        .feature {
             padding: 15px;
+            margin-bottom: 15px;
         }
 
+        .display:focus {
+            border-color: #2563eb;
+        }
 
-        .feature-icon {
-            font-size: 38px;
+        /* =========================
+           ANGLE MODE
+        ========================= */
+
+        .angle-mode {
+            display: none;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .angle-mode button {
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            background: #334155;
+            color: white;
+            cursor: pointer;
+        }
+
+        .angle-mode button.active {
+            background: #2563eb;
+        }
+
+        /* =========================
+           SCIENTIFIC BUTTONS
+        ========================= */
+
+        .scientific-buttons {
+            display: none;
+
+            grid-template-columns: repeat(5, 1fr);
+
+            gap: 10px;
 
             margin-bottom: 12px;
         }
 
+        .scientific-buttons button {
+            height: 50px;
 
-        .feature h3 {
-            margin-bottom: 8px;
-        }
+            border: none;
+            border-radius: 8px;
 
-
-        .feature p {
-            color: #aeb4c0;
-
-            font-size: 14px;
-
-            line-height: 1.5;
-        }
-
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            background: #0b1120;
-
-            color: #9ca3af;
-
-            text-align: center;
-
-            padding: 25px 15px;
-
-            font-size: 14px;
-        }
-
-
-        /* =========================
-           NO RESULTS
-        ========================= */
-
-        #noResults {
-            display: none;
-
-            text-align: center;
-
-            color: #777;
-
-            padding: 30px;
+            background: #475569;
+            color: white;
 
             font-size: 16px;
+
+            cursor: pointer;
         }
 
+        .scientific-buttons button:hover {
+            background: #64748b;
+        }
 
         /* =========================
-           MOBILE
+           BASIC BUTTONS
         ========================= */
 
-        @media (max-width: 750px) {
+        .buttons {
+            display: grid;
 
-            nav {
-                padding: 0 20px;
-            }
+            grid-template-columns: repeat(4, 1fr);
 
-
-            .menu-button {
-                display: block;
-            }
-
-
-            .nav-links {
-                display: none;
-
-                position: absolute;
-
-                top: 70px;
-                left: 0;
-                right: 0;
-
-                background: #111827;
-
-                flex-direction: column;
-
-                padding: 20px;
-
-                gap: 18px;
-            }
-
-
-            .nav-links.show {
-                display: flex;
-            }
-
-
-            .hero {
-                padding-top: 55px;
-            }
-
-
-            .hero h1 {
-                font-size: 38px;
-            }
-
-
-            .hero p {
-                font-size: 16px;
-            }
-
-
-            .container {
-                width: 92%;
-            }
-
+            gap: 10px;
         }
 
+        .calc {
+            height: 60px;
 
-        @media (max-width: 400px) {
+            border: none;
+            border-radius: 10px;
 
-            .hero h1 {
+            background: #334155;
+            color: white;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+        .calc:hover {
+            background: #475569;
+        }
+
+        .operator {
+            background: #2563eb;
+        }
+
+        .operator:hover {
+            background: #1d4ed8;
+        }
+
+        .clear {
+            background: #dc2626;
+        }
+
+        .clear:hover {
+            background: #b91c1c;
+        }
+
+        .equal {
+            background: #16a34a;
+
+            grid-column: span 2;
+        }
+
+        .equal:hover {
+            background: #15803d;
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+            display: none;
+
+            background: #7f1d1d;
+            color: #fecaca;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 12px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 10px;
+            }
+
+            header h1 {
                 font-size: 32px;
             }
 
-
-            .card {
-                padding: 25px 18px;
+            .calculator {
+                padding: 12px;
             }
 
+            .display {
+                height: 70px;
+                font-size: 24px;
+            }
+
+            .calc {
+                height: 55px;
+                font-size: 18px;
+            }
+
+            .scientific-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .scientific-buttons button {
+                font-size: 14px;
+                height: 45px;
+            }
         }
-
     </style>
-
 </head>
 
 
 <body>
 
+<div class="container">
 
-<!-- =========================
-     NAVIGATION
-========================= -->
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-<nav>
+    <header>
 
-    <a href="/" class="logo">
-        Calc<span>World</span>
-    </a>
+        <h1>CalcWorld</h1>
 
+        <p>Universal Online Calculator</p>
 
-    <button
-        class="menu-button"
-        onclick="toggleMenu()"
-        aria-label="Open menu">
-        ☰
-    </button>
+    </header>
 
 
-    <ul class="nav-links" id="navLinks">
+    <!-- =========================
+         CALCULATOR TABS
+    ========================= -->
 
-        <li>
-            <a href="/">Home</a>
-        </li>
+    <div class="tabs">
 
-        <li>
-            <a href="/basic">Basic</a>
-        </li>
+        <button
+            class="tab active"
+            id="basicTab"
+            onclick="switchCalculator('basic')">
 
-        <li>
-            <a href="/scientific">Scientific</a>
-        </li>
+            Basic
 
-        <li>
-            <a href="/mathematics">Mathematics</a>
-        </li>
-
-        <li>
-            <a href="/converter">Converter</a>
-        </li>
-
-    </ul>
-
-</nav>
+        </button>
 
 
+        <button
+            class="tab"
+            id="scientificTab"
+            onclick="switchCalculator('scientific')">
 
-<!-- =========================
-     HERO
-========================= -->
+            Scientific
 
-<section class="hero">
+        </button>
 
-    <h1>
-        Welcome to
-        <span>CalcWorld</span>
-    </h1>
-
-
-    <p>
-        Your all-in-one online calculator platform
-        for mathematics, science, finance,
-        statistics and everyday calculations.
-    </p>
+    </div>
 
 
-    <div class="search-container">
+    <!-- =========================
+         CALCULATOR
+    ========================= -->
+
+    <div class="calculator" id="calculator">
+
+
+        <!-- ERROR MESSAGE -->
+
+        <div
+            class="error-message"
+            id="errorMessage">
+        </div>
+
+
+        <!-- =========================
+             ANGLE MODE
+        ========================= -->
+
+        <div
+            class="angle-mode"
+            id="angleMode">
+
+            <button
+                id="degButton"
+                class="active"
+                onclick="setAngleMode('DEG')">
+
+                DEG
+
+            </button>
+
+
+            <button
+                id="radButton"
+                onclick="setAngleMode('RAD')">
+
+                RAD
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             SCIENTIFIC BUTTONS
+        ========================= -->
+
+        <div
+            class="scientific-buttons"
+            id="scientificButtons">
+
+
+            <button
+                onclick="insertFunction('sin')">
+
+                sin
+
+            </button>
+
+
+            <button
+                onclick="insertFunction('cos')">
+
+                cos
+
+            </button>
+
+
+            <button
+                onclick="insertFunction('tan')">
+
+                tan
+
+            </button>
+
+
+            <button
+                onclick="insertFunction('sqrt')">
+
+                √
+
+            </button>
+
+
+            <button
+                onclick="insertFunction('log')">
+
+                log
+
+            </button>
+
+
+            <button
+                onclick="insertFunction('ln')">
+
+                ln
+
+            </button>
+
+
+            <button
+                onclick="insertConstant('pi')">
+
+                π
+
+            </button>
+
+
+            <button
+                onclick="insertConstant('e')">
+
+                e
+
+            </button>
+
+
+            <button
+                onclick="squareNumber()">
+
+                x²
+
+            </button>
+
+
+            <button
+                onclick="factorialNumber()">
+
+                x!
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             DISPLAY
+        ========================= -->
 
         <input
             type="text"
-            id="search"
-            class="search"
-            placeholder="Search calculators..."
-            oninput="searchCalculators()"
+            id="display"
+            class="display"
+            placeholder="0"
             autocomplete="off"
+            inputmode="decimal"
         >
 
-    </div>
 
-</section>
+        <!-- =========================
+             CALCULATOR BUTTONS
+        ========================= -->
 
-
-
-<!-- =========================
-     CALCULATORS
-========================= -->
-
-<main class="container">
-
-    <h2 class="section-title">
-        Explore Calculators
-    </h2>
+        <div class="buttons">
 
 
-    <div class="cards" id="calculatorCards">
-
-
-        <!-- BASIC -->
-
-        <div
-            class="card calculator-card"
-            data-search="basic calculator arithmetic addition subtraction multiplication division percentage">
-
-            <div class="icon">
-                🧮
-            </div>
-
-            <h3>
-                Basic Calculator
-            </h3>
-
-            <p>
-                Perform everyday arithmetic
-                calculations quickly and easily.
-            </p>
-
-            <a
-                href="/basic"
-                class="card-button">
-                Open Calculator
-            </a>
-
-        </div>
-
-
-
-        <!-- SCIENTIFIC -->
-
-        <div
-            class="card calculator-card"
-            data-search="scientific calculator sin cos tan logarithm power square root trigonometry">
-
-            <div class="icon">
-                🔬
-            </div>
-
-            <h3>
-                Scientific Calculator
-            </h3>
-
-            <p>
-                Trigonometry, logarithms, powers,
-                roots and advanced calculations.
-            </p>
-
-            <a
-                href="/scientific"
-                class="card-button">
-                Open Calculator
-            </a>
-
-        </div>
-
-
-
-        <!-- MATHEMATICS -->
-
-        <div
-            class="card calculator-card"
-            data-search="mathematics calculator equations hcf lcm percentage ratio">
-
-            <div class="icon">
-                📐
-            </div>
-
-            <h3>
-                Mathematics
-            </h3>
-
-            <p>
-                Solve mathematical expressions,
-                equations and common problems.
-            </p>
-
-            <a
-                href="/mathematics"
-                class="card-button">
-                Open Calculator
-            </a>
-
-        </div>
-
-
-
-        <!-- UNIT CONVERTER -->
-
-        <div
-            class="card calculator-card"
-            data-search="unit converter length weight temperature area volume speed">
-
-            <div class="icon">
-                🔄
-            </div>
-
-            <h3>
-                Unit Converter
-            </h3>
-
-            <p>
-                Convert length, weight, temperature,
-                area, volume and more.
-            </p>
-
-            <a
-                href="/converter"
-                class="card-button">
-                Open Converter
-            </a>
-
-        </div>
-
-
-
-        <!-- FINANCE -->
-
-        <div
-            class="card calculator-card coming-soon"
-            data-search="finance calculator emi loan interest compound simple interest">
-
-            <div class="icon">
-                💰
-            </div>
-
-            <h3>
-                Finance Calculator
-            </h3>
-
-            <p>
-                EMI, simple interest, compound
-                interest and financial calculations.
-            </p>
+            <!-- ROW 1 -->
 
             <button
-                class="card-button"
-                onclick="comingSoon('Finance Calculator')">
-                Coming Soon
+                class="calc clear"
+                onclick="clearDisplay()">
+
+                C
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="deleteLast()">
+
+                DEL
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('%')">
+
+                %
+
+            </button>
+
+
+            <button
+                class="calc operator"
+                onclick="addToDisplay('/')">
+
+                ÷
+
+            </button>
+
+
+            <!-- ROW 2 -->
+
+            <button
+                class="calc"
+                onclick="addToDisplay('7')">
+
+                7
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('8')">
+
+                8
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('9')">
+
+                9
+
+            </button>
+
+
+            <button
+                class="calc operator"
+                onclick="addToDisplay('*')">
+
+                ×
+
+            </button>
+
+
+            <!-- ROW 3 -->
+
+            <button
+                class="calc"
+                onclick="addToDisplay('4')">
+
+                4
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('5')">
+
+                5
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('6')">
+
+                6
+
+            </button>
+
+
+            <button
+                class="calc operator"
+                onclick="addToDisplay('-')">
+
+                −
+
+            </button>
+
+
+            <!-- ROW 4 -->
+
+            <button
+                class="calc"
+                onclick="addToDisplay('1')">
+
+                1
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('2')">
+
+                2
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('3')">
+
+                3
+
+            </button>
+
+
+            <button
+                class="calc operator"
+                onclick="addToDisplay('+')">
+
+                +
+
+            </button>
+
+
+            <!-- ROW 5 -->
+
+            <button
+                class="calc"
+                onclick="addToDisplay('0')">
+
+                0
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('.')">
+
+                .
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay('(')">
+
+                (
+
+            </button>
+
+
+            <button
+                class="calc"
+                onclick="addToDisplay(')')">
+
+                )
+
+            </button>
+
+
+            <!-- EQUAL -->
+
+            <button
+                class="calc equal"
+                onclick="calculate()">
+
+                =
+
             </button>
 
         </div>
 
-
-
-        <!-- STATISTICS -->
-
-        <div
-            class="card calculator-card coming-soon"
-            data-search="statistics calculator mean median mode standard deviation variance">
-
-            <div class="icon">
-                📊
-            </div>
-
-            <h3>
-                Statistics
-            </h3>
-
-            <p>
-                Calculate mean, median, mode,
-                variance and standard deviation.
-            </p>
-
-            <button
-                class="card-button"
-                onclick="comingSoon('Statistics Calculator')">
-                Coming Soon
-            </button>
-
-        </div>
-
-
-
-        <!-- DATE -->
-
-        <div
-            class="card calculator-card coming-soon"
-            data-search="date calculator days date difference age time">
-
-            <div class="icon">
-                📅
-            </div>
-
-            <h3>
-                Date Calculator
-            </h3>
-
-            <p>
-                Calculate date differences,
-                days and time periods.
-            </p>
-
-            <button
-                class="card-button"
-                onclick="comingSoon('Date Calculator')">
-                Coming Soon
-            </button>
-
-        </div>
-
-
-
-        <!-- FORMULA -->
-
-        <div
-            class="card calculator-card coming-soon"
-            data-search="formula library mathematics physics engineering formulas">
-
-            <div class="icon">
-                📚
-            </div>
-
-            <h3>
-                Formula Library
-            </h3>
-
-            <p>
-                Explore useful mathematics,
-                physics and engineering formulas.
-            </p>
-
-            <button
-                class="card-button"
-                onclick="comingSoon('Formula Library')">
-                Coming Soon
-            </button>
-
-        </div>
-
-
     </div>
 
-
-    <div id="noResults">
-        No calculator found.
-    </div>
-
-</main>
-
-
-
-<!-- =========================
-     FEATURES
-========================= -->
-
-<section class="features">
-
-    <h2>
-        Why Use CalcWorld?
-    </h2>
-
-
-    <div class="feature-grid">
-
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                ⚡
-            </div>
-
-            <h3>
-                Fast
-            </h3>
-
-            <p>
-                Get calculations quickly without
-                unnecessary steps.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                🎯
-            </div>
-
-            <h3>
-                Accurate
-            </h3>
-
-            <p>
-                Powerful mathematical calculations
-                using reliable algorithms.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                📱
-            </div>
-
-            <h3>
-                Responsive
-            </h3>
-
-            <p>
-                Designed to work on phones,
-                tablets and computers.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                🆓
-            </div>
-
-            <h3>
-                Free
-            </h3>
-
-            <p>
-                Use CalcWorld online without
-                complicated registration.
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-    <p>
-        © <span id="year"></span> CalcWorld.
-        All rights reserved.
-    </p>
-
-</footer>
-
+</div>
 
 
 <script>
 
+    /* =====================================================
+       GLOBAL VARIABLES
+    ===================================================== */
 
-    /* =========================
-       MOBILE MENU
-    ========================= */
+    let calculatorType = "basic";
 
-    function toggleMenu() {
+    let angleMode = "DEG";
 
-        const menu =
-            document.getElementById("navLinks");
+    const display =
+        document.getElementById("display");
 
-        menu.classList.toggle("show");
+    const calculator =
+        document.getElementById("calculator");
 
-    }
-
-
-
-    /* =========================
-       SEARCH CALCULATORS
-    ========================= */
-
-    function searchCalculators() {
-
-        const search =
-            document
-                .getElementById("search")
-                .value
-                .toLowerCase()
-                .trim();
+    const errorMessage =
+        document.getElementById("errorMessage");
 
 
-        const cards =
-            document.querySelectorAll(
-                ".calculator-card"
-            );
+    /* =====================================================
+       SWITCH CALCULATOR
+    ===================================================== */
+
+    function switchCalculator(type) {
+
+        calculatorType = type;
+
+        clearDisplay();
+
+        hideError();
 
 
-        let found = 0;
+        const basicTab =
+            document.getElementById("basicTab");
+
+        const scientificTab =
+            document.getElementById("scientificTab");
+
+        const scientificButtons =
+            document.getElementById("scientificButtons");
+
+        const angleModeDiv =
+            document.getElementById("angleMode");
 
 
-        cards.forEach(card => {
+        if (type === "basic") {
 
-            const searchText =
-                card.dataset.search.toLowerCase();
+            basicTab.classList.add("active");
 
+            scientificTab.classList.remove("active");
 
-            if (
-                search === "" ||
-                searchText.includes(search)
-            ) {
+            scientificButtons.style.display = "none";
 
-                card.style.display = "";
+            angleModeDiv.style.display = "none";
 
-                found++;
-
-            } else {
-
-                card.style.display = "none";
-
-            }
-
-        });
+        }
 
 
-        const noResults =
-            document.getElementById("noResults");
+        else {
 
+            basicTab.classList.remove("active");
 
-        if (found === 0) {
+            scientificTab.classList.add("active");
 
-            noResults.style.display = "block";
+            scientificButtons.style.display = "grid";
 
-        } else {
-
-            noResults.style.display = "none";
+            angleModeDiv.style.display = "flex";
 
         }
 
     }
 
 
+    /* =====================================================
+       ADD TO DISPLAY
+    ===================================================== */
 
-    /* =========================
-       COMING SOON
-    ========================= */
+    function addToDisplay(value) {
 
-    function comingSoon(name) {
+        hideError();
 
-        alert(
-            name +
-            " will be available soon!"
-        );
+        display.value += value;
+
+        display.focus();
 
     }
 
 
+    /* =====================================================
+       CLEAR
+    ===================================================== */
 
-    /* =========================
-       YEAR
-    ========================= */
+    function clearDisplay() {
 
-    document.getElementById("year").textContent =
-        new Date().getFullYear();
+        display.value = "";
+
+        hideError();
+
+        display.focus();
+
+    }
 
 
+    /* =====================================================
+       DELETE
+    ===================================================== */
 
-    /* =========================
-       CLOSE MOBILE MENU
-    ========================= */
+    function deleteLast() {
 
-    document.querySelectorAll(
-        ".nav-links a"
-    ).forEach(link => {
+        display.value =
+            display.value.slice(0, -1);
 
-        link.addEventListener(
-            "click",
-            () => {
+        hideError();
 
-                document
-                    .getElementById("navLinks")
-                    .classList.remove("show");
+        display.focus();
+
+    }
+
+
+    /* =====================================================
+       CALCULATE
+    ===================================================== */
+
+    async function calculate() {
+
+        const expression =
+            display.value.trim();
+
+
+        if (!expression) {
+
+            return;
+
+        }
+
+
+        hideError();
+
+
+        let endpoint;
+
+
+        if (calculatorType === "basic") {
+
+            endpoint = "/api/basic";
+
+        }
+
+        else {
+
+            endpoint = "/api/scientific";
+
+        }
+
+
+        try {
+
+            calculator.classList.add("loading");
+
+
+            const response =
+                await fetch(endpoint, {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        expression: expression,
+
+                        angle_mode: angleMode
+
+                    })
+
+                });
+
+
+            let data;
+
+
+            try {
+
+                data =
+                    await response.json();
 
             }
-        );
 
-    });
+            catch {
+
+                throw new Error(
+                    "Server returned an invalid response."
+                );
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Calculation failed."
+                );
+
+            }
+
+
+            if (
+                data.result === undefined ||
+                data.result === null
+            ) {
+
+                throw new Error(
+                    "No result returned by server."
+                );
+
+            }
+
+
+            display.value =
+                formatResult(data.result);
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "CalcWorld error:",
+                error
+            );
+
+
+            showError(
+                error.message ||
+                "Internal Server Error"
+            );
+
+        }
+
+
+        finally {
+
+            calculator.classList.remove("loading");
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FORMAT RESULT
+    ===================================================== */
+
+    function formatResult(result) {
+
+        if (typeof result === "number") {
+
+            if (!Number.isFinite(result)) {
+
+                return "Error";
+
+            }
+
+
+            return Number(
+                result.toPrecision(12)
+            ).toString();
+
+        }
+
+
+        return result;
+
+    }
+
+
+    /* =====================================================
+       SCIENTIFIC FUNCTION
+    ===================================================== */
+
+    function insertFunction(functionName) {
+
+        hideError();
+
+
+        const value =
+            display.value.trim();
+
+
+        if (value === "") {
+
+            display.value =
+                functionName + "(";
+
+        }
+
+        else {
+
+            display.value =
+                functionName +
+                "(" +
+                value +
+                ")";
+
+        }
+
+
+        display.focus();
+
+    }
+
+
+    /* =====================================================
+       CONSTANT
+    ===================================================== */
+
+    function insertConstant(constant) {
+
+        hideError();
+
+        display.value += constant;
+
+        display.focus();
+
+    }
+
+
+    /* =====================================================
+       SQUARE
+    ===================================================== */
+
+    function squareNumber() {
+
+        const value =
+            display.value.trim();
+
+
+        if (!value) {
+
+            return;
+
+        }
+
+
+        display.value =
+            "(" +
+            value +
+            ")^2";
+
+
+        display.focus();
+
+    }
+
+
+    /* =====================================================
+       FACTORIAL
+    ===================================================== */
+
+    function factorialNumber() {
+
+        const value =
+            display.value.trim();
+
+
+        if (!value) {
+
+            return;
+
+        }
+
+
+        display.value =
+            "factorial(" +
+            value +
+            ")";
+
+
+        display.focus();
+
+    }
+
+
+    /* =====================================================
+       ANGLE MODE
+    ===================================================== */
+
+    function setAngleMode(mode) {
+
+        angleMode = mode;
+
+
+        const degButton =
+            document.getElementById("degButton");
+
+        const radButton =
+            document.getElementById("radButton");
+
+
+        if (mode === "DEG") {
+
+            degButton.classList.add("active");
+
+            radButton.classList.remove("active");
+
+        }
+
+        else {
+
+            radButton.classList.add("active");
+
+            degButton.classList.remove("active");
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ERROR MESSAGE
+    ===================================================== */
+
+    function showError(message) {
+
+        errorMessage.textContent =
+            message;
+
+        errorMessage.style.display =
+            "block";
+
+    }
+
+
+    function hideError() {
+
+        errorMessage.textContent = "";
+
+        errorMessage.style.display =
+            "none";
+
+    }
+
+
+    /* =====================================================
+       KEYBOARD SUPPORT
+    ===================================================== */
+
+    display.addEventListener(
+        "keydown",
+        function(event) {
+
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                calculate();
+
+            }
+
+
+            if (event.key === "Escape") {
+
+                event.preventDefault();
+
+                clearDisplay();
+
+            }
+
+
+            if (event.key === "Backspace") {
+
+                hideError();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       PREVENT INVALID BASIC CHARACTERS
+    ===================================================== */
+
+    display.addEventListener(
+        "input",
+        function() {
+
+            hideError();
+
+        }
+    );
+
+
+    /* =====================================================
+       START IN BASIC MODE
+    ===================================================== */
+
+    switchCalculator("basic");
 
 </script>
-
 
 </body>
 
