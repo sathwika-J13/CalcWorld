@@ -70,12 +70,21 @@ def safe_calculate(expression):
 
 
 # =========================================================
-# HOME
+# HOME PAGE
 # =========================================================
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+
+# =========================================================
+# SCIENTIFIC SEO PAGE
+# =========================================================
+
+@app.route("/scientific-calculator")
+def scientific_page():
+    return render_template("scientific.html")
 
 
 # =========================================================
@@ -124,7 +133,7 @@ def basic():
 
     except Exception as e:
 
-        print("Basic calculator error:", e)
+        print("Basic error:", e)
 
         return jsonify({
             "success": False,
@@ -205,7 +214,6 @@ def scientific():
             "ln": math.log,
 
             "abs": abs,
-
             "exp": math.exp,
 
             "floor": math.floor,
@@ -240,7 +248,7 @@ def scientific():
 
     except Exception as e:
 
-        print("Scientific calculator error:", e)
+        print("Scientific error:", e)
 
         return jsonify({
             "success": False,
@@ -403,9 +411,7 @@ def statistics():
             )
 
         count = len(numbers)
-
         total = sum(numbers)
-
         mean = total / count
 
         sorted_numbers = sorted(numbers)
@@ -566,7 +572,6 @@ def unit_converter():
         elif category == "temperature":
 
             if from_unit == to_unit:
-
                 result = value
 
             elif (
@@ -706,10 +711,12 @@ def age_calculator():
             years -= 1
 
         return jsonify({
+
             "success": True,
             "age": years,
             "message":
                 f"You are {years} years old."
+
         })
 
     except Exception:
